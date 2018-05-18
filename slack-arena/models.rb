@@ -1,0 +1,4 @@
+require 'slack-arena/models/error'
+require 'slack-arena/models/team'
+require 'slack-arena/models/user'
+require 'slack-arena/models/channel'

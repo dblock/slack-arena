@@ -1,0 +1,9 @@
+{
+	"name": "Are.na",
+	"description": "Are.na integration with Slack.",
+	"respository": "https://github.com/dblock/slack-arena",
+	"keywords": ["slack", "bots", "are.na"],
+	"addons": [
+		"mongolab"
+	]
+}
