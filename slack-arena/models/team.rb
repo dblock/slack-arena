@@ -113,7 +113,7 @@ EOS
   end
 
   def subscribe_team_text
-    "Subscribe your team for $9.99 a year at #{SlackArena::Service.url}/subscribe?team_id=#{team_id} to continue receiving Are.na channels in Slack."
+    "Subscribe your team for $4.99 a year at #{SlackArena::Service.url}/subscribe?team_id=#{team_id} to continue receiving Are.na channels in Slack."
   end
 
   def inform_subscribed_changed!

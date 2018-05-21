@@ -54,7 +54,7 @@ STRIPE_API_KEY=sk_test_key
 $ foreman start
 
 08:54:07 web.1  | started with pid 32503
-08:54:08 web.1  | I, [2017-08-04T08:54:08.138999 #32503]  INFO -- : listening on addr=0.0.0.0:5000 fd=11
+08:54:08 web.1  | I, [2017-08-04T08:54:08.138499 #32503]  INFO -- : listening on addr=0.0.0.0:5000 fd=11
 ```
 
 Navigate to [localhost:5000](http://localhost:5000).

@@ -15,7 +15,7 @@
     <p id='messages' />
     <p id='subscribe'>
       <button id='subscribeButton' class='stripe-button-el'>
-          <span style='display: block; min-height: 30px;'>Pay $9.99 with Card</span>
+          <span style='display: block; min-height: 30px;'>Pay $4.99 with Card</span>
       </button>
       <p>
         <img src='/img/stripe.png' width='119' height='26'></img>
@@ -35,7 +35,7 @@
             SlackArena.message('Team <b>' + team.name + '</b> is already subscribed, thank you for your support.');
             $('#subscribeButton').remove();
           } else if (team.id && team.name) {
-            SlackArena.message('Subscribe team <b>' + team.name + '</b> for $9.99/yr.');
+            SlackArena.message('Subscribe team <b>' + team.name + '</b> for $4.99/yr.');
           } else {
             $('#subscribeButton').remove();
             SlackArena.message('Missing or invalid team ID.');

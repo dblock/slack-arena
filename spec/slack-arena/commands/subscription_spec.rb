@@ -7,7 +7,7 @@ describe SlackArena::Commands::Subscription, vcr: { cassette_name: 'slack/user_i
     let!(:team) { Fabricate(:team) }
     it 'is a subscription feature' do
       expect(message: "#{SlackRubyBot.config.user} subscription", user: 'user').to respond_with_slack_message(
-        "Your trial subscription has expired and we will no longer send your Are.na channels to Slack. Subscribe your team for $9.99 a year at #{SlackArena::Service.url}/subscribe?team_id=#{team.team_id} to continue receiving Are.na channels in Slack."
+        "Your trial subscription has expired and we will no longer send your Are.na channels to Slack. Subscribe your team for $4.99 a year at #{SlackArena::Service.url}/subscribe?team_id=#{team.team_id} to continue receiving Are.na channels in Slack."
       )
     end
   end
@@ -15,7 +15,7 @@ describe SlackArena::Commands::Subscription, vcr: { cassette_name: 'slack/user_i
     let!(:team) { Fabricate(:team, subscribed: true, stripe_customer_id: nil) }
     it 'errors' do
       expect(message: "#{SlackRubyBot.config.user} subscription", user: 'user').to respond_with_slack_message(
-        "Not a subscriber. Subscribe your team for $9.99 a year at #{SlackArena::Service.url}/subscribe?team_id=#{team.team_id} to continue receiving Are.na channels in Slack."
+        "Not a subscriber. Subscribe your team for $4.99 a year at #{SlackArena::Service.url}/subscribe?team_id=#{team.team_id} to continue receiving Are.na channels in Slack."
       )
     end
   end
@@ -23,13 +23,13 @@ describe SlackArena::Commands::Subscription, vcr: { cassette_name: 'slack/user_i
     include_context :stripe_mock
     context 'with a plan' do
       before do
-        stripe_helper.create_plan(id: 'arena-yearly', amount: 999)
+        stripe_helper.create_plan(id: 'slack-arena-yearly', amount: 499)
       end
       context 'a customer' do
         let!(:customer) do
           Stripe::Customer.create(
             source: stripe_helper.generate_card_token,
-            plan: 'arena-yearly',
+            plan: 'slack-arena-yearly',
             email: 'foo@bar.com'
           )
         end
@@ -38,7 +38,7 @@ describe SlackArena::Commands::Subscription, vcr: { cassette_name: 'slack/user_i
         end
         it 'displays subscription info' do
           customer_info = "Customer since #{Time.at(customer.created).strftime('%B %d, %Y')}."
-          customer_info += "\nSubscribed to StripeMock Default Plan ID ($9.99)"
+          customer_info += "\nSubscribed to StripeMock Default Plan ID ($4.99)"
           card = customer.sources.first
           customer_info += "\nOn file Visa card, #{card.name} ending with #{card.last4}, expires #{card.exp_month}/#{card.exp_year}."
           customer_info += "\n#{team.update_cc_text}"
