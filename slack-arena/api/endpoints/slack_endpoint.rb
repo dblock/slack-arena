@@ -27,16 +27,17 @@ module Api
           team_id = params['team_id']
 
           user = ::User.find_create_or_update_by_team_and_slack_id!(team_id, user_id)
-          raise HumanError, "Please invite #{user.team.bot_mention} to this channel before connecting an Are.na channel." unless user.team.bot_in_channel?(channel_id)
+          raise HumanError, "Please invite #{user.team.bot_mention} to <##{channel_id}>, first." unless user.team.bot_in_channel?(channel_id)
 
           command, channel_slug = params[:text].split(/\s/, 2)
-          arena_channel = Arena.channel(channel_slug)
           existing_channel = user.team.channels.where(arena_slug: channel_slug, channel_id: channel_id).first
 
           case command
           when 'connect' then
+            raise HumanError, "I have already connected \"#{existing_channel.title}\" to <##{channel_id}>, sorry." if existing_channel
+
+            arena_channel = Arena.try_channel(channel_slug)
             raise HumanError, "I can't find the \"#{channel_slug}\" channel, sorry." unless arena_channel
-            raise HumanError, "I have already connected \"#{existing_channel.title}\" in this channel, sorry." if existing_channel
 
             c = Channel.create!(
               channel_id: params[:channel_id],
@@ -52,9 +53,9 @@ module Api
 
             { text: "Successfully connected \"#{arena_channel.title}\" to <##{channel_id}>.", user: user_id, channel: channel_id }
           when 'disconnect' then
-            raise HumanError, "I haven't connected the \"#{channel_slug}\" channel, sorry." unless existing_channel
+            raise HumanError, "I haven't connected \"#{channel_slug}\" to <##{channel_id}>, sorry." unless existing_channel
             existing_channel.destroy
-            { text: "Successfully disconnected \"#{arena_channel.title}\" from <##{channel_id}>.", user: user_id, channel: channel_id }
+            { text: "Successfully disconnected \"#{existing_channel.title}\" from <##{channel_id}>.", user: user_id, channel: channel_id }
           else
             raise HumanError, "I don't understand \"#{params[:text]}\", try \"#{user.team.bot_mention} help\"."
           end
