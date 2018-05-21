@@ -15,7 +15,7 @@ module SlackArena
         expire_subscriptions!
       end
       once_and_every 10 * 60 do
-        repost!
+        sync!
       end
     end
 
@@ -45,10 +45,11 @@ module SlackArena
       end
     end
 
-    def repost!
+    def sync!
       log_info_without_repeat "Checking channels for #{Team.active.count} team(s)."
       Team.active.each do |team|
-      # TODO
+        next if team.subscription_expired?
+        team.channels.each(&:sync_new_arena_items!)
       rescue StandardError => e
         backtrace = e.backtrace.join("\n")
         logger.warn "Error in cron for team #{team}, #{e.message}, #{backtrace}."

@@ -1,3 +1,12 @@
+GIT
+  remote: git://github.com/dblock/arena-rb.git
+  revision: 7f89d8c20bc201745d68f38f79e8f6cfcf8c38b5
+  branch: channel-feed
+  specs:
+    arena (0.1.0)
+      httparty
+      json
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -10,9 +19,6 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.5.2)
       public_suffix (>= 2.0.2, < 4.0)
-    arena (0.1.0)
-      httparty
-      json
     ast (2.4.0)
     axiom-types (0.1.1)
       descendants_tracker (~> 0.0.4)
@@ -270,7 +276,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  arena
+  arena!
   capybara
   database_cleaner
   fabrication
