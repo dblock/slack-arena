@@ -80,7 +80,7 @@ class Team
 
   def subscribed_text
     <<~EOS.freeze
-      Your team has been subscribed. All proceeds go to NYC TeamForKids charity. Thank you!
+      Your team has been subscribed. Thank you!
       Follow https://twitter.com/playplayio for news and updates.
 EOS
   end
