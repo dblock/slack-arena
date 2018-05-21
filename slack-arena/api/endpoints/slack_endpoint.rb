@@ -38,7 +38,7 @@ module Api
             raise HumanError, "I can't find the \"#{channel_slug}\" channel, sorry." unless arena_channel
             raise HumanError, "I have already connected \"#{existing_channel.title}\" in this channel, sorry." if existing_channel
 
-            Channel.create!(
+            c = Channel.create!(
               channel_id: params[:channel_id],
               channel_name: params[:channel_name],
               created_by: user,
@@ -47,6 +47,8 @@ module Api
               title: arena_channel.title,
               team: user.team
             )
+
+            c.sync_new_arena_items!
 
             { text: "Successfully connected \"#{arena_channel.title}\" to <##{channel_id}>.", user: user_id, channel: channel_id }
           when 'disconnect' then
