@@ -26,8 +26,8 @@ class Channel
   def sync_new_arena_items!
     updated_arena_channel = Arena.try_channel(arena_id)
     self.arena_channel = updated_arena_channel.attrs.deep_symbolize_keys if updated_arena_channel
-    self.sync_at = Time.now.utc
     sync!(stories_since_last_sync)
+    self.sync_at = Time.now.utc
     save!
   end
 
