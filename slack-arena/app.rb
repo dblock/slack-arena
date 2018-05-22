@@ -14,7 +14,7 @@ module SlackArena
       once_and_every 60 * 60 do
         expire_subscriptions!
       end
-      once_and_every 10 * 60 do
+      once_and_every 2 * 60 do
         sync!
       end
     end
