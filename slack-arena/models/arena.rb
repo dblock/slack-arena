@@ -1,3 +1,8 @@
+require 'slack-arena/models/arena/actionable'
 require 'slack-arena/models/arena/added'
+require 'slack-arena/models/arena/collaborating'
 require 'slack-arena/models/arena/commented'
+require 'slack-arena/models/arena/created'
 require 'slack-arena/models/arena/followed'
+require 'slack-arena/models/arena/mentioned'
+require 'slack-arena/models/arena/story'

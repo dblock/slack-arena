@@ -75,19 +75,9 @@ class Channel
 
   def sync!(stories)
     stories.each do |story|
-      story = case story.action
-              when 'added' then
-                Arena::Added.new(story, 'https://www.are.na/').block
-              #              when 'followed' then
-              #                Arena::Followed.new(story.item, 'https://www.are.na/').block
-              #              when 'commented on' then
-              #                Arena::Commented.new(story, 'https://www.are.na/').block
-              else
-                logger.warn "skipping story, #{story.action}, unsupported"
-                nil
-              end
-      next unless story
-      message_with_channel = { attachments: [story] }.merge(channel: channel_id, as_user: true)
+      block = story.actionable.block
+      next unless block
+      message_with_channel = { attachments: [block] }.merge(channel: channel_id, as_user: true)
       logger.info "Posting '#{message_with_channel.to_json}' to #{team} on ##{channel_name}."
       team.slack_client.chat_postMessage(message_with_channel)
     end

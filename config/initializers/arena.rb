@@ -1,4 +1,6 @@
 module Arena
+  URL = 'https://www.are.na'.freeze
+
   class Client
     def try_channel(name, options = {})
       Arena.channel(name, options)
