@@ -58,6 +58,7 @@ describe Api::Endpoints::SlackEndpoint do
     end
     context 'invalid command' do
       it 'fails' do
+        allow(Arena).to receive(:try_channel).and_return(nil)
         post '/api/slack/command',
              command: '/arena',
              text: 'whatever',
@@ -76,7 +77,18 @@ describe Api::Endpoints::SlackEndpoint do
     end
     context 'not connected' do
       it 'connects to a channel', vcr: { cassette_name: 'arena/channel_delightfully-absurd' } do
-        expect_any_instance_of(Channel).to receive(:sync_new_arena_items!)
+        expect_any_instance_of(Slack::Web::Client).to receive(:chat_postMessage).with(
+          attachments: [{
+            title: 'Delightfully absurd',
+            title_link: 'https://www.are.na/tess-french/delightfully-absurd',
+            text: nil,
+            thumb_url: 'https://gravatar.com/avatar/ff2006ef5406851c59bf46fcd2950055.png?s=150&d=mm&r=R&d=blank',
+            color: '#000000'
+          }],
+          as_user: true,
+          channel: 'C1',
+          text: "A channel was connected by #{user.slack_mention}."
+        )
         expect {
           post '/api/slack/command',
                command: '/arena',
@@ -97,6 +109,7 @@ describe Api::Endpoints::SlackEndpoint do
         }.to change(Channel, :count).by(1)
       end
       it 'errors when disconnecting a non-connected channel' do
+        allow(Arena).to receive(:try_channel).and_return(nil)
         expect {
           post '/api/slack/command',
                command: '/arena',
@@ -136,6 +149,19 @@ describe Api::Endpoints::SlackEndpoint do
     context 'subscribed channel' do
       let!(:channel) { Fabricate(:channel, channel_id: 'C1', team: team, created_by: user) }
       it 'unsubscribes a channel' do
+        allow(Arena).to receive(:try_channel).and_return(nil)
+        expect_any_instance_of(Slack::Web::Client).to receive(:chat_postMessage).with(
+          attachments: [{
+            title: channel.title,
+            title_link: channel.arena_url,
+            text: channel.description,
+            thumb_url: channel.thumb_url,
+            color: '#000000'
+          }],
+          as_user: true,
+          channel: 'C1',
+          text: "A channel was disconnected by #{user.slack_mention}."
+        )
         expect {
           post '/api/slack/command',
                command: '/arena',
@@ -154,6 +180,7 @@ describe Api::Endpoints::SlackEndpoint do
         }.to change(Channel, :count).by(-1)
       end
       it 'does not double subscribe' do
+        allow(Arena).to receive(:try_channel).and_return(nil)
         expect {
           post '/api/slack/command',
                command: '/arena',

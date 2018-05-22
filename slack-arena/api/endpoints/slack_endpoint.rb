@@ -30,13 +30,13 @@ module Api
           raise HumanError, "Please invite #{user.team.bot_mention} to <##{channel_id}>, first." unless user.team.bot_in_channel?(channel_id)
 
           command, channel_slug = params[:text].split(/\s/, 2)
-          existing_channel = user.team.channels.where(arena_slug: channel_slug, channel_id: channel_id).first
+          arena_channel = Arena.try_channel(channel_slug)
+          existing_channel = user.team.channels.where(arena_id: arena_channel.id, channel_id: channel_id).first if arena_channel
+          existing_channel ||= user.team.channels.where(arena_slug: channel_slug, channel_id: channel_id).first
 
           case command
           when 'connect' then
             raise HumanError, "I have already connected \"#{existing_channel.title}\" to <##{channel_id}>, sorry." if existing_channel
-
-            arena_channel = Arena.try_channel(channel_slug)
             raise HumanError, "I can't find the \"#{channel_slug}\" channel, sorry." unless arena_channel
 
             c = Channel.create!(
@@ -45,16 +45,28 @@ module Api
               created_by: user,
               arena_id: arena_channel.id,
               arena_slug: arena_channel.slug,
-              title: arena_channel.title,
+              arena_channel: arena_channel.attrs.deep_symbolize_keys,
               team: user.team
             )
 
-            c.sync_new_arena_items!
+            user.team.slack_client.chat_postMessage(
+              c.to_slack.merge(
+                as_user: true, channel: channel_id, text: "A channel was connected by #{user.slack_mention}."
+              )
+            )
 
             { text: "Successfully connected \"#{arena_channel.title}\" to <##{channel_id}>.", user: user_id, channel: channel_id }
           when 'disconnect' then
             raise HumanError, "I haven't connected \"#{channel_slug}\" to <##{channel_id}>, sorry." unless existing_channel
+
+            user.team.slack_client.chat_postMessage(
+              existing_channel.to_slack.merge(
+                as_user: true, channel: channel_id, text: "A channel was disconnected by #{user.slack_mention}."
+              )
+            )
+
             existing_channel.destroy
+
             { text: "Successfully disconnected \"#{existing_channel.title}\" from <##{channel_id}>.", user: user_id, channel: channel_id }
           else
             raise HumanError, "I don't understand \"#{params[:text]}\", try \"#{user.team.bot_mention} help\"."

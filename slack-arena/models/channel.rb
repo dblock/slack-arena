@@ -4,7 +4,7 @@ class Channel
 
   field :arena_id, type: Integer
   field :arena_slug, type: String
-  field :title, type: String
+  field :arena_channel, type: Hash
 
   belongs_to :team
   belongs_to :created_by, class_name: 'User'
@@ -19,21 +19,56 @@ class Channel
     "arena_id=#{arena_id}, title=#{title}, channel_id=#{channel_id}, channel_name=#{channel_name}, #{team}"
   end
 
-  def repost!
-    if sync_at
-      sync_new_arena_items!
-    else
-      sync_last_arena_item!
-    end
-  end
-
   def channel_mention
     "<##{channel_id}>"
   end
 
   def sync_new_arena_items!
+    updated_arena_channel = Arena.try_channel(arena_id)
+    self.arena_channel = updated_arena_channel.attrs.deep_symbolize_keys if updated_arena_channel
+    self.sync_at = Time.now.utc
     sync!(stories_since_last_sync)
-    update_attributes!(sync_at: Time.now.utc)
+    save!
+  end
+
+  def title
+    arena_channel[:title]
+  end
+
+  def arena_user_avatar_image
+    arena_user[:avatar_image] || {}
+  end
+
+  def thumb_url
+    arena_user_avatar_image[:display]
+  end
+
+  def arena_user
+    arena_channel[:user] || {}
+  end
+
+  def arena_url
+    "https://www.are.na/#{arena_user[:slug]}/#{arena_channel[:slug]}"
+  end
+
+  def arena_channel_metadata
+    arena_channel[:metadata] || {}
+  end
+
+  def description
+    arena_channel_metadata[:description]
+  end
+
+  def to_slack
+    {
+      attachments: [{
+        title: title,
+        title_link: arena_url,
+        text: description,
+        thumb_url: thumb_url,
+        color: '#000000'
+      }]
+    }
   end
 
   private
@@ -62,7 +97,7 @@ class Channel
     stories = []
     page = 1
     loop do
-      page_of_stories = Arena.channel_feed(arena_slug, page: page).stories
+      page_of_stories = Arena.channel_feed(arena_id, page: page).stories
       break unless page_of_stories.any?
       page_of_stories.each do |story|
         story_ts = DateTime.rfc3339(story.created_at)
@@ -73,10 +108,5 @@ class Channel
       page += 1
     end
     stories
-  end
-
-  def arena_channel
-    @arena_channel ||= Arena.channel(arena_id)
-    @arena_channel || raise("Invalid channel #{arena_id} (#{arena_slug}).")
   end
 end
