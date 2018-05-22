@@ -55,6 +55,8 @@ module Api
               )
             )
 
+            Api::Middleware.logger.info "CONNECT: #{c}, #{user}"
+
             { text: "Successfully connected \"#{arena_channel.title}\" to <##{channel_id}>.", user: user_id, channel: channel_id }
           when 'disconnect' then
             raise HumanError, "I haven't connected \"#{channel_slug}\" to <##{channel_id}>, sorry." unless existing_channel
@@ -66,6 +68,8 @@ module Api
             )
 
             existing_channel.destroy
+
+            Api::Middleware.logger.info "DISCONNECT: #{existing_channel}, #{user}"
 
             { text: "Successfully disconnected \"#{existing_channel.title}\" from <##{channel_id}>.", user: user_id, channel: channel_id }
           else
