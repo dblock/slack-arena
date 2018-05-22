@@ -78,10 +78,10 @@ class Channel
       story = case story.action
               when 'added' then
                 Arena::Added.new(story, 'https://www.are.na/').block
-              when 'followed' then
-                Arena::Followed.new(story.item, 'https://www.are.na/').block
-              when 'commented on' then
-                Arena::Commented.new(story, 'https://www.are.na/').block
+              #              when 'followed' then
+              #                Arena::Followed.new(story.item, 'https://www.are.na/').block
+              #              when 'commented on' then
+              #                Arena::Commented.new(story, 'https://www.are.na/').block
               else
                 logger.warn "skipping story, #{story.action}, unsupported"
                 nil

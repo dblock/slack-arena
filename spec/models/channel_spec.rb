@@ -49,4 +49,14 @@ describe Channel do
       expect(channel.sync_at).to_not be nil
     end
   end
+  context 'record-covers-1499299389' do
+    # https://api.are.na/v2/channels/record-covers-1499299389
+    let(:channel) { Fabricate(:channel, arena_id: 79_336, arena_slug: 'record-covers-1499299389', team: team, created_by: user) }
+    it 'updates feed', vcr: { cassette_name: 'arena/channel_record-covers-1499299389' } do
+      expect(Arena).to receive(:try_channel).and_return(nil)
+      # TODO: supported commented on
+      expect_any_instance_of(Slack::Web::Client).to receive(:chat_postMessage).exactly(3).times
+      channel.sync_new_arena_items!
+    end
+  end
 end
