@@ -1,37 +1,36 @@
-# https://github.com/garrying/arena-slack
-# Compose message for block commenting event
 module Arena
   class Commented < Actionable
-    def block_title
-      if story.target.has_image? && story.target.source
-        story.target.title
-      elsif story.target.has_image?
-        story.target.title
-      else
-        story.target.content
-      end
+    def to_s
+      story.item.body
     end
 
-    def block_thumb
-      return unless story.target.has_image?
-      story.target.image.display.url
+    def user
+      story.user
     end
 
-    def block_link
-      if story.target.has_image? && story.target.source
-        story.target.source.url
-      else
-        [Arena::URL, 'block', story.target.id.to_s].compact.join('/')
-      end
+    def user_name
+      user.full_name
     end
 
-    def block
+    def user_url
+      [Arena::URL, user.slug].compact.join('/')
+    end
+
+    def target_title
+      target.title
+    end
+
+    def target_url
+      [Arena::URL, 'block', target.id].compact.join('/')
+    end
+
+    def to_slack
       {
-        author_name: 'Commented',
-        image_url: block_thumb,
-        title_link: block_link,
-        title: block_title,
-        text: story.item.body
+        author_name: user_name,
+        author_link: user_url,
+        text: to_s,
+        title: target_title,
+        title_link: target_url
       }
     end
   end

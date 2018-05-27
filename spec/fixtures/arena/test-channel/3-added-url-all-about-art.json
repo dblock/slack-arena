@@ -1,0 +1,173 @@
+{
+  "id": 3269573,
+  "action": "added",
+  "bulletin_id": 3287271,
+  "connector": "to",
+  "created_at": "2018-05-27T13:10:42.796Z",
+  "item_id": 2228365,
+  "target_id": 198378,
+  "parent_id": 2869126,
+  "item_type": "Block",
+  "target_type": "Channel",
+  "parent_type": "Connection",
+  "item": {
+    "id": 2228365,
+    "title": "All About Art",
+    "updated_at": "2018-05-27T13:10:42.783Z",
+    "created_at": "2018-05-27T13:10:28.715Z",
+    "state": "available",
+    "comment_count": 0,
+    "generated_title": "All About Art",
+    "content_html": null,
+    "description_html": null,
+    "visibility": "public",
+    "content": null,
+    "description": null,
+    "source": {
+      "url": "https://art.dblock.org/2018/01/31/all-about-art.html",
+      "title": "All About Art",
+      "provider": {
+        "name": "art.dblock.org | art blog",
+        "url": "https://art.dblock.org"
+      }
+    },
+    "image": {
+      "filename": "79db9a938b9694ed19f4bd4fe1a9650e.png",
+      "content_type": "image/png",
+      "updated_at": "2018-05-27T13:10:37.827Z",
+      "thumb": {
+        "url": "https://d2w9rnfcy7mm78.cloudfront.net/2228365/thumb_79db9a938b9694ed19f4bd4fe1a9650e.png"
+      },
+      "square": {
+        "url": "https://d2w9rnfcy7mm78.cloudfront.net/2228365/square_79db9a938b9694ed19f4bd4fe1a9650e.png"
+      },
+      "display": {
+        "url": "https://d2w9rnfcy7mm78.cloudfront.net/2228365/display_79db9a938b9694ed19f4bd4fe1a9650e.png"
+      },
+      "large": {
+        "url": "https://d2w9rnfcy7mm78.cloudfront.net/2228365/large_79db9a938b9694ed19f4bd4fe1a9650e.png"
+      },
+      "original": {
+        "url": "https://d2w9rnfcy7mm78.cloudfront.net/2228365/original_79db9a938b9694ed19f4bd4fe1a9650e.png",
+        "file_size": 1026272,
+        "file_size_display": "1000 KB"
+      }
+    },
+    "embed": null,
+    "attachment": null,
+    "metadata": null,
+    "base_class": "Block",
+    "class": "Link",
+    "user": {
+      "id": 24189,
+      "created_at": "2017-12-18T16:38:59.034Z",
+      "slug": "daniel-doubrovkine",
+      "username": "Daniel Doubrovkine",
+      "first_name": "Daniel",
+      "last_name": "Doubrovkine",
+      "full_name": "Daniel Doubrovkine",
+      "avatar": "https://gravatar.com/avatar/3d925b45ac07ec0ae5bd04888f6c5b61.png?s=40&d=mm&r=R&d=blank",
+      "avatar_image": {
+        "thumb": "https://gravatar.com/avatar/3d925b45ac07ec0ae5bd04888f6c5b61.png?s=40&d=mm&r=R&d=blank",
+        "display": "https://gravatar.com/avatar/3d925b45ac07ec0ae5bd04888f6c5b61.png?s=150&d=mm&r=R&d=blank"
+      },
+      "channel_count": 5,
+      "following_count": 27,
+      "profile_id": 116531,
+      "follower_count": 11,
+      "initials": "DD",
+      "can_index": true,
+      "metadata": null,
+      "is_premium": true,
+      "is_exceeding_private_connections_limit": false,
+      "is_confirmed": true,
+      "is_pending_reconfirmation": false,
+      "is_pending_confirmation": false,
+      "badge": "premium",
+      "base_class": "User",
+      "class": "User"
+    }
+  },
+  "target": {
+    "id": 198378,
+    "title": "Test Channel",
+    "created_at": "2018-05-27T13:06:03.756Z",
+    "updated_at": "2018-05-27T13:10:42.863Z",
+    "added_to_at": "2018-05-27T13:10:42.863Z",
+    "published": true,
+    "open": false,
+    "collaboration": false,
+    "collaborator_count": 0,
+    "slug": "test-channel-1527426363",
+    "length": 1,
+    "kind": "default",
+    "status": "closed",
+    "user_id": 24189,
+    "metadata": null,
+    "contents": null,
+    "share_link": null,
+    "follower_count": 0,
+    "can_index": true,
+    "base_class": "Channel",
+    "class": "Channel",
+    "user": {
+      "id": 24189,
+      "created_at": "2017-12-18T16:38:59.034Z",
+      "slug": "daniel-doubrovkine",
+      "username": "Daniel Doubrovkine",
+      "first_name": "Daniel",
+      "last_name": "Doubrovkine",
+      "full_name": "Daniel Doubrovkine",
+      "avatar": "https://gravatar.com/avatar/3d925b45ac07ec0ae5bd04888f6c5b61.png?s=40&d=mm&r=R&d=blank",
+      "avatar_image": {
+        "thumb": "https://gravatar.com/avatar/3d925b45ac07ec0ae5bd04888f6c5b61.png?s=40&d=mm&r=R&d=blank",
+        "display": "https://gravatar.com/avatar/3d925b45ac07ec0ae5bd04888f6c5b61.png?s=150&d=mm&r=R&d=blank"
+      },
+      "channel_count": 5,
+      "following_count": 27,
+      "profile_id": 116531,
+      "follower_count": 11,
+      "initials": "DD",
+      "can_index": true,
+      "metadata": null,
+      "is_premium": true,
+      "is_exceeding_private_connections_limit": false,
+      "is_confirmed": true,
+      "is_pending_reconfirmation": false,
+      "is_pending_confirmation": false,
+      "badge": "premium",
+      "base_class": "User",
+      "class": "User"
+    }
+  },
+  "parent": null,
+  "user": {
+    "id": 24189,
+    "created_at": "2017-12-18T16:38:59.034Z",
+    "slug": "daniel-doubrovkine",
+    "username": "Daniel Doubrovkine",
+    "first_name": "Daniel",
+    "last_name": "Doubrovkine",
+    "full_name": "Daniel Doubrovkine",
+    "avatar": "https://gravatar.com/avatar/3d925b45ac07ec0ae5bd04888f6c5b61.png?s=40&d=mm&r=R&d=blank",
+    "avatar_image": {
+      "thumb": "https://gravatar.com/avatar/3d925b45ac07ec0ae5bd04888f6c5b61.png?s=40&d=mm&r=R&d=blank",
+      "display": "https://gravatar.com/avatar/3d925b45ac07ec0ae5bd04888f6c5b61.png?s=150&d=mm&r=R&d=blank"
+    },
+    "channel_count": 5,
+    "following_count": 27,
+    "profile_id": 116531,
+    "follower_count": 11,
+    "initials": "DD",
+    "can_index": true,
+    "metadata": null,
+    "is_premium": true,
+    "is_exceeding_private_connections_limit": false,
+    "is_confirmed": true,
+    "is_pending_reconfirmation": false,
+    "is_pending_confirmation": false,
+    "badge": "premium",
+    "base_class": "User",
+    "class": "User"
+  }
+}

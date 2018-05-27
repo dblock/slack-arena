@@ -26,14 +26,12 @@ describe Channel do
       expect(Arena).to receive(:try_channel).and_return(nil)
       expect_any_instance_of(Slack::Web::Client).to receive(:chat_postMessage).with(
         attachments: [{
-          author_name: 'Connected to Delightfully absurd',
-          author_link: 'https://www.are.na/tess-french/delightfully-absurd',
-          color: nil,
-          fields: nil,
+          author_name: 'Tess French',
+          author_link: 'https://www.are.na/tess-french',
+          text: 'Added to <https://www.are.na/tess-french/delightfully-absurd|Delightfully absurd>.',
           image_url: 'https://d2w9rnfcy7mm78.cloudfront.net/1965450/original_29641054c9190f7c5b7c09db486a6414',
-          text: nil,
           title: nil,
-          title_link: 'http://mltshp.com/r/1DJRN/gifv'
+          title_link: 'https://www.are.na/block/1965450'
         }],
         channel: '0HNTD0CW',
         as_user: true

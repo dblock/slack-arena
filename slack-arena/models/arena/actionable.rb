@@ -6,7 +6,21 @@ module Arena
       @story = story
     end
 
-    def block
+    # item: story.item
+
+    def item
+      story.item
+    end
+
+    # target: story.target
+
+    def target
+      story.target
+    end
+
+    # misc
+
+    def to_slack
       nil
     end
   end

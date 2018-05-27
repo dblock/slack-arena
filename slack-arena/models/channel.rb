@@ -75,7 +75,12 @@ class Channel
 
   def sync!(stories)
     stories.each do |story|
-      block = story.actionable.block
+      block = begin
+        story.actionable.to_slack
+      rescue ActionNotImplementedError => e
+        logger.warn e.message
+        nil
+      end
       next unless block
       message_with_channel = { attachments: [block] }.merge(channel: channel_id, as_user: true)
       logger.info "Posting '#{message_with_channel.to_json}' to #{team} on ##{channel_name}."

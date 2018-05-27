@@ -5,80 +5,51 @@ module Arena
   # Item can either be a User or a Channel.
   #
   class Followed < Actionable
-    def block_thumb
-      return if defined?(story.title)
-      story.user.avatar_image.display
+    def to_s
+      "<#{user_url}|#{user_name}> followed <#{followed_url}|#{followed_name_or_title}>."
     end
 
-    def block_title
-      if defined?(story.title)
-        "#{story.title}, by #{story.user.full_name}"
-      else
-        story.user.full_name
+    def user
+      story.user
+    end
+
+    def user_name
+      user.full_name
+    end
+
+    def user_url
+      [Arena::URL, user.slug].compact.join('/')
+    end
+
+    def followed
+      story.item
+    end
+
+    def followed_name_or_title
+      case item
+      when Arena::Channel
+        item.title
+      when Arena::User
+        item.full_name
       end
     end
 
-    def block_fields_block_type
-      if defined?(story.title)
-        'Blocks'
-      else
-        'Channels'
+    def followed_url
+      case item
+      when Arena::Channel
+        [Arena::URL, item.user.slug, item.slug].compact.join('/')
+      when Arena::User
+        [Arena::URL, item.slug].compact.join('/')
       end
     end
 
-    def block_fields_block_count
-      if defined?(story.title)
-        story.length
-      elsif story.is_a?(Arena::User)
-        story.item.channel_count
-      else
-        story.item.follower_count
-      end
-    end
-
-    def block_fields
-      followers_count = {
-        title: 'Followers',
-        value: story.item.follower_count,
-        short: true
-      }
-
-      [{
-        title: block_fields_block_type,
-        value: block_fields_block_count,
-        short: true
-      }, followers_count]
-    end
-
-    def block_color
-      return unless defined?(story.title)
-      case story.item.status
-      when 'public' then
-        '#17ac10'
-      when 'private' then
-        '#b60202'
-      else
-        '#4b3d67'
-      end
-    end
-
-    def block_title_link
-      case story.item
-      when Arena::Channel then
-        [Arena::URL, story.item.user.slug, story.item.slug].compact.join('/')
-      else
-        [Arena::URL, story.item.slug].compact.join('/')
-      end
-    end
-
-    def block
+    def to_slack
       {
-        author_name: 'Followed',
-        thumb_url: block_thumb,
-        title_link: block_title_link,
-        title: block_title,
-        fields: block_fields,
-        color: block_color
+        author_name: user_name,
+        author_link: user_url,
+        text: to_s,
+        title: followed_name_or_title,
+        title_link: followed_url
       }
     end
   end
