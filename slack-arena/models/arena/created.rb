@@ -24,10 +24,15 @@ module Arena
       [Arena::URL, channel.user.slug, channel.slug].compact.join('/')
     end
 
+    def to_s
+      "Created <#{channel_link}|#{channel_name}>."
+    end
+
     def to_slack
       {
         author_name: author_name,
         author_link: author_url,
+        text: to_s,
         title: channel_name,
         title_link: channel_link
       }
