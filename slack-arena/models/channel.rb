@@ -59,15 +59,41 @@ class Channel
     arena_channel_metadata[:description]
   end
 
+  def to_slack_attachment
+    {
+      title: title,
+      title_link: arena_url,
+      text: description,
+      thumb_url: thumb_url,
+      color: '#000000'
+    }
+  end
+
+  def connect_to_slack_attachment
+    to_slack_attachment.merge(
+      callback_id: "#{persisted? ? 'disconnect' : 'connect'}-channel",
+      actions: [{
+        name: 'arena_id',
+        text: persisted? ? 'Disconnect' : 'Connect',
+        type: 'button',
+        value: arena_id
+      }]
+    )
+  end
+
+  def connect_to_slack
+    {
+      attachments: [
+        connect_to_slack_attachment
+      ]
+    }
+  end
+
   def to_slack
     {
-      attachments: [{
-        title: title,
-        title_link: arena_url,
-        text: description,
-        thumb_url: thumb_url,
-        color: '#000000'
-      }]
+      attachments: [
+        to_slack_attachment
+      ]
     }
   end
 

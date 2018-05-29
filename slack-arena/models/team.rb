@@ -105,6 +105,22 @@ EOS
     result
   end
 
+  def connected_channels_to_slack(channel_id)
+    connected_channels = channels.where(channel_id: channel_id)
+
+    text = if connected_channels.any?
+             "#{channels.count} channel#{channels.count == 1 ? '' : 's'} connected."
+           else
+             'No channels connected. To connect a channel use `/arena search` or `/arena connect [channel]`.'
+           end
+
+    {
+      text: text,
+      attachments: connected_channels.map(&:connect_to_slack_attachment),
+      channel: channel_id
+    }
+  end
+
   private
 
   def trial_expired_text
