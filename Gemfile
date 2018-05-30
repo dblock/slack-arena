@@ -2,7 +2,7 @@ source 'http://rubygems.org'
 
 ruby '2.5.0'
 
-gem 'arena', github: 'dblock/arena-rb', branch: 'channel-feed'
+gem 'arena', github: 'dblock/arena-rb', branch: 'user-feed'
 gem 'grape'
 gem 'hashie'
 gem 'mongoid'

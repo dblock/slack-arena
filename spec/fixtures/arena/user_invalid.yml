@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://arena-api.herokuapp.com/v2/channels/invalid-channel
+    uri: http://arena-api.herokuapp.com/v2/users/invalid-user
     body:
       encoding: US-ASCII
       string: ''
@@ -15,7 +15,7 @@ http_interactions:
       Server:
       - Cowboy
       Date:
-      - Mon, 21 May 2018 22:28:12 GMT
+      - Thu, 31 May 2018 00:53:16 GMT
       Connection:
       - keep-alive
       X-Frame-Options:
@@ -31,9 +31,9 @@ http_interactions:
       Cache-Control:
       - no-cache
       X-Request-Id:
-      - 2fb664cd-5c4a-4126-b65b-e3593a4fda92
+      - ca65d150-06d3-48c5-b3ec-a5978e1e13de
       X-Runtime:
-      - '0.010462'
+      - '0.007485'
       Transfer-Encoding:
       - chunked
       Via:
@@ -43,10 +43,10 @@ http_interactions:
       string: '{"code":404,"message":"Not Found","description":"The resource you are
         looking for does not exist."}'
     http_version: 
-  recorded_at: Mon, 21 May 2018 22:27:57 GMT
+  recorded_at: Thu, 31 May 2018 00:53:16 GMT
 - request:
     method: get
-    uri: http://arena-api.herokuapp.com/v2/channels/invalid-channel
+    uri: http://arena-api.herokuapp.com/v2/users/invalid-user
     body:
       encoding: US-ASCII
       string: ''
@@ -59,7 +59,7 @@ http_interactions:
       Server:
       - Cowboy
       Date:
-      - Wed, 30 May 2018 16:22:20 GMT
+      - Thu, 31 May 2018 00:53:16 GMT
       Connection:
       - keep-alive
       X-Frame-Options:
@@ -75,9 +75,9 @@ http_interactions:
       Cache-Control:
       - no-cache
       X-Request-Id:
-      - 0bcd742c-1567-4993-b59f-16ab30b08f17
+      - 7ec97210-2add-4c5e-9673-7b31326347ce
       X-Runtime:
-      - '0.011964'
+      - '0.053222'
       Transfer-Encoding:
       - chunked
       Via:
@@ -87,49 +87,5 @@ http_interactions:
       string: '{"code":404,"message":"Not Found","description":"The resource you are
         looking for does not exist."}'
     http_version: 
-  recorded_at: Wed, 30 May 2018 16:22:21 GMT
-- request:
-    method: get
-    uri: http://arena-api.herokuapp.com/v2/channels/invalid-channel
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers: {}
-  response:
-    status:
-      code: 404
-      message: Not Found
-    headers:
-      Server:
-      - Cowboy
-      Date:
-      - Wed, 30 May 2018 16:25:49 GMT
-      Connection:
-      - keep-alive
-      X-Frame-Options:
-      - SAMEORIGIN
-      X-Xss-Protection:
-      - 1; mode=block
-      X-Content-Type-Options:
-      - nosniff
-      Content-Type:
-      - application/json; charset=utf-8
-      Vary:
-      - Origin
-      Cache-Control:
-      - no-cache
-      X-Request-Id:
-      - 2e345df6-b110-406f-8ff3-96d7118fef59
-      X-Runtime:
-      - '0.026051'
-      Transfer-Encoding:
-      - chunked
-      Via:
-      - 1.1 vegur
-    body:
-      encoding: UTF-8
-      string: '{"code":404,"message":"Not Found","description":"The resource you are
-        looking for does not exist."}'
-    http_version: 
-  recorded_at: Wed, 30 May 2018 16:25:49 GMT
+  recorded_at: Thu, 31 May 2018 00:53:16 GMT
 recorded_with: VCR 4.0.0

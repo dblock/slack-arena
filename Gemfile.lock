@@ -1,9 +1,9 @@
 GIT
   remote: git://github.com/dblock/arena-rb.git
-  revision: 7f89d8c20bc201745d68f38f79e8f6cfcf8c38b5
-  branch: channel-feed
+  revision: f90911adaa5faca4aaa426c4df723ed327a7f16e
+  branch: user-feed
   specs:
-    arena (0.1.0)
+    arena (0.1.1)
       httparty
       json
 

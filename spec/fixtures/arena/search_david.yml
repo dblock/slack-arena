@@ -1,0 +1,111 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://arena-api.herokuapp.com/v2/search/channels/?kind=channels&per=3&q=David
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers: {}
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - Cowboy
+      Date:
+      - Thu, 31 May 2018 00:31:33 GMT
+      Connection:
+      - keep-alive
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Cache-Control:
+      - no-cache, no-store, max-age=0, must-revalidate
+      Pragma:
+      - no-cache
+      Expires:
+      - Fri, 01 Jan 1990 00:00:00 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Vary:
+      - Origin
+      X-Request-Id:
+      - 3cb48dbf-34a5-4266-b7e8-3193198f4e58
+      X-Runtime:
+      - '0.047122'
+      Transfer-Encoding:
+      - chunked
+      Via:
+      - 1.1 vegur
+    body:
+      encoding: UTF-8
+      string: '{"term":"David","per":3,"current_page":1,"total_pages":147,"length":440,"authenticated":false,"channels":[{"id":"198637","title":"David
+        Shrigley","created_at":"2018-05-28T08:03:12.979Z","updated_at":"2018-05-30T14:15:48.475Z","added_to_at":"2018-05-28T08:27:57.120Z","published":true,"open":false,"collaboration":false,"slug":"david-shrigley","length":26,"kind":"default","status":"closed","user_id":9813,"share_link":null,"contents_updated_at":"2018-05-28T08:27:57.097Z","class":"Channel","base_class":"Channel","visibility":"closed","user":{"id":9813,"slug":"thomas-bouillot","username":"Thomas
+        Bouillot","first_name":"Thomas","last_name":"Bouillot","full_name":"Thomas
+        Bouillot","channel_count":104,"following_count":169,"profile_id":42274,"follower_count":140,"avatar_image":{"thumb":"https://gravatar.com/avatar/38a39240fbfcc4cd760f8a3eb1c64b7f.png?s=40\u0026d=mm\u0026r=R\u0026d=blank","display":"https://gravatar.com/avatar/38a39240fbfcc4cd760f8a3eb1c64b7f.png?s=150\u0026d=mm\u0026r=R\u0026d=blank"},"class":"User","base_class":"User","avatar":"https://gravatar.com/avatar/38a39240fbfcc4cd760f8a3eb1c64b7f.png%3Fs=40\u0026d=mm\u0026r=R\u0026d=blank","initials":"TB"},"metadata":null,"follower_count":2,"contents":[{"position":1,"selected":false,"id":2230657,"title":"4897_60.jpg","updated_at":"2018-05-28T08:03:30.826Z","created_at":"2018-05-28T08:03:26.666Z","state":"available","comment_count":0,"generated_title":"4897_60.jpg","content_html":null,"description_html":null,"class":"Image","base_class":"Block","visibility":"public","content":null,"description":null,"source":{"url":null,"provider":{"name":null,"url":null}},"image":{"filename":"a761c80bb5b1ff13df7857cb2928039c.jpg","content_type":"image/jpeg","updated_at":"2018-05-28T08:03:30.229Z","thumb":{"url":"https://s3.amazonaws.com/arena_images/2230657/thumb_a761c80bb5b1ff13df7857cb2928039c.jpg"},"square":{"url":"https://s3.amazonaws.com/arena_images/2230657/square_a761c80bb5b1ff13df7857cb2928039c.jpg"},"display":{"url":"https://s3.amazonaws.com/arena_images/2230657/display_a761c80bb5b1ff13df7857cb2928039c.jpg"},"large":{"url":"https://s3.amazonaws.com/arena_images/2230657/large_a761c80bb5b1ff13df7857cb2928039c.jpg"},"original":{"url":"http://s3.amazonaws.com/arena_images/2230657/original_a761c80bb5b1ff13df7857cb2928039c.jpg","file_size":85436,"file_size_display":"83.4
+        KB"}},"connection_id":2872622,"connected_at":"2018-05-28T08:03:26.675Z"}],"owned_by_ids":[9813],"accessible_by_ids":[9813],"channel_ids":[65747,90397,125062],"followed_by_ids":[13776,6896],"_score":1.4142103,"_type":"channel","_index":"arena-production_channels","_version":null,"sort":[1.4142103,1527689748475],"highlight":null,"_explanation":null},{"id":"198871","title":"Liaizon
+        Wakest and David Quiles Guillo are Wrong","created_at":"2018-05-28T22:42:31.906Z","updated_at":"2018-05-30T00:35:26.848Z","added_to_at":"2018-05-30T00:35:25.862Z","published":true,"open":true,"collaboration":true,"slug":"liaizon-wakest-and-david-quiles-guillo-are-wrong","length":5,"kind":"message","status":"public","user_id":3365,"share_link":null,"contents_updated_at":"2018-05-30T00:35:25.820Z","class":"Channel","base_class":"Channel","visibility":"public","user":{"id":3365,"slug":"liaizon-wakest","username":"Liaizon
+        Wakest","first_name":"Liaizon","last_name":"Wakest","full_name":"Liaizon Wakest","channel_count":83,"following_count":129,"profile_id":13845,"follower_count":30,"avatar_image":{"thumb":"https://s3.amazonaws.com/arena-avatars/3365/small_27aedb69353f01c08e4f94e67c19e82b.png?1527334252","display":"https://s3.amazonaws.com/arena-avatars/3365/medium_27aedb69353f01c08e4f94e67c19e82b.png?1527334252"},"class":"User","base_class":"User","avatar":"https://s3.amazonaws.com/arena-avatars/3365/small_27aedb69353f01c08e4f94e67c19e82b.png?1527334252","initials":"LW"},"metadata":null,"follower_count":0,"contents":[{"position":1,"selected":false,"id":2233098,"title":null,"updated_at":"2018-05-28T22:43:12.093Z","created_at":"2018-05-28T22:42:59.933Z","state":"available","comment_count":0,"generated_title":"Untitled","content_html":"\u003cp\u003ehi
+        david\u003c/p\u003e","description_html":null,"class":"Text","base_class":"Block","visibility":"public","content":"hi
+        david","description":null,"connection_id":2876108,"connected_at":"2018-05-28T22:42:59.967Z"}],"owned_by_ids":[3365,57308],"accessible_by_ids":[3365,57308],"channel_ids":[],"followed_by_ids":[],"_score":1.4142103,"_type":"channel","_index":"arena-production_channels","_version":null,"sort":[1.4142103,1527640526848],"highlight":null,"_explanation":null},{"id":"199323","title":"David
+        Sieren","created_at":"2018-05-29T21:06:00.409Z","updated_at":"2018-05-29T21:06:00.409Z","added_to_at":"2018-05-29T21:06:00.401Z","published":true,"open":true,"collaboration":false,"slug":"david-sieren","length":0,"kind":"profile","status":"public","user_id":57424,"share_link":null,"contents_updated_at":null,"class":"Channel","base_class":"Channel","visibility":"public","user":{"id":57424,"slug":"david-sieren","username":"David
+        Sieren","first_name":"David","last_name":"Sieren","full_name":"David Sieren","channel_count":1,"following_count":0,"profile_id":199323,"follower_count":0,"avatar_image":{"thumb":"https://gravatar.com/avatar/69ea916ac5558c48f109cf5e5d94de55.png?s=40\u0026d=mm\u0026r=R\u0026d=blank","display":"https://gravatar.com/avatar/69ea916ac5558c48f109cf5e5d94de55.png?s=150\u0026d=mm\u0026r=R\u0026d=blank"},"class":"User","base_class":"User","avatar":"https://gravatar.com/avatar/69ea916ac5558c48f109cf5e5d94de55.png%3Fs=40\u0026d=mm\u0026r=R\u0026d=blank","initials":"DS"},"metadata":null,"follower_count":0,"contents":null,"owned_by_ids":[57424],"accessible_by_ids":[57424],"channel_ids":[],"followed_by_ids":[],"_score":1.4142103,"_type":"channel","_index":"arena-production_channels","_version":null,"sort":[1.4142103,1527627960409],"highlight":null,"_explanation":null}],"blocks":[],"users":[]}'
+    http_version: 
+  recorded_at: Thu, 31 May 2018 00:31:34 GMT
+- request:
+    method: get
+    uri: http://arena-api.herokuapp.com/v2/search/users/?kind=users&per=3&q=David
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers: {}
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - Cowboy
+      Date:
+      - Thu, 31 May 2018 00:31:33 GMT
+      Connection:
+      - keep-alive
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Cache-Control:
+      - no-cache, no-store, max-age=0, must-revalidate
+      Pragma:
+      - no-cache
+      Expires:
+      - Fri, 01 Jan 1990 00:00:00 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Vary:
+      - Origin
+      X-Request-Id:
+      - 4cbea565-3760-48e7-9e3e-700f132ea36e
+      X-Runtime:
+      - '0.040307'
+      Transfer-Encoding:
+      - chunked
+      Via:
+      - 1.1 vegur
+    body:
+      encoding: UTF-8
+      string: '{"term":"David","per":3,"current_page":1,"total_pages":121,"length":362,"authenticated":false,"channels":[],"blocks":[],"users":[{"id":"289","slug":"david-hilmer-rex","username":"David
+        Hilmer Rex","first_name":"David Hilmer","last_name":"Rex","full_name":"David
+        Hilmer Rex","channel_count":739,"following_count":7328,"profile_id":997,"follower_count":740,"avatar_image":{"thumb":"https://s3.amazonaws.com/arena-avatars/289/small_42050d9ad63943472112b08d2fa3688b.png?1434488932","display":"https://s3.amazonaws.com/arena-avatars/289/medium_42050d9ad63943472112b08d2fa3688b.png?1434488932"},"class":"User","base_class":"User","avatar":"https://s3.amazonaws.com/arena-avatars/289/small_42050d9ad63943472112b08d2fa3688b.png?1434488932","initials":"DHR","accessible_by_ids":[17,15,16,275,14,306,321,235,368,346,613,520,847,2336,864,162,729,862,827,692,921,1,931,801,542,300,937,964,878,997,1051,4183,1141,1175,1108,1359,1386,1429,1369,401,1013,1499,1492,1540,799,1301,970,64,1657,1670,109,4329,4177,4296,3892,4267,1686,4272,4279,4,4277,316,988,4234,1664,3192,4313,4520,566,490,4554,1385,811,1828,952,52,1838,1768,1937,1931,4602,4604,1950,1952,1939,1953,1955,1951,267,304,3650,4695,1975,3239,1857,1797,1296,1996,1823,2057,156,144,4825,4738,3261,4841,187,4809,3336,11,3475,707,4706,1497,5072,5094,5084,749,5093,46,2164,2165,2162,599,5131,2109,2154,2189,3695,2240,879,5238,1432,5347,5348,4899,2261,5336,2201,3519,1568,2925,1772,5457,5519,3697,5516,2305,2418,5564,2424,5447,241,5587,5577,5595,2275,953,4189,5753,5757,4278,21,5735,4298,5859,5927,5449,1493,2980,2267,2585,276,2639,2619,2640,486,2691,2662,2689,2718,2746,2781,2783,2550,2804,813,2807,1765,207,2838,2881,2859,2891,2236,2915,2273,2676,2166,2992,2810,2971,3038,581,1666,2960,3098,3118,3129,2462,3115,3230,3217,3265,3322,2797,3295,3342,3289,3276,3436,3461,3465,3498,3419,3373,3511,1453,3539,3562,3584,3479,3616,3710,3713,3255,3860,3805,3871,3854,3831,2226,4036,4015,4022,4082,3797,4159,4094,5989,5993,6016,6010,6089,3761,6035,6093,6176,6259,6241,6273,6229,6230,6222,6276,6300,5406,4365,1774,6463,6484,6445,4551,6416,6565,6566,6662,6676,1395,6613,6656,4833,6658,4571,6845,6843,6189,6891,6884,6798,6926,7016,1433,7049,7046,2310,6857,7075,7008,7025,7074,6637,6848,2745,7203,7252,7209,6633,7168,2167,7358,2496,7374,5622,7437,3330,7453,2630,7146,7505,7478,6352,7285,7555,7562,7572,7068,7578,5460,7546,3420,2492,120,4552,410,53,1982,7408,7526,3882,247,7638,7624,7403,8068,810,7541,3005,890,4927,7044,7968,8396,7343,4167,3630,3105,7144,850,7859,6330,7288,5831,8831,7748,7249,7918,4840,3911,9126,9113,8404,8305,7581,3914,9242,9039,7956,71,8662,8066,315,9666,9285,9748,9180,9046,9935,9851,9639,9987,9896,10146,224,4249,1010,1577,3657,10105,10100,10108,7813,9573,9689,1786,516,9654,730,6982,10795,10799,10003,3258,9965,11013,3595,228,11008,1773,9574,11279,3982,9887,1552,10230,3711,9569,11648,9019,7604,3586,11857,7901,1635,8646,10891,4462,7536,10533,978,6965,12321,12338,9463,5438,12533,11518,12648,30,11546,1658,12496,6228,11431,9268,2623,12724,13070,8420,13071,2067,9163,6684,10466,812,12844,12466,13020,12341,10419,12096,13393,13391,4322,13110,1438,4146,12595,13449,13506,13524,13519,6567,13803,12465,13557,2677,11412,14025,2340,14115,9336,9389,11032,12714,764,10198,8991,14322,3235,11550,13712,8808,14498,5841,10929,14618,3382,9040,15113,4963,15630,15727,10485,13856,12411,8191,15959,5218,10861,2724,12885,12743,208,3253,8826,5824,14192,5825,9653,16454,13657,14364,17335,15537,17580,12941,8981,17626,14399,16471,11823,13644,17870,8381,10138,18497,17923,13448,7691,11783,147,13951,17993,5868,17771,16785,10176,8171,19649,19738,19730,7510,8551,18799,19572,19949,20083,16123,20232,13335,2954,20511,20572,20310,20654,8458,11085,20913,20953,20985,18686,11851,15143,21387,21443,20712,21519,21822,17797,22262,13776,22278,21248,22040,16249,80,22822,22899,15548,17641,8267,22851,23434,23440,22976,12768,23649,12163,20607,23444,12543,23890,19853,15749,18104,17723,24157,24222,16081,13271,14299,18685,14162,24479,17537,12786,6557,25065,15131,8258,24981,9891,21956,23150,25622,5047,11813,13854,21629,26034,26511,26810,13416,27878,8046,16648,28159,20658,28305,20179,28529,28565,28798,17020,29547,13737,10462,23464,19771,16112,20667,28246,26956,31546,3446,30705,33626,33625,33801,34485,34893,30750,35975,36482,18275,36583,11556,37484,37847,12772,990,17654,14397,37932,38830,38832,32101,48188,22238,38533,22949,19577,48517,3248,11784,10246,16455,10808,48390,7843,24150,17477,6225,6710,5144,49713,10837,11287,3349,29580,52631,52667,52718,3308,52916,31265,17327,2307,54059,15166,33886,7927,10017,1518,9194,5862,6551,54599,15378,18719,11294,7418,13696,37554,56001,56821,49948,4693,2816],"followed_by_ids":[17,15,16,275,14,306,321,235,368,346,613,520,847,2336,864,162,729,862,827,692,921,1,931,801,542,300,937,964,878,997,1051,4183,1141,1175,1108,1359,1386,1429,1369,401,1013,1499,1492,1540,799,1301,970,64,1657,1670,109,4329,4177,4296,3892,4267,1686,4272,4279,4,4277,316,988,4234,1664,3192,4313,4520,566,490,4554,1385,811,1828,952,52,1838,1768,1937,1931,4602,4604,1950,1952,1939,1953,1955,1951,267,304,3650,4695,1975,3239,1857,1797,1296,1996,1823,2057,156,144,4825,4738,3261,4841,187,4809,3336,11,3475,707,4706,1497,5072,5094,5084,749,5093,46,2164,2165,2162,599,5131,2109,2154,2189,3695,2240,879,5238,1432,5347,5348,4899,2261,5336,2201,3519,1568,2925,1772,5457,5519,3697,5516,2305,2418,5564,2424,5447,241,5587,5577,5595,2275,953,4189,5753,5757,4278,21,5735,4298,5859,5927,5449,1493,2980,2267,2585,276,2639,2619,2640,486,2691,2662,2689,2718,2746,2781,2783,2550,2804,813,2807,1765,207,2838,2881,2859,2891,2236,2915,2273,2676,2166,2992,2810,2971,3038,581,1666,2960,3098,3118,3129,2462,3115,3230,3217,3265,3322,2797,3295,3342,3289,3276,3436,3461,3465,3498,3419,3373,3511,1453,3539,3562,3584,3479,3616,3710,3713,3255,3860,3805,3871,3854,3831,2226,4036,4015,4022,4082,3797,4159,4094,5989,5993,6016,6010,6089,3761,6035,6093,6176,6259,6241,6273,6229,6230,6222,6276,6300,5406,4365,1774,6463,6484,6445,4551,6416,6565,6566,6662,6676,1395,6613,6656,4833,6658,4571,6845,6843,6189,6891,6884,6798,6926,7016,1433,7049,7046,2310,6857,7075,7008,7025,7074,6637,6848,2745,7203,7252,7209,6633,7168,2167,7358,2496,7374,5622,7437,3330,7453,2630,7146,7505,7478,6352,7285,7555,7562,7572,7068,7578,5460,7546,3420,2492,120,4552,410,53,1982,7408,7526,3882,247,7638,7624,7403,8068,810,7541,3005,890,4927,7044,7968,8396,7343,4167,3630,3105,7144,850,7859,6330,7288,5831,8831,7748,7249,7918,4840,3911,9126,9113,8404,8305,7581,3914,9242,9039,7956,71,8662,8066,315,9666,9285,9748,9180,9046,9935,9851,9639,9987,9896,10146,224,4249,1010,1577,3657,10105,10100,10108,7813,9573,9689,1786,516,9654,730,6982,10795,10799,10003,3258,9965,11013,3595,228,11008,1773,9574,11279,3982,9887,1552,10230,3711,9569,11648,9019,7604,3586,11857,7901,1635,8646,10891,4462,7536,10533,978,6965,12321,12338,9463,5438,12533,11518,12648,30,11546,1658,12496,6228,11431,9268,2623,12724,13070,8420,13071,2067,9163,6684,10466,812,12844,12466,13020,12341,10419,12096,13393,13391,4322,13110,1438,4146,12595,13449,13506,13524,13519,6567,13803,12465,13557,2677,11412,14025,2340,14115,9336,9389,11032,12714,764,10198,8991,14322,3235,11550,13712,8808,14498,5841,10929,14618,3382,9040,15113,4963,15630,15727,10485,13856,12411,8191,15959,5218,10861,2724,12885,12743,208,3253,8826,5824,14192,5825,9653,16454,13657,14364,17335,15537,17580,12941,8981,17626,14399,16471,11823,13644,17870,8381,10138,18497,17923,13448,7691,11783,147,13951,17993,5868,17771,16785,10176,8171,19649,19738,19730,7510,8551,18799,19572,19949,20083,16123,20232,13335,2954,20511,20572,20310,20654,8458,11085,20913,20953,20985,18686,11851,15143,21387,21443,20712,21519,21822,17797,22262,13776,22278,21248,22040,16249,80,22822,22899,15548,17641,8267,22851,23434,23440,22976,12768,23649,12163,20607,23444,12543,23890,19853,15749,18104,17723,24157,24222,16081,13271,14299,18685,14162,24479,17537,12786,6557,25065,15131,8258,24981,9891,21956,23150,25622,5047,11813,13854,21629,26034,26511,26810,13416,27878,8046,16648,28159,20658,28305,20179,28529,28565,28798,17020,29547,13737,10462,23464,19771,16112,20667,28246,26956,31546,3446,30705,33626,33625,33801,34485,34893,30750,35975,36482,18275,36583,11556,37484,37847,12772,990,17654,14397,37932,38830,38832,32101,48188,22238,38533,22949,19577,48517,3248,11784,10246,16455,10808,48390,7843,24150,17477,6225,6710,5144,49713,10837,11287,3349,29580,52631,52667,52718,3308,52916,31265,17327,2307,54059,15166,33886,7927,10017,1518,9194,5862,6551,54599,15378,18719,11294,7418,13696,37554,56001,56821,49948,4693,2816],"hidden_email":"d...x@gmail.com","published":true,"user_id":289,"updated_at":"2018-05-30T23:15:54.986Z","_score":1.4142,"_type":"user","_index":"arena-production_users","_version":null,"sort":[1.4142,1527722154986],"highlight":null,"_explanation":null},{"id":"16443","slug":"david-s-lee","username":"david
+        s. lee","first_name":"david s.","last_name":"lee","full_name":"david s. lee","channel_count":11,"following_count":38,"profile_id":77000,"follower_count":8,"avatar_image":{"thumb":"https://gravatar.com/avatar/8a4d056328cf57f598937560dd742c95.png?s=40\u0026d=mm\u0026r=R\u0026d=blank","display":"https://gravatar.com/avatar/8a4d056328cf57f598937560dd742c95.png?s=150\u0026d=mm\u0026r=R\u0026d=blank"},"class":"User","base_class":"User","avatar":"https://gravatar.com/avatar/8a4d056328cf57f598937560dd742c95.png%3Fs=40\u0026d=mm\u0026r=R\u0026d=blank","initials":"dsl","accessible_by_ids":[52261,15810,16488,6982,15,19001,13519,10641],"followed_by_ids":[52261,15810,16488,6982,15,19001,13519,10641],"hidden_email":"w...l@gmail.com","published":true,"user_id":16443,"updated_at":"2018-05-30T17:35:40.485Z","_score":1.4142,"_type":"user","_index":"arena-production_users","_version":null,"sort":[1.4142,1527701740485],"highlight":null,"_explanation":null},{"id":"57424","slug":"david-sieren","username":"David
+        Sieren","first_name":"David","last_name":"Sieren","full_name":"David Sieren","channel_count":1,"following_count":0,"profile_id":199323,"follower_count":0,"avatar_image":{"thumb":"https://gravatar.com/avatar/69ea916ac5558c48f109cf5e5d94de55.png?s=40\u0026d=mm\u0026r=R\u0026d=blank","display":"https://gravatar.com/avatar/69ea916ac5558c48f109cf5e5d94de55.png?s=150\u0026d=mm\u0026r=R\u0026d=blank"},"class":"User","base_class":"User","avatar":"https://gravatar.com/avatar/69ea916ac5558c48f109cf5e5d94de55.png%3Fs=40\u0026d=mm\u0026r=R\u0026d=blank","initials":"DS","accessible_by_ids":[],"followed_by_ids":[],"hidden_email":"d...d@onedesigncompany.com","published":true,"user_id":57424,"updated_at":"2018-05-29T21:06:00.678Z","_score":1.4142,"_type":"user","_index":"arena-production_users","_version":null,"sort":[1.4142,1527627960678],"highlight":null,"_explanation":null}]}'
+    http_version: 
+  recorded_at: Thu, 31 May 2018 00:31:34 GMT
+recorded_with: VCR 4.0.0

@@ -12,11 +12,19 @@ class Team
   scope :striped, -> { where(subscribed: true, :stripe_customer_id.ne => nil) }
 
   has_many :users, dependent: :destroy
-  has_many :channels, dependent: :destroy
+  has_many :arena_feeds, dependent: :destroy
 
   before_validation :update_subscription_expired_at
   after_update :inform_subscribed_changed!
   after_save :inform_activated!
+
+  def arena_channel_feeds
+    arena_feeds.where(_type: 'ArenaChannel')
+  end
+
+  def arena_user_feeds
+    arena_feeds.where(_type: 'ArenaUser')
+  end
 
   def asleep?(dt = 2.weeks)
     return false unless subscription_expired?
@@ -105,20 +113,23 @@ EOS
     result
   end
 
-  def connected_channels_to_slack(channel_id)
-    connected_channels = channels.where(channel_id: channel_id)
+  def connected_feeds_to_slack(channel_id, type = nil)
+    connected_feeds = arena_feeds.where(channel_id: channel_id)
+    connected_type = "Arena#{type.capitalize}" if type
+    connected_feeds = connected_feeds.where(_type: connected_type) if connected_type
 
-    text = if connected_channels.any?
-             "#{channels.count} channel#{channels.count == 1 ? '' : 's'} connected."
-           else
-             'No channels connected. To connect a channel use `/arena search` or `/arena connect [channel]`.'
-           end
-
-    {
-      text: text,
-      attachments: connected_channels.map(&:connect_to_slack_attachment),
-      channel: channel_id
-    }
+    if connected_feeds.any?
+      {
+        text: "#{connected_feeds.count} #{type || 'feed'}#{connected_feeds.count == 1 ? '' : 's'}.",
+        attachments: connected_feeds.map(&:connect_to_slack_attachment),
+        channel: channel_id
+      }
+    else
+      {
+        text: "No #{type || 'feed'}s. To connect a channel or to follow a user use `/arena search` or `/arena connect|follow [channel|user]`.",
+        channel: channel_id
+      }
+    end
   end
 
   private

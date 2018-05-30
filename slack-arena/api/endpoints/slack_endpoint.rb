@@ -1,8 +1,9 @@
+require 'slack-arena/api/endpoints/slack_endpoint_commands/human_error'
+require 'slack-arena/api/endpoints/slack_endpoint_commands/command'
+
 module Api
   module Endpoints
     class SlackEndpoint < Grape::API
-      class HumanError < StandardError; end
-
       format :json
 
       namespace :slack do
@@ -22,91 +23,29 @@ module Api
           requires :team_id, type: String
         end
         post '/command' do
-          channel_id = params[:channel_id]
-          channel_name = params[:channel_name]
-          raise HumanError, "I can't do anything in a DM, sorry." if channel_id[0] == 'D'
+          command = SlackEndpointCommands::Command.new(params)
 
-          user_id = params[:user_id]
-          team_id = params[:team_id]
+          command.dm_error!
+          command.bot_in_channel_error!
 
-          user = ::User.find_create_or_update_by_team_and_slack_id!(team_id, user_id)
-          raise HumanError, "Please invite #{user.team.bot_mention} to <##{channel_id}>, first." unless user.team.bot_in_channel?(channel_id)
-
-          command, channel_slug = params[:text].split(/\s/, 2)
-          arena_channel = Arena.try_channel(channel_slug) if channel_slug
-          existing_channel = user.team.channels.where(arena_id: arena_channel.id, channel_id: channel_id).first if arena_channel
-          existing_channel ||= user.team.channels.where(arena_slug: channel_slug, channel_id: channel_id).first if channel_slug
-
-          case command
+          case command.action
           when 'search' then
-            Api::Middleware.logger.info "SEARCH: #{channel_slug}, #{user}"
-            raise HumanError, 'Try searching for "something".' unless channel_slug
-
-            search_results = Arena.search(channel_slug).channels.take(5).map do |r|
-              c = user.team.channels.where(arena_id: r.id, channel_id: channel_id).first
-              c ||= Channel.new(
-                channel_id: channel_id,
-                channel_name: channel_name,
-                created_by: user,
-                arena_id: r.id,
-                arena_slug: r.slug,
-                arena_channel: r.attrs.deep_symbolize_keys,
-                team: user.team
-              )
-              c.connect_to_slack_attachment
-            end
-
-            {
-              text: "#{search_results.any? ? 'Searching' : 'No results'} for \"#{channel_slug}\" ...",
-              attachments: search_results,
-              channel: channel_id,
-              user: user_id
-            }
-          when 'connect' then
-            raise HumanError, "I have already connected \"#{existing_channel.title}\" to <##{channel_id}>, sorry." if existing_channel
-            raise HumanError, "I can't find the \"#{channel_slug}\" channel, sorry." unless arena_channel
-
-            c = Channel.create!(
-              channel_id: channel_id,
-              channel_name: channel_name,
-              created_by: user,
-              arena_id: arena_channel.id,
-              arena_slug: arena_channel.slug,
-              arena_channel: arena_channel.attrs.deep_symbolize_keys,
-              team: user.team
-            )
-
-            user.team.slack_client.chat_postMessage(
-              c.connect_to_slack.merge(
-                as_user: true, channel: channel_id, text: "A channel was connected by #{user.slack_mention}."
-              )
-            )
-
-            Api::Middleware.logger.info "CONNECT: #{c}, #{user}"
-
-            { text: "Successfully connected \"#{arena_channel.title}\" to <##{channel_id}>.", user: user_id, channel: channel_id }
-          when 'disconnect' then
-            raise HumanError, "I haven't connected \"#{channel_slug}\" to <##{channel_id}>, sorry." unless existing_channel
-
-            user.team.slack_client.chat_postMessage(
-              existing_channel.connect_to_slack.merge(
-                as_user: true, channel: channel_id, text: "A channel was disconnected by #{user.slack_mention}."
-              )
-            )
-
-            existing_channel.destroy
-
-            Api::Middleware.logger.info "DISCONNECT: #{existing_channel}, #{user}"
-
-            { text: "Successfully disconnected \"#{existing_channel.title}\" from <##{channel_id}>.", user: user_id, channel: channel_id }
+            command.search
+          when 'connect', 'follow' then
+            command.subscribe!
+          when 'disconnect', 'unfollow' then
+            command.unsubscribe!
+          when 'feeds' then
+            command.feeds
           when 'channels' then
-            Api::Middleware.logger.info "CHANNELS: channel=#{channel_id} (#{channel_name}), #{user}"
-            user.team.connected_channels_to_slack(channel_id)
+            command.feeds(:channel)
+          when 'users' then
+            command.feeds(:user)
           else
-            raise HumanError, "I don't understand \"#{params[:text]}\", try \"#{user.team.bot_mention} help\"."
+            command.invalid_command_error!
           end
-        rescue HumanError => e
-          { text: e.message, user: user_id, channel: channel_id }
+        rescue SlackEndpointCommands::HumanError => e
+          { text: e.message, user: command.user_id, channel: command.channel_id }
         end
 
         desc 'Respond to interactive slack buttons and actions.'
@@ -129,62 +68,21 @@ module Api
           end
         end
         post '/action' do
-          payload = params[:payload]
+          command = SlackEndpointCommands::Command.new(params)
 
-          callback_id = payload[:callback_id]
-          channel_id = payload[:channel][:id]
-          channel_name = payload[:channel][:name]
-          user_id = payload[:user][:id]
-          team_id = payload[:team][:id]
+          command.dm_error!
+          command.bot_in_channel_error!
 
-          user = ::User.find_create_or_update_by_team_and_slack_id!(team_id, user_id)
-          raise HumanError, "Please invite #{user.team.bot_mention} to <##{channel_id}>, first." unless user.team.bot_in_channel?(channel_id)
-
-          arena_channel_id = payload[:actions][0][:value]
-          arena_channel = Arena.try_channel(arena_channel_id) if arena_channel_id
-          arena_channel_title = arena_channel.title if arena_channel
-          existing_channel = user.team.channels.where(arena_id: arena_channel_id, channel_id: channel_id).first if arena_channel_id
-
-          case callback_id
-          when 'connect-channel' then
-            raise HumanError, "I have already connected \"#{existing_channel.title}\" to <##{channel_id}>, sorry." if existing_channel
-            raise HumanError, "I can't find the \"#{arena_channel_id}\" channel, sorry." unless arena_channel
-
-            c = Channel.create!(
-              channel_id: channel_id,
-              channel_name: channel_name,
-              created_by: user,
-              arena_id: arena_channel.id,
-              arena_slug: arena_channel.slug,
-              arena_channel: arena_channel.attrs.deep_symbolize_keys,
-              team: user.team
-            )
-
-            user.team.slack_client.chat_postMessage(
-              c.connect_to_slack.merge(
-                as_user: true, channel: channel_id, text: "A channel was connected by #{user.slack_mention}."
-              )
-            )
-
-            Api::Middleware.logger.info "CONNECT: #{c}, #{user}, #{user.team}"
-            user.team.connected_channels_to_slack(channel_id).merge(user: user_id)
-          when 'disconnect-channel' then
-            raise HumanError, "I have not connected \"#{arena_channel_title || arena_channel_id}\" to <##{channel_id}>, sorry." unless existing_channel
-            existing_channel.destroy
-            Api::Middleware.logger.info "DISCONNECT: #{existing_channel}, #{user}, #{user.team}."
-
-            user.team.slack_client.chat_postMessage(
-              existing_channel.connect_to_slack.merge(
-                as_user: true, channel: channel_id, text: "A channel was disconnected by #{user.slack_mention}."
-              )
-            )
-
-            user.team.connected_channels_to_slack(channel_id).merge(user: user_id)
+          case command.action
+          when 'connect', 'follow' then
+            command.subscribe!
+          when 'disconnect', 'unfollow'; then
+            command.unsubscribe!
           else
-            raise HumanError, "I don't understand \"#{callback_id}\", sorry."
+            command.invalid_command_error!
           end
-        rescue HumanError => e
-          { text: e.message, user: user_id, channel: channel_id }
+        rescue SlackEndpointCommands::HumanError => e
+          { text: e.message, user: command.user_id, channel: command.channel_id }
         end
       end
     end

@@ -1,10 +1,10 @@
-class Channel
+class ArenaFeed
   include Mongoid::Document
   include Mongoid::Timestamps
 
   field :arena_id, type: Integer
   field :arena_slug, type: String
-  field :arena_channel, type: Hash
+  field :arena_parent, type: Hash
 
   belongs_to :team
   belongs_to :created_by, class_name: 'User'
@@ -13,50 +13,46 @@ class Channel
   field :channel_name, type: String
   field :sync_at, type: DateTime
 
-  index({ team_id: 1, arena_id: 1, channel_id: 1 }, unique: true)
+  index({ _type: 1, team_id: 1, arena_id: 1, channel_id: 1 }, unique: true)
 
   def to_s
-    "arena_id=#{arena_id}, title=#{title}, channel_id=#{channel_id}, channel_name=#{channel_name}, #{team}"
+    "_type=#{self.class.name}, arena_id=#{arena_id}, title=#{title}, channel_id=#{channel_id}, channel_name=#{channel_name}, #{team}"
   end
 
   def channel_mention
     "<##{channel_id}>"
   end
 
-  def sync_new_arena_items!
-    updated_arena_channel = Arena.try_channel(arena_id)
-    self.arena_channel = updated_arena_channel.attrs.deep_symbolize_keys if updated_arena_channel
-    sync!(stories_since_last_sync)
-    self.sync_at = Time.now.utc
-    save!
+  def parent
+    raise NotImplementedError
+  end
+
+  def feed(_options = {})
+    raise NotImplementedError
   end
 
   def title
-    arena_channel[:title]
-  end
-
-  def arena_user_avatar_image
-    arena_user[:avatar_image] || {}
+    raise NotImplementedError
   end
 
   def thumb_url
-    arena_user_avatar_image[:display]
-  end
-
-  def arena_user
-    arena_channel[:user] || {}
+    raise NotImplementedError
   end
 
   def arena_url
-    "https://www.are.na/#{arena_user[:slug]}/#{arena_channel[:slug]}"
-  end
-
-  def arena_channel_metadata
-    arena_channel[:metadata] || {}
+    raise NotImplementedError
   end
 
   def description
-    arena_channel_metadata[:description]
+    raise NotImplementedError
+  end
+
+  def sync_new_arena_items!
+    updated_parent = parent
+    self.arena_parent = updated_parent.attrs.deep_symbolize_keys if updated_parent
+    sync!(stories_since_last_sync)
+    self.sync_at = Time.now.utc
+    save!
   end
 
   def to_slack_attachment
@@ -69,12 +65,24 @@ class Channel
     }
   end
 
+  def class_id
+    self.class.name.gsub(/^Arena/, '').downcase
+  end
+
+  def callback_id
+    raise NotImplementedError
+  end
+
+  def connect_action
+    raise NotImplementedError
+  end
+
   def connect_to_slack_attachment
     to_slack_attachment.merge(
-      callback_id: "#{persisted? ? 'disconnect' : 'connect'}-channel",
+      callback_id: callback_id,
       actions: [{
         name: 'arena_id',
-        text: persisted? ? 'Disconnect' : 'Connect',
+        text: callback_action,
         type: 'button',
         value: arena_id
       }]
@@ -118,7 +126,14 @@ class Channel
     stories = []
     page = 1
     loop do
-      page_of_stories = Arena.channel_feed(arena_id, page: page).stories
+      page_of_stories = begin
+        feed(page: page).stories
+      rescue Arena::Error => e
+        # BUG: are.na bugs, eg. http://arena-api.herokuapp.com/v2/user/15/feed?page=6&per=10
+        logger.warn "Error getting feed for #{self}/#{page}: #{e.message}"
+        raise e if stories.none?
+        []
+      end
       break unless page_of_stories.any?
       page_of_stories.each do |story|
         story_ts = DateTime.rfc3339(story.created_at)

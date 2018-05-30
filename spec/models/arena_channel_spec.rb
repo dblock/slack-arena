@@ -1,10 +1,10 @@
 require 'spec_helper'
 
-describe Channel do
+describe ArenaChannel do
   let(:team) { Fabricate(:team) }
   let(:user) { Fabricate(:user, team: team) }
   context '#sync_new_arena_items!' do
-    let(:channel) { Fabricate(:channel, arena_id: 136_855, arena_slug: 'delightfully-absurd', team: team, created_by: user) }
+    let(:channel) { Fabricate(:arena_channel, arena_id: 136_855, arena_slug: 'delightfully-absurd', team: team, created_by: user) }
     it 'updates arena_channel', vcr: { cassette_name: 'arena/channel_delightfully-absurd' } do
       expect(channel.title).to eq channel.title
       expect(channel).to receive(:stories_since_last_sync)

@@ -3,8 +3,18 @@ module SlackArena
     include Celluloid
 
     def prepare!
+      update_multiple_feeds!
       super
       deactivate_asleep_teams!
+    end
+
+    def update_multiple_feeds!
+      return unless Mongoid.default_client.collections.detect { |c| c.name == 'channels' }
+      logger.info 'Running update_multiple_feeds!'
+      Mongoid.default_client.command('$eval' => 'db.channels.dropIndexes()')
+      Mongoid.default_client.command('$eval' => "db.channels.renameCollection('arena_feeds')")
+      ArenaFeed.where(_type: nil).rename(arena_channel: :arena_parent)
+      ArenaFeed.where(_type: nil).set(_type: 'ArenaChannel')
     end
 
     def after_start!
@@ -49,7 +59,7 @@ module SlackArena
       log_info_without_repeat "Checking channels for #{Team.active.count} team(s)."
       Team.active.each do |team|
         next if team.subscription_expired?
-        team.channels.each(&:sync_new_arena_items!)
+        team.arena_feeds.each(&:sync_new_arena_items!)
       rescue StandardError => e
         backtrace = e.backtrace.join("\n")
         logger.warn "Error in cron for team #{team}, #{e.message}, #{backtrace}."
