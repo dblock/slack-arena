@@ -111,8 +111,8 @@ class ArenaFeed
     stories.each do |story|
       block = begin
         story.actionable.to_slack
-      rescue ActionNotImplementedError => e
-        logger.warn e.message
+      rescue Arena::Story::ActionNotImplementedError => e
+        logger.warn "ActionNotImplementedError: #{e.message}"
         nil
       end
       next unless block
