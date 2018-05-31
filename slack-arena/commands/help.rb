@@ -5,10 +5,22 @@ module SlackArena
         ```
         I am your friendly Are.na bot.
 
+        Feeds
+        -----
+        /arena search [term]     - search for channels and users
+        /arena feeds             - list all connected feeds
+
         Channels
         --------
+        /arena channels          - list connected channels
         /arena connect [id]      - connect an Are.na channel
         /arena disconnect [id]   - disconnect an Are.na channel
+
+        Users
+        -----
+        /arena users             - list followed users
+        /arena follow [id]       - follow an Are.na user
+        /arena unfollow [id]     - unfollow an Are.na user
 
         General
         -------
