@@ -7,11 +7,6 @@ module Api
       format :json
 
       namespace :slack do
-        before do
-          token = params[:token]
-          error!('Message token is not coming from Slack.', 401) if ENV.key?('SLACK_VERIFICATION_TOKEN') && token != ENV['SLACK_VERIFICATION_TOKEN']
-        end
-
         desc 'Respond to slash commands.'
         params do
           requires :command, type: String
@@ -25,6 +20,7 @@ module Api
         post '/command' do
           command = SlackEndpointCommands::Command.new(params)
 
+          command.slack_verification_token!
           command.dm_error!
           command.bot_in_channel_error!
 
@@ -70,6 +66,7 @@ module Api
         post '/action' do
           command = SlackEndpointCommands::Command.new(params)
 
+          command.slack_verification_token!
           command.dm_error!
           command.bot_in_channel_error!
 

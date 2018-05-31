@@ -2,7 +2,7 @@ module Api
   module Endpoints
     class SlackEndpointCommands
       class Command
-        attr_reader :action, :arg, :channel_id, :channel_name, :user_id, :team_id, :text
+        attr_reader :action, :arg, :channel_id, :channel_name, :user_id, :team_id, :text, :token
 
         def initialize(params)
           if params.key?(:payload)
@@ -12,6 +12,7 @@ module Api
             @user_id = params[:payload][:user][:id]
             @team_id = params[:payload][:team][:id]
             @arg = params[:payload][:actions][0][:value]
+            @token = params[:payload][:token]
             @text = [action, arg].join(' ')
           else
             @text = params[:text]
@@ -20,6 +21,7 @@ module Api
             @channel_name = params[:channel_name]
             @user_id = params[:user_id]
             @team_id = params[:team_id]
+            @token = params[:token]
           end
         end
 
@@ -99,6 +101,12 @@ module Api
         def bot_in_channel_error!
           return if bot_in_channel?
           raise SlackEndpointCommands::HumanError, "Please invite #{user.team.bot_mention} to <##{channel_id}>, first."
+        end
+
+        def slack_verification_token!
+          return unless ENV.key?('SLACK_VERIFICATION_TOKEN')
+          return if token == ENV['SLACK_VERIFICATION_TOKEN']
+          throw :error, status: 401, message: 'Message token is not coming from Slack.'
         end
 
         def subscribe!

@@ -22,6 +22,12 @@ describe Api::Endpoints::SlackEndpoint do
         response = JSON.parse(last_response.body)
         expect(response['error']).to eq 'Message token is not coming from Slack.'
       end
+      it 'invokes action with a verification token' do
+        post '/api/slack/action', token: token
+        expect(last_response.status).to eq 400
+        response = JSON.parse(last_response.body)
+        expect(response['message']).to eq 'Invalid parameters.'
+      end
     end
     context 'interactive slack buttons' do
       it 'returns an error with a non-matching verification token' do
@@ -36,6 +42,14 @@ describe Api::Endpoints::SlackEndpoint do
         expect(last_response.status).to eq 401
         response = JSON.parse(last_response.body)
         expect(response['error']).to eq 'Message token is not coming from Slack.'
+      end
+      it 'invokes action with a verification token' do
+        post '/api/slack/action', payload: {
+          token: token
+        }.to_json
+        expect(last_response.status).to eq 400
+        response = JSON.parse(last_response.body)
+        expect(response['message']).to eq 'Invalid parameters.'
       end
     end
     after do
