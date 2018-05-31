@@ -3,6 +3,23 @@ require 'spec_helper'
 describe Api::Endpoints::TeamsEndpoint do
   include Api::Test::EndpointTest
 
+  context 'teams' do
+    subject do
+      client.teams
+    end
+    it 'lists no teams' do
+      expect(subject.to_a.size).to eq 0
+    end
+    context 'with teams' do
+      let!(:team1) { Fabricate(:team, api: false) }
+      let!(:team2) { Fabricate(:team, api: true) }
+      it 'lists teams with api enabled' do
+        expect(subject.to_a.size).to eq 1
+        expect(subject.first.id).to eq team2.id.to_s
+      end
+    end
+  end
+
   context 'team' do
     it 'requires code' do
       expect { client.teams._post }.to raise_error Faraday::ClientError do |e|
