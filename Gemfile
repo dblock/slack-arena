@@ -4,6 +4,7 @@ ruby '2.5.0'
 
 gem 'arena', github: 'dblock/arena-rb', branch: 'user-feed'
 gem 'grape'
+gem 'grape_logging'
 gem 'hashie'
 gem 'mongoid'
 gem 'mongoid-scroll'

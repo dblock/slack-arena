@@ -100,6 +100,9 @@ GEM
       roar (~> 1.1.0)
     grape-swagger (0.28.0)
       grape (>= 0.16.2)
+    grape_logging (1.8.0)
+      grape
+      rack
     hashdiff (0.3.7)
     hashie (3.5.7)
     hitimes (1.2.6)
@@ -283,6 +286,7 @@ DEPENDENCIES
   faker
   foreman
   grape
+  grape_logging
   hashie
   hyperclient
   mongoid
