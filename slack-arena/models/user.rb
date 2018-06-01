@@ -6,11 +6,89 @@ class User
   field :user_name, type: String
   field :is_bot, type: Boolean
 
+  field :arena_token, type: String
+  field :arena_token_scope, type: String
+  field :arena_token_type, type: String
+  field :arena_token_at, type: DateTime
+
   belongs_to :team, index: true
   validates_presence_of :team
 
   index({ user_id: 1, team_id: 1 }, unique: true)
   index(user_name: 1, team_id: 1)
+
+  # Are.na
+
+  def connected_to_arena?
+    !arena_token.nil?
+  end
+
+  def connect_redirect_url
+    "#{ENV['APP_URL'] || SlackArena::Service.url}/connect"
+  end
+
+  def connect_to_arena_url(channel_id)
+    state = {
+      user_id: id.to_s,
+      channel_id: channel_id
+    }.to_json
+
+    "https://dev.are.na/oauth/authorize?client_id=#{ENV['ARENA_CLIENT_ID']}&redirect_uri=#{connect_redirect_url}&response_type=code&state=#{state}"
+  end
+
+  def connect_to_arena_to_slack(channel_id)
+    url = connect_to_arena_url(channel_id)
+    {
+      text: 'Please connect your Are.na account.', attachments: [
+        fallback: "Please connect your Are.na account at #{url}.",
+        actions: [
+          type: 'button',
+          text: 'Click Here',
+          url: url
+        ]
+      ]
+    }
+  end
+
+  def connect!(code, channel_id)
+    rc = HTTParty.post('https://dev.are.na/oauth/token',
+                       body: {
+                         client_id: ENV['ARENA_CLIENT_ID'],
+                         client_secret: ENV['ARENA_CLIENT_SECRET'],
+                         code: code,
+                         grant_type: 'authorization_code',
+                         redirect_uri: connect_redirect_url
+                       },
+                       haeders: {
+                         'Content-Type' => 'application/json'
+                       })
+    raise "Are.na returned #{rc.code}: #{rc.message}" unless rc.code == 200
+
+    body = JSON.parse(rc.body)
+    update_attributes!(
+      arena_token: body['access_token'],
+      arena_token_at: Time.at(body['created_at']),
+      arena_token_type: body['token_type'],
+      arena_token_scope: body['scope']
+    )
+
+    logger.info "Connected team=#{team_id}, user=#{user_name}, user_id=#{id} to are.na."
+
+    team.slack_client.chat_postEphemeral(
+      user: user_id,
+      text: 'Successfully connected your Are.na account.',
+      channel: channel_id
+    )
+
+    raise "#{rc.code}: #{rc.message}" unless rc.code == 200
+  end
+
+  def arena_client
+    raise 'Missing Are.na access token.' unless arena_token
+    @arena_client ||= Arena::Client.new(access_token: arena_token)
+  end
+
+  # Slack
 
   def slack_mention
     "<@#{user_id}>"

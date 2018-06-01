@@ -1,0 +1,54 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://dev.are.na/oauth/token
+    body:
+      encoding: UTF-8
+      string: client_id=&client_secret=&code=code&grant_type=authorization_code&redirect_uri=https%3A%2F%2Fdb35b2d2.example.com%2Fconnect
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - Cowboy
+      Connection:
+      - close
+      Date:
+      - Fri, 01 Jun 2018 20:22:51 GMT
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Cache-Control:
+      - no-store
+      Pragma:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"97299a2607fc9c430d7b845df0e16b4a"
+      X-Request-Id:
+      - 9f41c8fc-da51-432f-85cf-0d49adc791ee
+      X-Runtime:
+      - '0.018741'
+      Strict-Transport-Security:
+      - max-age=15552000
+      Via:
+      - 1.1 vegur
+    body:
+      encoding: UTF-8
+      string: '{"access_token":"token","token_type":"bearer","scope":"write","created_at":1527884571}'
+    http_version:
+  recorded_at: Fri, 01 Jun 2018 20:22:51 GMT
+recorded_with: VCR 4.0.0

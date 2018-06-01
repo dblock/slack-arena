@@ -1,0 +1,74 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://arena-api.herokuapp.com/v2/channels/198378
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers: {}
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - Cowboy
+      Connection:
+      - keep-alive
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Date:
+      - Fri, 01 Jun 2018 21:10:11 GMT
+      Etag:
+      - '"4979eb467ae979c899e160ab9be2884d"'
+      Content-Type:
+      - application/json; charset=utf-8
+      Cache-Control:
+      - max-age=604800, private
+      Vary:
+      - Origin
+      X-Request-Id:
+      - 7679f1c6-150b-410a-9e99-0586ec390f4d
+      X-Runtime:
+      - '0.089519'
+      Transfer-Encoding:
+      - chunked
+      Via:
+      - 1.1 vegur
+    body:
+      encoding: UTF-8
+      string: '{"id":198378,"title":"Test Channel","created_at":"2018-05-27T13:06:03.756Z","updated_at":"2018-06-01T20:09:00.847Z","added_to_at":"2018-06-01T20:08:51.134Z","published":true,"open":false,"collaboration":true,"collaborator_count":1,"slug":"test-channel-1527426363","length":4,"kind":"default","status":"closed","user_id":24189,"manifest":{"key":"uploads/:uuid/${filename}","AWSAccessKeyId":"AKIAJCYY3HQ47NR5LQJA","bucket":"https://s3.amazonaws.com/arena_images-temp/","success_action_status":"201","policy":"eydleHBpcmF0aW9uJzogJzIwMTgtMDYtMDhUMjE6MTA6MTEuMDAwWicsCiAgICAgICAgJ2NvbmRpdGlvbnMnOiBbCiAgICAgICAgICB7J2J1Y2tldCc6ICdhcmVuYV9pbWFnZXMtdGVtcCd9LAogICAgICAgICAgWydzdGFydHMtd2l0aCcsICcka2V5JywgJyddLAogICAgICAgICAgeydhY2wnOiAncHVibGljLXJlYWQnfSwKICAgICAgICAgIHsnc3VjY2Vzc19hY3Rpb25fc3RhdHVzJzogJzIwMSd9LAogICAgICAgICAgWydjb250ZW50LWxlbmd0aC1yYW5nZScsIDAsIDEwNDg1NzYwMF0sCiAgICAgICAgICBbJ3N0YXJ0cy13aXRoJywnJENvbnRlbnQtVHlwZScsJyddCiAgICAgICAgXQogICAgfQ==","acl":"public-read","signature":"SzvDo0c0nhV6XRhm6G7LNxv6K9Q=","expires":"2018-06-08T21:10:11.000Z"},"contents":[{"id":2228365,"title":"All
+        About Art","updated_at":"2018-05-27T13:10:42.783Z","created_at":"2018-05-27T13:10:28.715Z","state":"available","comment_count":0,"generated_title":"All
+        About Art","content_html":null,"description_html":null,"visibility":"public","content":null,"description":null,"source":{"url":"https://art.dblock.org/2018/01/31/all-about-art.html","title":"All
+        About Art","provider":{"name":"art.dblock.org | art blog","url":"https://art.dblock.org"}},"image":{"filename":"79db9a938b9694ed19f4bd4fe1a9650e.png","content_type":"image/png","updated_at":"2018-05-27T13:10:37.827Z","thumb":{"url":"https://d2w9rnfcy7mm78.cloudfront.net/2228365/thumb_79db9a938b9694ed19f4bd4fe1a9650e.png"},"square":{"url":"https://d2w9rnfcy7mm78.cloudfront.net/2228365/square_79db9a938b9694ed19f4bd4fe1a9650e.png"},"display":{"url":"https://d2w9rnfcy7mm78.cloudfront.net/2228365/display_79db9a938b9694ed19f4bd4fe1a9650e.png"},"large":{"url":"https://d2w9rnfcy7mm78.cloudfront.net/2228365/large_79db9a938b9694ed19f4bd4fe1a9650e.png"},"original":{"url":"https://d2w9rnfcy7mm78.cloudfront.net/2228365/original_79db9a938b9694ed19f4bd4fe1a9650e.png","file_size":1026272,"file_size_display":"1000
+        KB"}},"embed":null,"attachment":null,"metadata":null,"base_class":"Block","class":"Link","user":{"id":24189,"created_at":"2017-12-18T16:38:59.034Z","slug":"daniel-doubrovkine","username":"Daniel
+        Doubrovkine","first_name":"Daniel","last_name":"Doubrovkine","full_name":"Daniel
+        Doubrovkine","avatar":"https://gravatar.com/avatar/3d925b45ac07ec0ae5bd04888f6c5b61.png?s=40&d=mm&r=R&d=blank","avatar_image":{"thumb":"https://gravatar.com/avatar/3d925b45ac07ec0ae5bd04888f6c5b61.png?s=40&d=mm&r=R&d=blank","display":"https://gravatar.com/avatar/3d925b45ac07ec0ae5bd04888f6c5b61.png?s=150&d=mm&r=R&d=blank"},"channel_count":6,"following_count":29,"profile_id":116531,"follower_count":11,"initials":"DD","can_index":true,"metadata":null,"is_premium":true,"is_exceeding_private_connections_limit":false,"is_confirmed":true,"is_pending_reconfirmation":false,"is_pending_confirmation":false,"badge":"premium","base_class":"User","class":"User"},"position":1,"selected":false,"connection_id":2869126,"connected_at":"2018-05-27T13:10:28.732Z","connected_by_user_id":24189,"connected_by_username":"Daniel
+        Doubrovkine","connected_by_user_slug":"daniel-doubrovkine"},{"id":2228366,"title":"2018-01-12-16.17.23.jpg","updated_at":"2018-05-27T13:17:03.386Z","created_at":"2018-05-27T13:12:39.462Z","state":"available","comment_count":2,"generated_title":"2018-01-12-16.17.23.jpg","content_html":null,"description_html":null,"visibility":"public","content":null,"description":null,"source":null,"image":{"filename":"dc77ce2c4562bbc8d66439262797ecd8.jpg","content_type":"image/jpeg","updated_at":"2018-05-27T13:12:42.725Z","thumb":{"url":"https://d2w9rnfcy7mm78.cloudfront.net/2228366/thumb_dc77ce2c4562bbc8d66439262797ecd8.jpg"},"square":{"url":"https://d2w9rnfcy7mm78.cloudfront.net/2228366/square_dc77ce2c4562bbc8d66439262797ecd8.jpg"},"display":{"url":"https://d2w9rnfcy7mm78.cloudfront.net/2228366/display_dc77ce2c4562bbc8d66439262797ecd8.jpg"},"large":{"url":"https://d2w9rnfcy7mm78.cloudfront.net/2228366/large_dc77ce2c4562bbc8d66439262797ecd8.jpg"},"original":{"url":"https://d2w9rnfcy7mm78.cloudfront.net/2228366/original_dc77ce2c4562bbc8d66439262797ecd8.jpg","file_size":1411887,"file_size_display":"1.35
+        MB"}},"embed":null,"attachment":null,"metadata":null,"base_class":"Block","class":"Image","user":{"id":24189,"created_at":"2017-12-18T16:38:59.034Z","slug":"daniel-doubrovkine","username":"Daniel
+        Doubrovkine","first_name":"Daniel","last_name":"Doubrovkine","full_name":"Daniel
+        Doubrovkine","avatar":"https://gravatar.com/avatar/3d925b45ac07ec0ae5bd04888f6c5b61.png?s=40&d=mm&r=R&d=blank","avatar_image":{"thumb":"https://gravatar.com/avatar/3d925b45ac07ec0ae5bd04888f6c5b61.png?s=40&d=mm&r=R&d=blank","display":"https://gravatar.com/avatar/3d925b45ac07ec0ae5bd04888f6c5b61.png?s=150&d=mm&r=R&d=blank"},"channel_count":6,"following_count":29,"profile_id":116531,"follower_count":11,"initials":"DD","can_index":true,"metadata":null,"is_premium":true,"is_exceeding_private_connections_limit":false,"is_confirmed":true,"is_pending_reconfirmation":false,"is_pending_confirmation":false,"badge":"premium","base_class":"User","class":"User"},"position":2,"selected":false,"connection_id":2869127,"connected_at":"2018-05-27T13:12:39.472Z","connected_by_user_id":24189,"connected_by_username":"Daniel
+        Doubrovkine","connected_by_user_slug":"daniel-doubrovkine"},{"id":2228371,"title":null,"updated_at":"2018-05-27T13:18:37.825Z","created_at":"2018-05-27T13:18:37.754Z","state":"available","comment_count":0,"generated_title":"Untitled","content_html":"<p>Simple
+        text block.</p>","description_html":null,"visibility":"public","content":"Simple
+        text block.","description":null,"source":null,"image":null,"embed":null,"attachment":null,"metadata":null,"base_class":"Block","class":"Text","user":{"id":24189,"created_at":"2017-12-18T16:38:59.034Z","slug":"daniel-doubrovkine","username":"Daniel
+        Doubrovkine","first_name":"Daniel","last_name":"Doubrovkine","full_name":"Daniel
+        Doubrovkine","avatar":"https://gravatar.com/avatar/3d925b45ac07ec0ae5bd04888f6c5b61.png?s=40&d=mm&r=R&d=blank","avatar_image":{"thumb":"https://gravatar.com/avatar/3d925b45ac07ec0ae5bd04888f6c5b61.png?s=40&d=mm&r=R&d=blank","display":"https://gravatar.com/avatar/3d925b45ac07ec0ae5bd04888f6c5b61.png?s=150&d=mm&r=R&d=blank"},"channel_count":6,"following_count":29,"profile_id":116531,"follower_count":11,"initials":"DD","can_index":true,"metadata":null,"is_premium":true,"is_exceeding_private_connections_limit":false,"is_confirmed":true,"is_pending_reconfirmation":false,"is_pending_confirmation":false,"badge":"premium","base_class":"User","class":"User"},"position":3,"selected":false,"connection_id":2869132,"connected_at":"2018-05-27T13:18:37.769Z","connected_by_user_id":24189,"connected_by_username":"Daniel
+        Doubrovkine","connected_by_user_slug":"daniel-doubrovkine"},{"id":2228373,"title":"43884722386-752316157-ticket.pdf","updated_at":"2018-05-27T13:19:59.544Z","created_at":"2018-05-27T13:19:52.889Z","state":"available","comment_count":0,"generated_title":"43884722386-752316157-ticket.pdf","content_html":null,"description_html":null,"visibility":"public","content":null,"description":null,"source":null,"image":{"filename":"1c67f09e1b79b6e820180527-4-xho6do.jpg","content_type":"image/jpeg","updated_at":"2018-05-27T13:19:58.316Z","thumb":{"url":"https://d2w9rnfcy7mm78.cloudfront.net/2228373/thumb_1c67f09e1b79b6e820180527-4-xho6do.jpg"},"square":{"url":"https://d2w9rnfcy7mm78.cloudfront.net/2228373/square_1c67f09e1b79b6e820180527-4-xho6do.jpg"},"display":{"url":"https://d2w9rnfcy7mm78.cloudfront.net/2228373/display_1c67f09e1b79b6e820180527-4-xho6do.jpg"},"large":{"url":"https://d2w9rnfcy7mm78.cloudfront.net/2228373/large_1c67f09e1b79b6e820180527-4-xho6do.jpg"},"original":{"url":"https://d2w9rnfcy7mm78.cloudfront.net/2228373/original_1c67f09e1b79b6e820180527-4-xho6do.jpg","file_size":128609,"file_size_display":"46.3
+        KB"}},"embed":null,"attachment":{"file_name":"ca8f9697fa9839eb11ab49d22fff1635.pdf","file_size":47446,"file_size_display":"46.3
+        KB","content_type":"application/pdf","extension":"pdf","url":"http://s3.amazonaws.com/arena-attachments/2228373/ca8f9697fa9839eb11ab49d22fff1635.pdf?1527427194"},"metadata":null,"base_class":"Block","class":"Attachment","user":{"id":24189,"created_at":"2017-12-18T16:38:59.034Z","slug":"daniel-doubrovkine","username":"Daniel
+        Doubrovkine","first_name":"Daniel","last_name":"Doubrovkine","full_name":"Daniel
+        Doubrovkine","avatar":"https://gravatar.com/avatar/3d925b45ac07ec0ae5bd04888f6c5b61.png?s=40&d=mm&r=R&d=blank","avatar_image":{"thumb":"https://gravatar.com/avatar/3d925b45ac07ec0ae5bd04888f6c5b61.png?s=40&d=mm&r=R&d=blank","display":"https://gravatar.com/avatar/3d925b45ac07ec0ae5bd04888f6c5b61.png?s=150&d=mm&r=R&d=blank"},"channel_count":6,"following_count":29,"profile_id":116531,"follower_count":11,"initials":"DD","can_index":true,"metadata":null,"is_premium":true,"is_exceeding_private_connections_limit":false,"is_confirmed":true,"is_pending_reconfirmation":false,"is_pending_confirmation":false,"badge":"premium","base_class":"User","class":"User"},"position":4,"selected":false,"connection_id":2869135,"connected_at":"2018-05-27T13:19:52.898Z","connected_by_user_id":24189,"connected_by_username":"Daniel
+        Doubrovkine","connected_by_user_slug":"daniel-doubrovkine"}],"base_class":"Channel","page":1,"per":25,"collaborators":[{"id":15,"created_at":"2011-06-21T01:41:32.080Z","slug":"charles-broskoski","username":"Charles
+        Broskoski","first_name":"Charles","last_name":"Broskoski","full_name":"Charles
+        Broskoski","avatar":"https://s3.amazonaws.com/arena-avatars/15/small_0169d93a7be2c5149947ae9c4dec8447.png?1493654235","avatar_image":{"thumb":"https://s3.amazonaws.com/arena-avatars/15/small_0169d93a7be2c5149947ae9c4dec8447.png?1493654235","display":"https://s3.amazonaws.com/arena-avatars/15/medium_0169d93a7be2c5149947ae9c4dec8447.png?1493654235"},"channel_count":585,"following_count":4129,"profile_id":111,"follower_count":1294,"initials":"CB","can_index":false,"metadata":{"description":"[Are.na](http://are.na)
+        co-founder ✍︎\n\nhttp://charlesbroskoski.com\n"},"is_premium":true,"is_exceeding_private_connections_limit":false,"is_confirmed":true,"is_pending_reconfirmation":false,"is_pending_confirmation":false,"badge":"premium","base_class":"User","class":"User"}],"follower_count":1,"share_link":null,"metadata":null,"class_name":"Channel","can_index":true,"user":{"id":24189,"created_at":"2017-12-18T16:38:59.034Z","slug":"daniel-doubrovkine","username":"Daniel
+        Doubrovkine","first_name":"Daniel","last_name":"Doubrovkine","full_name":"Daniel
+        Doubrovkine","avatar":"https://gravatar.com/avatar/3d925b45ac07ec0ae5bd04888f6c5b61.png?s=40&d=mm&r=R&d=blank","avatar_image":{"thumb":"https://gravatar.com/avatar/3d925b45ac07ec0ae5bd04888f6c5b61.png?s=40&d=mm&r=R&d=blank","display":"https://gravatar.com/avatar/3d925b45ac07ec0ae5bd04888f6c5b61.png?s=150&d=mm&r=R&d=blank"},"channel_count":6,"following_count":29,"profile_id":116531,"follower_count":11,"initials":"DD","can_index":true,"metadata":null,"is_premium":true,"is_exceeding_private_connections_limit":false,"is_confirmed":true,"is_pending_reconfirmation":false,"is_pending_confirmation":false,"badge":"premium","base_class":"User","class":"User"}}'
+    http_version:
+  recorded_at: Fri, 01 Jun 2018 21:10:11 GMT
+recorded_with: VCR 4.0.0

@@ -49,17 +49,29 @@ module Api
           requires :payload, type: JSON do
             requires :token, type: String
             requires :callback_id, type: String
+            optional :type, type: String
+            optional :trigger_id, type: String
+            optional :response_url, type: String
             requires :channel, type: Hash do
               requires :id, type: String
+              optional :name, type: String
             end
             requires :user, type: Hash do
               requires :id, type: String
+              optional :name, type: String
             end
             requires :team, type: Hash do
               requires :id, type: String
+              optional :domain, type: String
             end
-            requires :actions, type: Array do
+            optional :actions, type: Array do
               requires :value, type: String
+            end
+            optional :message, type: Hash do
+              requires :type, type: String
+              requires :user, type: String
+              requires :ts, type: String
+              requires :text, type: String
             end
           end
         end
@@ -67,18 +79,29 @@ module Api
           command = SlackEndpointCommands::Command.new(params)
 
           command.slack_verification_token!
-          command.dm_error!
-          command.bot_in_channel_error!
 
           case command.action
           when 'connect', 'follow' then
+            command.dm_error!
+            command.bot_in_channel_error!
             command.subscribe!
-          when 'disconnect', 'unfollow'; then
+          when 'disconnect', 'unfollow' then
+            command.dm_error!
+            command.bot_in_channel_error!
             command.unsubscribe!
+          when 'add' then
+            command.add! || body(false)
           else
             command.invalid_command_error!
           end
         rescue SlackEndpointCommands::HumanError => e
+          if params[:payload].key?(:response_url)
+            HTTParty.post(
+              params[:payload][:response_url],
+              body: { text: e.message, type: 'ephemeral' }.to_json,
+              headers: { 'Content-Type' => 'application/json' }
+            )
+          end
           { text: e.message, user: command.user_id, channel: command.channel_id }
         end
       end

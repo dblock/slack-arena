@@ -99,7 +99,7 @@ describe Api::Endpoints::SlackEndpoint do
     let(:team) { Fabricate(:team) }
     let(:user) { Fabricate(:user, team: team) }
     before do
-      expect_any_instance_of(Team).to receive(:bot_in_channel?).and_return(true)
+      allow_any_instance_of(Team).to receive(:bot_in_channel?).and_return(true)
     end
     context 'slash commands' do
       it 'fails an invalid command' do
@@ -484,6 +484,24 @@ describe Api::Endpoints::SlackEndpoint do
           'user' => user.user_id
         )
       end
+      it 'posts errors to response_url when available' do
+        expect(HTTParty).to receive(:post).with(
+          'https://example.com/response_url',
+          body: { text: "I don't understand \"whatever-callback 1\", try \"<@arena> help\".", type: 'ephemeral' }.to_json,
+          headers: { 'Content-Type' => 'application/json' }
+        )
+        allow(Arena).to receive(:try_channel).and_return(nil)
+        post '/api/slack/action', payload: {
+          actions: [{ name: 'arena_id', value: '1' }],
+          channel: { id: 'C1', name: 'arena' },
+          user: { id: user.user_id },
+          team: { id: team.team_id },
+          token: '',
+          callback_id: 'whatever-callback',
+          response_url: 'https://example.com/response_url'
+        }.to_json
+        expect(last_response.status).to eq 201
+      end
       context 'channels' do
         it 'connects to a channel', vcr: { cassette_name: 'arena/channel_delightfully-absurd' } do
           expect_any_instance_of(Slack::Web::Client).to receive(:chat_postMessage).with(
@@ -679,6 +697,140 @@ describe Api::Endpoints::SlackEndpoint do
                 'user' => user.user_id
               )
             }.to change(ArenaUser, :count).by(-1)
+          end
+        end
+        context 'add' do
+          context 'when user is connected to arena' do
+            before do
+              user.update_attributes!(arena_token: 'token')
+            end
+            it 'returns an error on invalid action' do
+              post '/api/slack/action', payload: {
+                channel: { id: 'C1', name: 'arena' },
+                user: { id: user.user_id },
+                team: { id: team.team_id },
+                token: '',
+                type: 'invalid',
+                callback_id: 'add'
+              }.to_json
+              expect(last_response.status).to eq 400
+              json_response = JSON.parse(last_response.body)
+              expect(json_response['message']).to eq 'Unsupported action type: invalid.'
+            end
+            context 'message_action' do
+              it 'opens a dialog with text and channel selection', vcr: { cassette_name: 'arena/account_channels' } do
+                expect_any_instance_of(Slack::Web::Client).to receive(:dialog_open).with(
+                  dialog: {
+                    callback_id: 'add',
+                    title: 'Post to Are.na',
+                    submit_label: 'Post',
+                    elements: [
+                      {
+                        type: 'textarea',
+                        label: 'Text',
+                        name: 'text',
+                        value: nil
+                      },
+                      {
+                        type: 'select',
+                        label: 'Channel',
+                        name: 'channel',
+                        options: [
+                          { label: 'Test Channel', value: 198_378 },
+                          { label: 'Another Test Channel ', value: 198_382 },
+                          { label: 'Photographing People in the Streets of Havana, Cuba', value: 119_592 },
+                          { label: 'CTO', value: 119_599 },
+                          { label: 'Photographing People in the Streets of New York, NY', value: 119_597 }
+                        ]
+                      }
+                    ]
+                  },
+                  trigger_id: 'T1'
+                )
+                post '/api/slack/action', payload: {
+                  channel: { id: 'C1', name: 'arena' },
+                  user: { id: user.user_id },
+                  team: { id: team.team_id },
+                  token: '',
+                  type: 'message_action',
+                  trigger_id: 'T1',
+                  callback_id: 'add'
+                }.to_json
+                expect(last_response.status).to eq 204
+              end
+            end
+            context 'dialog_submission' do
+              context 'creates arena blocks in test channel' do
+                before do
+                  expect_any_instance_of(Slack::Web::Client).to receive(:chat_postEphemeral).with(
+                    text: 'Added to Are.na in <https://www.are.na/daniel-doubrovkine/test-channel-1527426363|Test Channel>.',
+                    user: user.user_id,
+                    channel: 'C1'
+                  )
+                end
+                it 'creates an arena block of text', vcr: { cassette_name: 'arena/channel_198_378' } do
+                  expect_any_instance_of(Arena::Client).to receive(:channel_add_block).with(198_378, content: 'text')
+                  post '/api/slack/action', payload: {
+                    channel: { id: 'C1', name: 'arena' },
+                    user: { id: user.user_id },
+                    team: { id: team.team_id },
+                    token: '',
+                    type: 'dialog_submission',
+                    trigger_id: 'T1',
+                    callback_id: 'add',
+                    submission: {
+                      text: 'text',
+                      channel: 198_378
+                    }
+                  }.to_json
+                  expect(last_response.status).to eq 204
+                end
+                it 'creates an arena block with source', vcr: { cassette_name: 'arena/channel_198_378' } do
+                  expect_any_instance_of(Arena::Client).to receive(:channel_add_block).with(198_378, source: 'https://example.com')
+                  post '/api/slack/action', payload: {
+                    channel: { id: 'C1', name: 'arena' },
+                    user: { id: user.user_id },
+                    team: { id: team.team_id },
+                    token: '',
+                    type: 'dialog_submission',
+                    trigger_id: 'T1',
+                    callback_id: 'add',
+                    submission: {
+                      text: 'https://example.com',
+                      channel: 198_378
+                    }
+                  }.to_json
+                  expect(last_response.status).to eq 204
+                end
+              end
+            end
+          end
+          context 'when user is not connected to arena' do
+            it 'asks the user to connect the arena account' do
+              state = { user_id: user.id.to_s, channel_id: 'C1' }
+              connect_url = "https://dev.are.na/oauth/authorize?client_id=&redirect_uri=https://arena.playplay.io/connect&response_type=code&state=#{state.to_json}"
+              expect_any_instance_of(Slack::Web::Client).to receive(:chat_postEphemeral).with(
+                text: 'Please connect your Are.na account.',
+                attachments: [{
+                  fallback: "Please connect your Are.na account at #{connect_url}.",
+                  actions: [{
+                    type: 'button',
+                    text: 'Click Here',
+                    url: connect_url
+                  }]
+                }],
+                user: user.user_id,
+                channel: 'C1'
+              )
+              post '/api/slack/action', payload: {
+                channel: { id: 'C1', name: 'arena' },
+                user: { id: user.user_id },
+                team: { id: team.team_id },
+                token: '',
+                callback_id: 'add'
+              }.to_json
+              expect(last_response.status).to eq 204
+            end
           end
         end
       end

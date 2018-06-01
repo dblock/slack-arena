@@ -1,4 +1,5 @@
 require 'slack-arena/api/endpoints/teams_endpoint'
+require 'slack-arena/api/endpoints/users_endpoint'
 require 'slack-arena/api/endpoints/subscriptions_endpoint'
 require 'slack-arena/api/endpoints/status_endpoint'
 require 'slack-arena/api/endpoints/credit_cards_endpoint'

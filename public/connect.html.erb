@@ -3,7 +3,9 @@
     <title>Are.na + Slack: Connect</title>
     <%= partial 'public/partials/_head.html' %>
     <%
-      user = User.where(id: request['state']).first
+      state = JSON.parse(request['state'])
+      user = User.where(id: state['user_id']).first
+      channel_id = state['channel_id']
     %>
   </head>
   <body style='text-align: center'>
@@ -22,10 +24,9 @@
       </p>
       <script>
         $(document).ready(function() {
-          <% user = User.where(id: request['state']).first %>
-
           var data = {
-            code: "<%= request['code'] %>"
+            code: "<%= request['code'] %>",
+            channel_id: "<%= channel_id %>"
           };
 
           var user = {
@@ -40,7 +41,7 @@
               url: '/api/users/' + user.id,
               data: data,
               success: function(data) {
-                SlackArena.message('Successfully connected <b>' + data.user_name + '</b> to Are.na. You can now return to Slack.');
+                SlackArena.message('Successfully connected your Are.na account. You can now return to Slack.');
               },
               error: SlackArena.error
             });

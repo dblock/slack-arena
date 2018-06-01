@@ -2,7 +2,7 @@ module Api
   module Endpoints
     class SlackEndpointCommands
       class Command
-        attr_reader :action, :arg, :channel_id, :channel_name, :user_id, :team_id, :text, :token
+        attr_reader :action, :arg, :channel_id, :channel_name, :user_id, :team_id, :text, :image_url, :token, :response_url, :trigger_id, :type, :submission
 
         def initialize(params)
           if params.key?(:payload)
@@ -11,9 +11,23 @@ module Api
             @channel_name = params[:payload][:channel][:name]
             @user_id = params[:payload][:user][:id]
             @team_id = params[:payload][:team][:id]
-            @arg = params[:payload][:actions][0][:value]
+            @type = params[:payload][:type]
+            if params[:payload].key?(:actions)
+              @arg = params[:payload][:actions][0][:value]
+              @text = [action, arg].join(' ')
+            elsif params[:payload].key?(:message)
+              payload_message = params[:payload][:message]
+              @text = payload_message[:text]
+              if payload_message.key?(:attachments)
+                payload_message[:attachments].each do |attachment|
+                  @text = [@text, attachment[:image_url]].compact.join("\n")
+                end
+              end
+            end
             @token = params[:payload][:token]
-            @text = [action, arg].join(' ')
+            @response_url = params[:payload][:response_url]
+            @trigger_id = params[:payload][:trigger_id]
+            @submission = params[:payload][:submission]
           else
             @text = params[:text]
             @action, @arg = text.split(/\s/, 2)
@@ -185,6 +199,78 @@ module Api
             channel: channel_id,
             user: user_id
           }
+        end
+
+        def add!
+          if user.connected_to_arena?
+            case type
+            when 'dialog_submission' then
+              arena_channel_id = submission['channel']
+              Api::Middleware.logger.info "ADD: #{user}, arena_channel=#{arena_channel_id}}"
+
+              arena_channel = Arena.try_channel(arena_channel_id)
+              if arena_channel
+                submission_text = submission['text']
+
+                block = if submission_text&.match?(URI::DEFAULT_PARSER.make_regexp)
+                          { source: submission_text }
+                        else
+                          { content: submission_text }
+                        end
+
+                user.arena_client.channel_add_block(arena_channel.id, block)
+
+                arena_channel_url = [Arena::URL, arena_channel.user.slug, arena_channel.slug].compact.join('/')
+                user.team.slack_client.chat_postEphemeral(
+                  user: user_id,
+                  text: "Added to Are.na in <#{arena_channel_url}|#{arena_channel.title}>.",
+                  channel: channel_id
+                )
+
+                nil # causes body(false) which will close the dialog
+              else
+                {
+                  errors: [
+                    { name: 'channel', error: "Invalid channel #{channel_id}." }
+                  ]
+                }
+              end
+            when 'message_action' then
+              Api::Middleware.logger.info "ADD: #{user}"
+              arena_channels = user.arena_client.account_channels(per: 10).channels
+              user.team.slack_client.dialog_open(
+                dialog: {
+                  callback_id: action,
+                  title: 'Post to Are.na',
+                  submit_label: 'Post',
+                  elements: [
+                    {
+                      type: 'textarea',
+                      label: 'Text',
+                      name: 'text',
+                      value: text
+                    },
+                    {
+                      type: 'select',
+                      label: 'Channel',
+                      name: 'channel',
+                      options: arena_channels.map { |c| { label: c.title, value: c.id } }
+                    }
+                  ]
+                },
+                trigger_id: trigger_id
+              )
+            else
+              raise "Unsupported action type: #{type}."
+            end
+          else
+            user.team.slack_client.chat_postEphemeral(
+              user.connect_to_arena_to_slack(channel_id).merge(
+                user: user_id,
+                channel: channel_id
+              )
+            )
+          end
         end
       end
     end
