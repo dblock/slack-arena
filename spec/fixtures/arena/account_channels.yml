@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://arena-api.herokuapp.com/v2/accounts/channels?per=10
+    uri: https://api.are.na/v2/accounts/channels?per=10
     body:
       encoding: US-ASCII
       string: ''

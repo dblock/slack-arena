@@ -129,7 +129,7 @@ class ArenaFeed
       page_of_stories = begin
         feed(page: page).stories
       rescue Arena::Error => e
-        # BUG: are.na bugs, eg. http://arena-api.herokuapp.com/v2/user/15/feed?page=6&per=10
+        # BUG: are.na bugs, eg. https://api.are.na/v2/user/15/feed?page=6&per=10
         logger.warn "Error getting feed for #{self}/#{page}: #{e.message}"
         raise e if stories.none?
         []

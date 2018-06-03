@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://arena-api.herokuapp.com/v2/channel/136855/feed?page=1
+    uri: https://api.are.na/v2/channel/136855/feed?page=1
     body:
       encoding: US-ASCII
       string: ''
@@ -157,11 +157,11 @@ http_interactions:
         absurd","created_at":"2018-01-29T06:14:46.668Z","updated_at":"2018-03-28T23:48:21.508Z","added_to_at":"2018-03-28T23:48:21.508Z","published":true,"open":false,"collaboration":false,"collaborator_count":0,"slug":"delightfully-absurd","length":21,"kind":"default","status":"closed","user_id":29642,"metadata":null,"contents":null,"share_link":null,"follower_count":0,"can_index":true,"base_class":"Channel","class":"Channel","user":{"id":29642,"created_at":"2018-01-24T01:39:11.568Z","slug":"tess-french","username":"Tess
         French","first_name":"Tess","last_name":"French","full_name":"Tess French","avatar":"https://gravatar.com/avatar/ff2006ef5406851c59bf46fcd2950055.png?s=40&d=mm&r=R&d=blank","avatar_image":{"thumb":"https://gravatar.com/avatar/ff2006ef5406851c59bf46fcd2950055.png?s=40&d=mm&r=R&d=blank","display":"https://gravatar.com/avatar/ff2006ef5406851c59bf46fcd2950055.png?s=150&d=mm&r=R&d=blank"},"channel_count":40,"following_count":0,"profile_id":132224,"follower_count":1,"initials":"TF","can_index":true,"metadata":null,"is_premium":false,"is_exceeding_private_connections_limit":false,"is_confirmed":true,"is_pending_reconfirmation":false,"is_pending_confirmation":false,"badge":null,"base_class":"User","class":"User"}},"target":null,"parent":null,"user":{"id":29642,"created_at":"2018-01-24T01:39:11.568Z","slug":"tess-french","username":"Tess
         French","first_name":"Tess","last_name":"French","full_name":"Tess French","avatar":"https://gravatar.com/avatar/ff2006ef5406851c59bf46fcd2950055.png?s=40&d=mm&r=R&d=blank","avatar_image":{"thumb":"https://gravatar.com/avatar/ff2006ef5406851c59bf46fcd2950055.png?s=40&d=mm&r=R&d=blank","display":"https://gravatar.com/avatar/ff2006ef5406851c59bf46fcd2950055.png?s=150&d=mm&r=R&d=blank"},"channel_count":40,"following_count":0,"profile_id":132224,"follower_count":1,"initials":"TF","can_index":true,"metadata":null,"is_premium":false,"is_exceeding_private_connections_limit":false,"is_confirmed":true,"is_pending_reconfirmation":false,"is_pending_confirmation":false,"badge":null,"base_class":"User","class":"User"}}],"base_class":"User","class":"User"}'
-    http_version: 
+    http_version:
   recorded_at: Tue, 22 May 2018 12:38:34 GMT
 - request:
     method: get
-    uri: http://arena-api.herokuapp.com/v2/channel/136855/feed?page=2
+    uri: https://api.are.na/v2/channel/136855/feed?page=2
     body:
       encoding: US-ASCII
       string: ''
@@ -202,6 +202,6 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"type":null,"limit":50,"total":0,"offset":0,"range_start":"+inf","range_end":"-inf","items":[],"base_class":"User","class":"User"}'
-    http_version: 
+    http_version:
   recorded_at: Tue, 22 May 2018 12:38:34 GMT
 recorded_with: VCR 4.0.0

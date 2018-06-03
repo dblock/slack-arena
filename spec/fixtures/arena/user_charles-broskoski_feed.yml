@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://arena-api.herokuapp.com/v2/user/15/feed?page=1&per=50
+    uri: https://api.are.na/v2/user/15/feed?page=1&per=50
     body:
       encoding: US-ASCII
       string: ''
@@ -299,11 +299,11 @@ http_interactions:
         Broskoski\",\"first_name\":\"Charles\",\"last_name\":\"Broskoski\",\"full_name\":\"Charles
         Broskoski\",\"avatar\":\"https://s3.amazonaws.com/arena-avatars/15/small_0169d93a7be2c5149947ae9c4dec8447.png?1493654235\",\"avatar_image\":{\"thumb\":\"https://s3.amazonaws.com/arena-avatars/15/small_0169d93a7be2c5149947ae9c4dec8447.png?1493654235\",\"display\":\"https://s3.amazonaws.com/arena-avatars/15/medium_0169d93a7be2c5149947ae9c4dec8447.png?1493654235\"},\"channel_count\":583,\"following_count\":4118,\"profile_id\":111,\"follower_count\":1285,\"initials\":\"CB\",\"can_index\":false,\"metadata\":{\"description\":\"[Are.na](http://are.na)
         co-founder ✍︎\\n\\nhttp://charlesbroskoski.com\\n\"},\"is_premium\":true,\"is_exceeding_private_connections_limit\":false,\"is_confirmed\":true,\"is_pending_reconfirmation\":false,\"is_pending_confirmation\":false,\"badge\":\"premium\",\"base_class\":\"User\",\"class\":\"User\"}}],\"base_class\":\"User\",\"class\":\"User\"}"
-    http_version: 
+    http_version:
   recorded_at: Thu, 31 May 2018 01:03:10 GMT
 - request:
     method: get
-    uri: http://arena-api.herokuapp.com/v2/user/15/feed?page=2&per=50
+    uri: https://api.are.na/v2/user/15/feed?page=2&per=50
     body:
       encoding: US-ASCII
       string: ''
@@ -343,6 +343,6 @@ http_interactions:
       encoding: UTF-8
       string: '{"code":500,"message":"Internal Server Error","description":"Something
         has gone wrong."}'
-    http_version: 
+    http_version:
   recorded_at: Thu, 31 May 2018 01:03:11 GMT
 recorded_with: VCR 4.0.0

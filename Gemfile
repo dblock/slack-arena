@@ -2,7 +2,7 @@ source 'http://rubygems.org'
 
 ruby '2.5.0'
 
-gem 'arena', github: 'dblock/arena-rb', branch: 'user-feed'
+gem 'arena'
 gem 'grape'
 gem 'grape_logging'
 gem 'hashie'
@@ -28,7 +28,7 @@ group :development do
 end
 
 group :test do
-  gem 'capybara'
+  gem 'capybara', '~> 2.18.0'
   gem 'database_cleaner'
   gem 'fabrication'
   gem 'faker'

@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://arena-api.herokuapp.com/v2/channels/delightfully-absurd
+    uri: https://api.are.na/v2/channels/delightfully-absurd
     body:
       encoding: US-ASCII
       string: ''
@@ -117,7 +117,7 @@ http_interactions:
   recorded_at: Mon, 21 May 2018 22:06:37 GMT
 - request:
     method: get
-    uri: http://arena-api.herokuapp.com/v2/channels/136855
+    uri: https://api.are.na/v2/channels/136855
     body:
       encoding: US-ASCII
       string: ''

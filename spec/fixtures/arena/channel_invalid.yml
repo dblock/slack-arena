@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://arena-api.herokuapp.com/v2/channels/invalid-channel
+    uri: https://api.are.na/v2/channels/invalid-channel
     body:
       encoding: US-ASCII
       string: ''
@@ -42,11 +42,11 @@ http_interactions:
       encoding: UTF-8
       string: '{"code":404,"message":"Not Found","description":"The resource you are
         looking for does not exist."}'
-    http_version: 
+    http_version:
   recorded_at: Mon, 21 May 2018 22:27:57 GMT
 - request:
     method: get
-    uri: http://arena-api.herokuapp.com/v2/channels/invalid-channel
+    uri: https://api.are.na/v2/channels/invalid-channel
     body:
       encoding: US-ASCII
       string: ''
@@ -86,11 +86,11 @@ http_interactions:
       encoding: UTF-8
       string: '{"code":404,"message":"Not Found","description":"The resource you are
         looking for does not exist."}'
-    http_version: 
+    http_version:
   recorded_at: Wed, 30 May 2018 16:22:21 GMT
 - request:
     method: get
-    uri: http://arena-api.herokuapp.com/v2/channels/invalid-channel
+    uri: https://api.are.na/v2/channels/invalid-channel
     body:
       encoding: US-ASCII
       string: ''
@@ -130,6 +130,6 @@ http_interactions:
       encoding: UTF-8
       string: '{"code":404,"message":"Not Found","description":"The resource you are
         looking for does not exist."}'
-    http_version: 
+    http_version:
   recorded_at: Wed, 30 May 2018 16:25:49 GMT
 recorded_with: VCR 4.0.0
