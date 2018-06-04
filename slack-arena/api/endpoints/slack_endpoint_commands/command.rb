@@ -208,7 +208,7 @@ module Api
               arena_channel_id = submission['channel']
               Api::Middleware.logger.info "ADD: #{user}, arena_channel=#{arena_channel_id}}"
 
-              arena_channel = Arena.try_channel(arena_channel_id)
+              arena_channel = user.arena_client.try_channel(arena_channel_id)
               if arena_channel
                 submission_text = submission['text']
 
