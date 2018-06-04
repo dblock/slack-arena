@@ -3,9 +3,8 @@
     <title>Are.na + Slack: Connect</title>
     <%= partial 'public/partials/_head.html' %>
     <%
-      state = JSON.parse(request['state'])
-      user = User.where(id: state['user_id']).first
-      channel_id = state['channel_id']
+      user_id, channel_id = request['state'].split(',') if request['state']
+      user = User.where(id: user_id).first if user_id
     %>
   </head>
   <body style='text-align: center'>
@@ -34,7 +33,7 @@
             name: '<%= user && user.user_name %>'
           }
 
-          if (user.id && data.code) {
+          if (user.id && data.code && data.channel_id) {
             SlackArena.message('Connecting <b>' + user.name + '</b> to Are.na. This will take a minute.');
             $.ajax({
               type: 'PUT',

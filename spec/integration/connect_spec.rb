@@ -9,7 +9,7 @@ describe 'Connect', js: true, type: :feature do
       channel: 'C1'
     )
 
-    state = { user_id: user.id.to_s, channel_id: 'C1' }.to_json
+    state = [user.id.to_s, 'C1'].join(',')
     visit "/connect?code=code&state=#{state}"
     expect(find('#messages', text: 'Successfully connected your Are.na account. You can now return to Slack.', visible: true))
 

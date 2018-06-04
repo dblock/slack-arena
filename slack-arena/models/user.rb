@@ -28,11 +28,7 @@ class User
   end
 
   def connect_to_arena_url(channel_id)
-    state = {
-      user_id: id.to_s,
-      channel_id: channel_id
-    }.to_json
-
+    state = [id.to_s, channel_id].join(',')
     "https://dev.are.na/oauth/authorize?client_id=#{ENV['ARENA_CLIENT_ID']}&redirect_uri=#{connect_redirect_url}&response_type=code&state=#{state}"
   end
 
