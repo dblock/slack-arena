@@ -807,7 +807,7 @@ describe Api::Endpoints::SlackEndpoint do
           end
           context 'when user is not connected to arena' do
             it 'asks the user to connect the arena account' do
-              state = [user.id.to_s, 'C1'].join(',')
+              state = CGI.escape([user.id.to_s, 'C1'].join(','))
               connect_url = "https://dev.are.na/oauth/authorize?client_id=&redirect_uri=https://arena.playplay.io/connect&response_type=code&state=#{state}"
               expect_any_instance_of(Slack::Web::Client).to receive(:chat_postEphemeral).with(
                 text: 'Please connect your Are.na account.',

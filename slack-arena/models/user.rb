@@ -28,7 +28,7 @@ class User
   end
 
   def connect_to_arena_url(channel_id)
-    state = [id.to_s, channel_id].join(',')
+    state = CGI.escape([id.to_s, channel_id].join(','))
     "https://dev.are.na/oauth/authorize?client_id=#{ENV['ARENA_CLIENT_ID']}&redirect_uri=#{connect_redirect_url}&response_type=code&state=#{state}"
   end
 
