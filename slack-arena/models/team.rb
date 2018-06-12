@@ -7,9 +7,11 @@ class Team
   field :subscription_expired_at, type: DateTime
   field :bot_user_id, type: String
   field :activated_user_id, type: String
+  field :trial_informed_at, type: DateTime
 
   scope :api, -> { where(api: true) }
   scope :striped, -> { where(subscribed: true, :stripe_customer_id.ne => nil) }
+  scope :trials, -> { where(subscribed: false) }
 
   has_many :users, dependent: :destroy
   has_many :arena_feeds, dependent: :destroy
@@ -66,16 +68,35 @@ class Team
     end
   end
 
+  # returns DM channel
+  def inform_admin!(message)
+    return unless activated_user_id
+    channel = slack_client.im_open(user: activated_user_id)
+    message_with_channel = message.merge(channel: channel.channel.id, as_user: true)
+    logger.info "Sending DM '#{message_with_channel.to_json}' to #{activated_user_id}."
+    rc = slack_client.chat_postMessage(message_with_channel)
+
+    {
+      ts: rc['ts'],
+      channel: channel
+    }
+  end
+
+  def inform_everyone!(message)
+    inform!(message)
+    inform_admin!(message)
+  end
+
   def subscription_expired!
     return unless subscription_expired?
     return if subscription_expired_at
-    inform!(text: subscribe_text)
+    inform_everyone!(text: subscribe_text)
     update_attributes!(subscription_expired_at: Time.now.utc)
   end
 
   def subscription_expired?
     return false if subscribed?
-    (created_at + 1.week) < Time.now
+    (created_at + 2.weeks) < Time.now
   end
 
   def subscribe_text
@@ -132,6 +153,30 @@ EOS
     end
   end
 
+  def trial_ends_at
+    raise 'Team is subscribed.' if subscribed?
+    created_at + 2.weeks
+  end
+
+  def remaining_trial_days
+    raise 'Team is subscribed.' if subscribed?
+    [0, (trial_ends_at.to_date - Time.now.utc.to_date).to_i].max
+  end
+
+  def trial_message
+    [
+      remaining_trial_days.zero? ? 'Your trial subscription has expired.' : "Your trial subscription expires in #{remaining_trial_days} day#{remaining_trial_days == 1 ? '' : 's'}.",
+      subscribe_text
+    ].join(' ')
+  end
+
+  def inform_trial!
+    return if subscribed? || subscription_expired?
+    return if trial_informed_at && (Time.now.utc < trial_informed_at + 7.days)
+    inform_everyone!(text: trial_message)
+    update_attributes!(trial_informed_at: Time.now.utc)
+  end
+
   private
 
   def trial_expired_text
@@ -145,7 +190,7 @@ EOS
 
   def inform_subscribed_changed!
     return unless subscribed? && subscribed_changed?
-    inform!(text: subscribed_text)
+    inform_everyone!(text: subscribed_text)
   end
 
   def bot_mention

@@ -78,7 +78,7 @@ describe Team do
   context '#subscription_expired!' do
     let(:team) { Fabricate(:team, created_at: 2.weeks.ago) }
     before do
-      expect(team).to receive(:inform!).with(text: team.subscribe_text)
+      expect(team).to receive(:inform_everyone!).with(text: team.subscribe_text)
       team.subscription_expired!
     end
     it 'sets subscription_expired_at' do
@@ -86,7 +86,7 @@ describe Team do
     end
     context '(re)subscribed' do
       before do
-        expect(team).to receive(:inform!).with(text: team.subscribed_text)
+        expect(team).to receive(:inform_everyone!).with(text: team.subscribed_text)
         team.update_attributes!(subscribed: true)
       end
       it 'resets subscription_expired_at' do
@@ -99,6 +99,71 @@ describe Team do
     it 'sends message to all channels', vcr: { cassette_name: 'slack/channels_list' } do
       expect_any_instance_of(Slack::Web::Client).to receive(:chat_postMessage).exactly(3).times.and_return('ts' => '1503435956.000247')
       team.inform!(message: 'message')
+    end
+  end
+  context '#inform_admin!' do
+    let(:team) { Fabricate(:team, activated_user_id: 'U0H0TU3NG') }
+    it 'sends DM to admin', vcr: { cassette_name: 'slack/im_open' } do
+      expect_any_instance_of(Slack::Web::Client).to receive(:chat_postMessage).with(
+        message: 'message', channel: 'D19GB4893', as_user: true
+      ).and_return('ts' => '1503435956.000247')
+      team.inform_admin!(message: 'message')
+    end
+  end
+  context 'subscribed states' do
+    let(:today) { DateTime.parse('2018/7/15 12:42pm') }
+    let(:subscribed_team) { Fabricate(:team, subscribed: true) }
+    let(:team_created_today) { Fabricate(:team, created_at: today) }
+    let(:team_created_1_week_ago) { Fabricate(:team, created_at: (today - 1.week)) }
+    let(:team_created_3_weeks_ago) { Fabricate(:team, created_at: (today - 3.weeks)) }
+    before do
+      Timecop.travel(today + 1.day)
+    end
+    it 'subscription_expired?' do
+      expect(subscribed_team.subscription_expired?).to be false
+      expect(team_created_1_week_ago.subscription_expired?).to be false
+      expect(team_created_3_weeks_ago.subscription_expired?).to be true
+    end
+    it 'trial_ends_at' do
+      expect { subscribed_team.trial_ends_at }.to raise_error 'Team is subscribed.'
+      expect(team_created_today.trial_ends_at).to eq team_created_today.created_at + 2.weeks
+      expect(team_created_1_week_ago.trial_ends_at).to eq team_created_1_week_ago.created_at + 2.weeks
+      expect(team_created_3_weeks_ago.trial_ends_at).to eq team_created_3_weeks_ago.created_at + 2.weeks
+    end
+    it 'remaining_trial_days' do
+      expect { subscribed_team.remaining_trial_days }.to raise_error 'Team is subscribed.'
+      expect(team_created_today.remaining_trial_days).to eq 13
+      expect(team_created_1_week_ago.remaining_trial_days).to eq 6
+      expect(team_created_3_weeks_ago.remaining_trial_days).to eq 0
+    end
+    context '#inform_trial!' do
+      it 'subscribed' do
+        expect(subscribed_team).to_not receive(:inform!)
+        expect(subscribed_team).to_not receive(:inform_admin!)
+        subscribed_team.inform_trial!
+      end
+      it '1 week ago' do
+        expect(team_created_1_week_ago).to receive(:inform!).with(
+          text: "Your trial subscription expires in 6 days. #{team_created_1_week_ago.subscribe_text}"
+        )
+        expect(team_created_1_week_ago).to receive(:inform_admin!).with(
+          text: "Your trial subscription expires in 6 days. #{team_created_1_week_ago.subscribe_text}"
+        )
+        team_created_1_week_ago.inform_trial!
+      end
+      it 'expired' do
+        expect(team_created_3_weeks_ago).to_not receive(:inform!)
+        expect(team_created_3_weeks_ago).to_not receive(:inform_admin!)
+        team_created_3_weeks_ago.inform_trial!
+      end
+      it 'informs once' do
+        expect(team_created_1_week_ago).to receive(:inform!).once
+        expect(team_created_1_week_ago).to receive(:inform_admin!).once
+        2.times { team_created_1_week_ago.inform_trial! }
+      end
+    end
+    after do
+      Timecop.return
     end
   end
 end

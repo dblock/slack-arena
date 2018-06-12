@@ -1,0 +1,72 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://slack.com/api/im.open
+    body:
+      encoding: UTF-8
+      string: token=token&user=U0H0TU3NG
+    headers:
+      Accept:
+      - application/json; charset=utf-8
+      User-Agent:
+      - Slack Ruby Client/0.11.1
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '79'
+      Connection:
+      - keep-alive
+      Date:
+      - Tue, 12 Jun 2018 22:08:47 GMT
+      Server:
+      - Apache
+      Expires:
+      - Mon, 26 Jul 1997 05:00:00 GMT
+      X-Content-Type-Options:
+      - nosniff
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Referrer-Policy:
+      - no-referrer
+      Cache-Control:
+      - private, no-cache, no-store, must-revalidate
+      X-Oauth-Scopes:
+      - identify,bot:basic
+      Pragma:
+      - no-cache
+      X-Accepted-Oauth-Scopes:
+      - im:write,post
+      X-Xss-Protection:
+      - '0'
+      X-Slack-Req-Id:
+      - 7651d6a2-0047-4af8-8442-a273ac573e7b
+      X-Slack-Backend:
+      - h
+      Vary:
+      - Accept-Encoding
+      Access-Control-Allow-Origin:
+      - "*"
+      X-Via:
+      - haproxy-www-fwr9
+      X-Cache:
+      - Miss from cloudfront
+      Via:
+      - 1.1 2c6ca3b401fc63cf43d9316aff164af5.cloudfront.net (CloudFront)
+      X-Amz-Cf-Id:
+      - "-rLZ1Yx_pn4PIZQRKREW1FMvtjjuV7_jAqoEL5Y3BrPlqMtjMAVDvg=="
+    body:
+      encoding: UTF-8
+      string: '{"ok":true,"no_op":true,"already_open":true,"channel":{"id":"D19GB4893"}}'
+    http_version:
+  recorded_at: Tue, 12 Jun 2018 22:08:47 GMT
+recorded_with: VCR 4.0.0

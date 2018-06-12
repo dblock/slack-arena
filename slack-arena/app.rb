@@ -2,17 +2,12 @@ module SlackArena
   class App < SlackRubyBotServer::App
     include Celluloid
 
-    def prepare!
-      super
-      deactivate_asleep_teams!
-    end
-
     def after_start!
       once_and_every 60 * 60 * 24 do
-        check_subscribed_teams!
-      end
-      once_and_every 60 * 60 do
         expire_subscriptions!
+        deactivate_asleep_teams!
+        check_trials!
+        check_subscribed_teams!
       end
       once_and_every 2 * 60 do
         sync!
@@ -31,6 +26,17 @@ module SlackArena
       yield
       every tt do
         yield
+      end
+    end
+
+    def check_trials!
+      log_info_without_repeat "Checking trials for #{Team.active.trials.count} team(s)."
+      Team.active.trials.each do |team|
+        logger.info "Team #{team} has #{team.remaining_trial_days} trial days left."
+        next unless team.remaining_trial_days > 0 && team.remaining_trial_days <= 3
+        team.inform_trial!
+      rescue StandardError => e
+        logger.warn "Error checking team #{team} trial, #{e.message}."
       end
     end
 
@@ -62,7 +68,7 @@ module SlackArena
         next unless team.asleep?
         begin
           team.deactivate!
-          team.inform!(text: "Your subscription expired more than 2 weeks ago, deactivating. Reactivate at #{SlackArena::Service.url}. Your data will be purged in another 2 weeks.")
+          team.inform_everyone!(text: "Your subscription expired more than 2 weeks ago, deactivating. Reactivate at #{SlackArena::Service.url}. Your data will be purged in another 2 weeks.")
         rescue StandardError => e
           logger.warn "Error informing team #{team}, #{e.message}."
         end
@@ -79,10 +85,10 @@ module SlackArena
           case subscription.status
           when 'past_due'
             logger.warn "Subscription for #{team} is #{subscription.status}, notifying."
-            team.inform!(text: "Your subscription to #{subscription_name} is past due. #{team.update_cc_text}")
+            team.inform_everyone!(text: "Your subscription to #{subscription_name} is past due. #{team.update_cc_text}")
           when 'canceled', 'unpaid'
             logger.warn "Subscription for #{team} is #{subscription.status}, downgrading."
-            team.inform!(text: "Your subscription to #{subscription.plan.name} (#{ActiveSupport::NumberHelper.number_to_currency(subscription.plan.amount.to_f / 100)}) was canceled and your team has been downgraded. Thank you for being a customer!")
+            team.inform_everyone!(text: "Your subscription to #{subscription.plan.name} (#{ActiveSupport::NumberHelper.number_to_currency(subscription.plan.amount.to_f / 100)}) was canceled and your team has been downgraded. Thank you for being a customer!")
             team.update_attributes!(subscribed: false)
           end
         end
