@@ -128,11 +128,9 @@ class ArenaFeed
     loop do
       page_of_stories = begin
         feed(page: page).stories
-      rescue Arena::Error => e
-        # BUG: are.na bugs, eg. https://api.are.na/v2/user/15/feed?page=6&per=10
+      rescue StandardError => e
         logger.warn "Error getting feed for #{self}/#{page}: #{e.message}"
-        raise e if stories.none?
-        []
+        raise e
       end
       break unless page_of_stories.any?
       page_of_stories.each do |story|
@@ -141,6 +139,7 @@ class ArenaFeed
         stories << story
         break unless sync_at
       end
+      break unless sync_at
       page += 1
     end
     stories
