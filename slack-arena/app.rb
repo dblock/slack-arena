@@ -42,7 +42,7 @@ module SlackArena
             ping = team.ping!
             unless ping[:presence].online
               logger.info "RESTART: #{team}"
-              SlackStrava::Service.instance.start!(team)
+              SlackArena::Service.instance.start!(team)
             end
           end
         rescue StandardError => e
