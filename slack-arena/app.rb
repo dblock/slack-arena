@@ -12,7 +12,7 @@ module SlackArena
       once_and_every 2 * 60 do
         sync!
       end
-      once_and_every 60 * 60 do
+      once_and_every 60 * 3 do
         ping_teams!
       end
     end
