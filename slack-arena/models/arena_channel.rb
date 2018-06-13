@@ -1,10 +1,16 @@
 class ArenaChannel < ArenaFeed
   def parent
     Arena.try_channel(arena_id)
+  rescue StandardError => e
+    logger.warn "Error getting channel #{arena_id}: #{e.message}"
+    raise e
   end
 
   def feed(options = {})
     Arena.channel_feed(arena_id, options)
+  rescue StandardError => e
+    logger.warn "Error getting channel feed #{arena_id} with #{options}: #{e.message}"
+    raise e
   end
 
   def arena_channel
