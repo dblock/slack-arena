@@ -34,20 +34,18 @@ module SlackArena
 
     def ping_teams!
       Team.active.each do |team|
-        begin
+        ping = team.ping!
+        next if ping[:presence].online
+        logger.warn "DOWN: #{team}"
+        after 60 do
           ping = team.ping!
-          next if ping[:presence].online
-          logger.warn "DOWN: #{team}"
-          after 60 do
-            ping = team.ping!
-            unless ping[:presence].online
-              logger.info "RESTART: #{team}"
-              SlackArena::Service.instance.start!(team)
-            end
+          unless ping[:presence].online
+            logger.info "RESTART: #{team}"
+            SlackArena::Service.instance.start!(team)
           end
-        rescue StandardError => e
-          logger.warn "Error pinging team #{team}, #{e.message}."
         end
+      rescue StandardError => e
+        logger.warn "Error pinging team #{team}, #{e.message}."
       end
     end
 
