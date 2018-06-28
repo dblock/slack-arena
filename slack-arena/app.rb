@@ -112,6 +112,8 @@ module SlackArena
             team.update_attributes!(subscribed: false)
           end
         end
+      rescue StandardError => e
+        logger.warn "Error checking team #{team} subscription, #{e.message}."
       end
     end
   end
