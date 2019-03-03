@@ -56,6 +56,7 @@ module Api
 
         def arena_feed
           return unless arg
+
           @arena_feed ||= case action
                           when 'connect', 'disconnect' then
                             Arena.try_channel(arg)
@@ -109,17 +110,20 @@ module Api
 
         def dm_error!
           return unless dm?
+
           raise HumanError, "I can't do anything in a DM, sorry."
         end
 
         def bot_in_channel_error!
           return if bot_in_channel?
+
           raise SlackEndpointCommands::HumanError, "Please invite #{user.team.bot_mention} to <##{channel_id}>, first."
         end
 
         def slack_verification_token!
           return unless ENV.key?('SLACK_VERIFICATION_TOKEN')
           return if token == ENV['SLACK_VERIFICATION_TOKEN']
+
           throw :error, status: 401, message: 'Message token is not coming from Slack.'
         end
 

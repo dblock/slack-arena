@@ -28,7 +28,7 @@ module SlackArena
         subscription             - show subscription info
         info                     - bot info
         ```
-EOS
+      EOS
       def self.call(client, data, _match)
         client.say(channel: data.channel, text: [
           HELP,

@@ -1,7 +1,5 @@
 module SlackArena
   class App < SlackRubyBotServer::App
-    include Celluloid
-
     def after_start!
       once_and_every 60 * 60 * 24 do
         expire_subscriptions!
@@ -18,14 +16,17 @@ module SlackArena
 
     def log_info_without_repeat(message)
       return if message == @log_message
+
       @log_message = message
       logger.info message
     end
 
     def once_and_every(tt)
-      yield
-      every tt do
-        yield
+      ::Async::Reactor.run do |task|
+        loop do
+          yield
+          task.sleep tt
+        end
       end
     end
 
@@ -34,6 +35,7 @@ module SlackArena
       Team.active.trials.each do |team|
         logger.info "Team #{team} has #{team.remaining_trial_days} trial days left."
         next unless team.remaining_trial_days > 0 && team.remaining_trial_days <= 3
+
         team.inform_trial!
       rescue StandardError => e
         logger.warn "Error checking team #{team} trial, #{e.message}."
@@ -44,6 +46,7 @@ module SlackArena
       log_info_without_repeat "Checking subscriptions for #{Team.active.count} team(s)."
       Team.active.each do |team|
         next unless team.subscription_expired?
+
         team.subscription_expired!
       rescue StandardError => e
         backtrace = e.backtrace.join("\n")
@@ -55,6 +58,7 @@ module SlackArena
       log_info_without_repeat "Checking channels for #{Team.active.count} team(s)."
       Team.active.each do |team|
         next if team.subscription_expired?
+
         team.arena_feeds.each(&:sync_new_arena_items!)
       rescue StandardError => e
         backtrace = e.backtrace.join("\n")
@@ -66,6 +70,7 @@ module SlackArena
       log_info_without_repeat "Checking inactivity for #{Team.active.count} team(s)."
       Team.active.each do |team|
         next unless team.asleep?
+
         begin
           team.deactivate!
           team.inform_everyone!(text: "Your subscription expired more than 2 weeks ago, deactivating. Reactivate at #{SlackArena::Service.url}. Your data will be purged in another 2 weeks.")

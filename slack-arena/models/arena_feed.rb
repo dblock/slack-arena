@@ -111,11 +111,12 @@ class ArenaFeed
     stories.each do |story|
       block = begin
         story.actionable.to_slack
-      rescue Arena::Story::ActionNotImplementedError => e
-        logger.warn "ActionNotImplementedError: #{e.message}"
-        nil
+              rescue Arena::Story::ActionNotImplementedError => e
+                logger.warn "ActionNotImplementedError: #{e.message}"
+                nil
       end
       next unless block
+
       message_with_channel = { attachments: [block] }.merge(channel: channel_id, as_user: true)
       logger.info "Posting '#{message_with_channel.to_json}' to #{team} on ##{channel_name}."
       team.slack_client.chat_postMessage(message_with_channel)
@@ -128,18 +129,21 @@ class ArenaFeed
     loop do
       page_of_stories = begin
         feed(page: page).stories
-      rescue StandardError => e
-        logger.warn "Error getting feed for #{self}/#{page}: #{e.message}"
-        raise e
+                        rescue StandardError => e
+                          logger.warn "Error getting feed for #{self}/#{page}: #{e.message}"
+                          raise e
       end
       break unless page_of_stories.any?
+
       page_of_stories.each do |story|
         story_ts = DateTime.rfc3339(story.created_at)
         return stories if sync_at && story_ts < sync_at
+
         stories << story
         break unless sync_at
       end
       break unless sync_at
+
       page += 1
     end
     stories

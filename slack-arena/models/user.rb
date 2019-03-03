@@ -81,6 +81,7 @@ class User
 
   def arena_client
     raise 'Missing Are.na access token.' unless arena_token
+
     @arena_client ||= Arena::Client.new(access_token: arena_token)
   end
 
@@ -94,6 +95,7 @@ class User
     query = user_name =~ /^<@(.*)>$/ ? { user_id: ::Regexp.last_match[1] } : { user_name: ::Regexp.new("^#{user_name}$", 'i') }
     user = User.where(query.merge(team: team)).first
     raise SlackArena::Error, "I don't know who #{user_name} is!" unless user
+
     user
   end
 
@@ -115,6 +117,7 @@ class User
   def inform!(message)
     team.slack_channels.map { |channel|
       next if user_id && !user_in_channel?(channel['id'])
+
       message_with_channel = message.merge(channel: channel['id'], as_user: true)
       logger.info "Posting '#{message_with_channel.to_json}' to #{team} on ##{channel['name']}."
       rc = team.slack_client.chat_postMessage(message_with_channel)

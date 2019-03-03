@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-ruby '2.5.0'
+ruby '2.5.3'
 
 gem 'arena'
 gem 'grape'
@@ -20,7 +20,7 @@ gem 'wannabe_bool'
 group :development, :test do
   gem 'foreman'
   gem 'rake', '~> 10.4'
-  gem 'rubocop', '0.56.0'
+  gem 'rubocop'
 end
 
 group :development do
