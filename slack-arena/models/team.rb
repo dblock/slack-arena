@@ -7,6 +7,7 @@ class Team
   field :subscription_expired_at, type: DateTime
   field :bot_user_id, type: String
   field :activated_user_id, type: String
+  field :activated_user_access_token, type: String
   field :trial_informed_at, type: DateTime
 
   scope :api, -> { where(api: true) }
@@ -100,7 +101,8 @@ class Team
   def subscription_expired?
     return false if subscribed?
 
-    (created_at + 2.weeks) < Time.now
+    time_limit = Time.now - 2.weeks
+    created_at < time_limit
   end
 
   def subscribe_text
@@ -182,6 +184,13 @@ class Team
 
     inform_everyone!(text: trial_message)
     update_attributes!(trial_informed_at: Time.now.utc)
+  end
+
+  def tags
+    [
+      subscribed? ? 'subscribed' : 'trial',
+      stripe_customer_id? ? 'paid' : nil
+    ].compact
   end
 
   private
