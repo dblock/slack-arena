@@ -73,7 +73,7 @@ module SlackArena
 
         begin
           team.deactivate!
-          team.inform_everyone!(text: "Your subscription expired more than 2 weeks ago, deactivating. Reactivate at #{SlackArena::Service.url}. Your data will be purged in another 2 weeks.")
+          team.inform_everyone!(text: "Your subscription expired more than 2 weeks ago, deactivating. Reactivate at #{SlackRubyBotServer::Service.url}. Your data will be purged in another 2 weeks.")
         rescue StandardError => e
           logger.warn "Error informing team #{team}, #{e.message}."
         end

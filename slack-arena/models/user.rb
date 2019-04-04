@@ -24,7 +24,7 @@ class User
   end
 
   def connect_redirect_url
-    "#{ENV['APP_URL'] || SlackArena::Service.url}/connect"
+    "#{ENV['APP_URL'] || SlackRubyBotServer::Service.url}/connect"
   end
 
   def connect_to_arena_url(channel_id)

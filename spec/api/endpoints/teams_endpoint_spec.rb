@@ -36,6 +36,7 @@ describe Api::Endpoints::TeamsEndpoint do
             'bot_access_token' => 'token',
             'bot_user_id' => 'bot_user_id'
           },
+          'access_token' => 'access_token',
           'user_id' => 'activated_user_id',
           'team_id' => 'team_id',
           'team_name' => 'team_name'
@@ -62,7 +63,7 @@ describe Api::Endpoints::TeamsEndpoint do
         ENV.delete('SLACK_CLIENT_SECRET')
       end
       it 'creates a team' do
-        expect(SlackArena::Service.instance).to receive(:start!)
+        expect(SlackRubyBotServer::Service.instance).to receive(:start!)
         expect_any_instance_of(Slack::Web::Client).to receive(:chat_postMessage).with(
           text: "Welcome to Are.na!\nInvite <@bot_user_id> to a channel to publish are.na channels to it.\n",
           channel: 'C1',
@@ -79,7 +80,7 @@ describe Api::Endpoints::TeamsEndpoint do
         }.to change(Team, :count).by(1)
       end
       it 'reactivates a deactivated team' do
-        expect(SlackArena::Service.instance).to receive(:start!)
+        expect(SlackRubyBotServer::Service.instance).to receive(:start!)
         expect_any_instance_of(Slack::Web::Client).to receive(:chat_postMessage).with(
           text: "Welcome to Are.na!\nInvite <@bot_user_id> to a channel to publish are.na channels to it.\n",
           channel: 'C1',
@@ -99,6 +100,7 @@ describe Api::Endpoints::TeamsEndpoint do
         }.to_not change(Team, :count)
       end
       it 'returns a useful error when team already exists' do
+        expect_any_instance_of(Slack::Web::Client).to receive(:chat_postMessage)
         existing_team = Fabricate(:team, token: 'token')
         expect { client.teams._post(code: 'code') }.to raise_error Faraday::ClientError do |e|
           json = JSON.parse(e.response[:body])
@@ -106,7 +108,7 @@ describe Api::Endpoints::TeamsEndpoint do
         end
       end
       it 'reactivates a deactivated team with a different code' do
-        expect(SlackArena::Service.instance).to receive(:start!)
+        expect(SlackRubyBotServer::Service.instance).to receive(:start!)
         expect_any_instance_of(Slack::Web::Client).to receive(:chat_postMessage).with(
           text: "Welcome to Are.na!\nInvite <@bot_user_id> to a channel to publish are.na channels to it.\n",
           channel: 'C1',

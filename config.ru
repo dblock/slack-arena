@@ -19,7 +19,7 @@ SlackArena::App.instance.prepare!
 Thread.abort_on_exception = true
 
 Thread.new do
-  SlackArena::Service.instance.start_from_database!
+  SlackRubyBotServer::Service.instance.start_from_database!
   SlackArena::App.instance.after_start!
 end
 

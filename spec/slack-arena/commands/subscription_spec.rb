@@ -7,7 +7,7 @@ describe SlackArena::Commands::Subscription, vcr: { cassette_name: 'slack/user_i
     let!(:team) { Fabricate(:team) }
     it 'is a subscription feature' do
       expect(message: "#{SlackRubyBot.config.user} subscription", user: 'user').to respond_with_slack_message(
-        "Your trial subscription has expired and we will no longer send your Are.na channels to Slack. Subscribe your team for $4.99 a year at #{SlackArena::Service.url}/subscribe?team_id=#{team.team_id} to continue receiving Are.na channels in Slack."
+        "Your trial subscription has expired and we will no longer send your Are.na channels to Slack. Subscribe your team for $4.99 a year at #{SlackRubyBotServer::Service.url}/subscribe?team_id=#{team.team_id} to continue receiving Are.na channels in Slack."
       )
     end
   end
@@ -15,7 +15,7 @@ describe SlackArena::Commands::Subscription, vcr: { cassette_name: 'slack/user_i
     let!(:team) { Fabricate(:team, subscribed: true, stripe_customer_id: nil) }
     it 'errors' do
       expect(message: "#{SlackRubyBot.config.user} subscription", user: 'user').to respond_with_slack_message(
-        "Not a subscriber. Subscribe your team for $4.99 a year at #{SlackArena::Service.url}/subscribe?team_id=#{team.team_id} to continue receiving Are.na channels in Slack."
+        "Not a subscriber. Subscribe your team for $4.99 a year at #{SlackRubyBotServer::Service.url}/subscribe?team_id=#{team.team_id} to continue receiving Are.na channels in Slack."
       )
     end
   end

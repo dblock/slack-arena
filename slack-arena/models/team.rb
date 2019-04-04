@@ -108,7 +108,7 @@ class Team
   end
 
   def update_cc_text
-    "Update your credit card info at #{SlackArena::Service.url}/update_cc?team_id=#{team_id}."
+    "Update your credit card info at #{SlackRubyBotServer::Service.url}/update_cc?team_id=#{team_id}."
   end
 
   def subscribed_text
@@ -193,7 +193,7 @@ class Team
   end
 
   def subscribe_team_text
-    "Subscribe your team for $4.99 a year at #{SlackArena::Service.url}/subscribe?team_id=#{team_id} to continue receiving Are.na channels in Slack."
+    "Subscribe your team for $4.99 a year at #{SlackRubyBotServer::Service.url}/subscribe?team_id=#{team_id} to continue receiving Are.na channels in Slack."
   end
 
   def inform_subscribed_changed!
