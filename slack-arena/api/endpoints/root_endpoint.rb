@@ -3,8 +3,6 @@ module Api
     class RootEndpoint < Grape::API
       include Api::Helpers::ErrorHelpers
 
-      use GrapeLogging::Middleware::RequestLogger
-
       prefix 'api'
 
       format :json

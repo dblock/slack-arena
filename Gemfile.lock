@@ -83,9 +83,6 @@ GEM
       roar (~> 1.1.0)
     grape-swagger (0.32.1)
       grape (>= 0.16.2)
-    grape_logging (1.8.1)
-      grape
-      rack
     hashdiff (0.3.8)
     hashie (3.6.0)
     http-cookie (1.0.3)
@@ -276,7 +273,6 @@ DEPENDENCIES
   faker
   foreman
   grape
-  grape_logging
   hashie
   hyperclient
   irb

@@ -4,7 +4,6 @@ ruby '2.6.2'
 
 gem 'arena'
 gem 'grape'
-gem 'grape_logging'
 gem 'hashie'
 gem 'irb'
 gem 'mongoid'
