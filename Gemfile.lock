@@ -41,7 +41,7 @@ GEM
     coercible (1.0.0)
       descendants_tracker (~> 0.0.1)
     concurrent-ruby (1.1.5)
-    console (1.1.1)
+    console (1.2.1)
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
     dante (0.2.0)
@@ -148,7 +148,7 @@ GEM
     nokogiri (1.10.2)
       mini_portile2 (~> 2.4.0)
     parallel (1.17.0)
-    parser (2.6.2.0)
+    parser (2.6.2.1)
       ast (~> 2.4.0)
     psych (3.1.0)
     public_suffix (3.0.3)
@@ -189,7 +189,7 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.8.0)
     rspec-support (3.8.0)
-    rubocop (0.67.1)
+    rubocop (0.67.2)
       jaro_winkler (~> 1.5.1)
       parallel (~> 1.10)
       parser (>= 2.5, != 2.5.1.1)
@@ -206,7 +206,7 @@ GEM
     slack-ruby-bot (0.12.0)
       hashie
       slack-ruby-client (>= 0.14.0)
-    slack-ruby-bot-server (0.10.0)
+    slack-ruby-bot-server (0.11.0)
       async-websocket
       foreman
       grape
@@ -217,11 +217,10 @@ GEM
       rack-rewrite
       rack-server-pages
       slack-ruby-bot (>= 0.12.0)
-      unicorn
-    slack-ruby-bot-server-mailchimp (0.1.0)
+    slack-ruby-bot-server-mailchimp (0.2.0)
       mailchimp_api_v3
       slack-ruby-bot-server (>= 0.10.0)
-    slack-ruby-client (0.14.1)
+    slack-ruby-client (0.14.2)
       activesupport
       faraday (>= 0.9)
       faraday_middleware
@@ -299,6 +298,7 @@ DEPENDENCIES
   stripe (~> 1.58.0)
   stripe-ruby-mock (~> 2.4.1)
   timecop
+  unicorn
   vcr
   wannabe_bool
   webmock
