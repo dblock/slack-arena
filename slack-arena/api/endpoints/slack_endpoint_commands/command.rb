@@ -58,9 +58,9 @@ module Api
           return unless arg
 
           @arena_feed ||= case action
-                          when 'connect', 'disconnect' then
+                          when 'connect', 'disconnect'
                             Arena.try_channel(arg)
-                          when 'follow', 'unfollow' then
+                          when 'follow', 'unfollow'
                             Arena.try_user(arg)
                           else
                             invalid_command_error!
@@ -73,9 +73,9 @@ module Api
 
         def feed_type
           @feed_type ||= case action
-                         when 'connect', 'disconnect' then
+                         when 'connect', 'disconnect'
                            'ArenaChannel'
-                         when 'follow', 'unfollow' then
+                         when 'follow', 'unfollow'
                            'ArenaUser'
                          else
                            invalid_command_error!

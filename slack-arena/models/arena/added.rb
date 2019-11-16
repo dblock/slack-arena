@@ -43,18 +43,18 @@ module Arena
 
     def item_url
       case item
-      when Arena::Channel then
+      when Arena::Channel
         [author_url, item.slug].compact.join('/')
-      when Arena::Block then
+      when Arena::Block
         [Arena::URL, 'block', item.id].compact.join('/')
       end
     end
 
     def to_s
       case item
-      when Arena::Channel then
+      when Arena::Channel
         "Connected to <#{target_url}|#{target_title}>."
-      when Arena::Block then
+      when Arena::Block
         "Added to <#{target_url}|#{target_title}>."
       end
     end
