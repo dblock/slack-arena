@@ -25,17 +25,17 @@ module Api
           command.bot_in_channel_error!
 
           case command.action
-          when 'search' then
+          when 'search'
             command.search
-          when 'connect', 'follow' then
+          when 'connect', 'follow'
             command.subscribe!
-          when 'disconnect', 'unfollow' then
+          when 'disconnect', 'unfollow'
             command.unsubscribe!
-          when 'feeds' then
+          when 'feeds'
             command.feeds
-          when 'channels' then
+          when 'channels'
             command.feeds(:channel)
-          when 'users' then
+          when 'users'
             command.feeds(:user)
           else
             command.invalid_command_error!
@@ -89,7 +89,7 @@ module Api
             command.dm_error!
             command.bot_in_channel_error!
             command.unsubscribe!
-          when 'add' then
+          when 'add'
             command.add! || body(false)
           else
             command.invalid_command_error!

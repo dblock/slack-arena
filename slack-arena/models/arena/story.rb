@@ -4,17 +4,17 @@ module Arena
 
     def actionable
       @actionable ||= case action
-                      when 'added' then
+                      when 'added'
                         Arena::Added.new(self)
-                      when 'followed' then
+                      when 'followed'
                         Arena::Followed.new(self)
-                      when 'commented on' then
+                      when 'commented on'
                         Arena::Commented.new(self)
-                      when 'created' then
+                      when 'created'
                         Arena::Created.new(self)
-                      when 'mentioned you' then
+                      when 'mentioned you'
                         Arena::Mentioned.new(self)
-                      when 'is collaborating with' then
+                      when 'is collaborating with'
                         Arena::Collaborating.new(self)
                       else
                         raise ActionNotImplementedError, action
