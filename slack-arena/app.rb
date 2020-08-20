@@ -1,14 +1,16 @@
 module SlackArena
   class App < SlackRubyBotServer::App
     def after_start!
-      once_and_every 60 * 60 * 24 do
-        expire_subscriptions!
-        deactivate_asleep_teams!
-        check_trials!
-        check_subscribed_teams!
-      end
-      once_and_every 2 * 60 do
-        sync!
+      ::Async::Reactor.run do
+        once_and_every 60 * 60 * 24 do
+          expire_subscriptions!
+          deactivate_asleep_teams!
+          check_trials!
+          check_subscribed_teams!
+        end
+        continuously 2 * 60 do
+          sync!
+        end
       end
     end
 
@@ -21,10 +23,25 @@ module SlackArena
       logger.info message
     end
 
-    def once_and_every(tt)
+    def once_and_every(tt, &_block)
       ::Async::Reactor.run do |task|
         loop do
           yield
+        rescue StandardError => e
+          logger.error e
+        ensure
+          task.sleep tt
+        end
+      end
+    end
+
+    def continuously(tt, &_block)
+      ::Async::Reactor.run do |task|
+        loop do
+          yield task, tt
+        rescue StandardError => e
+          logger.error e
+        ensure
           task.sleep tt
         end
       end
