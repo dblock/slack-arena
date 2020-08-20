@@ -11,6 +11,6 @@ Integrate Are.na into Slack. Hosted at [arena.playplay.io](https://arena.playpla
 
 ### Copyright & License
 
-Copyright [Daniel Doubrovkine, Vestris LLC](https://www.vestris.com), 2018-2019
+Copyright [Daniel Doubrovkine, Vestris LLC](https://www.vestris.com), 2018-2020
 
 [MIT License](LICENSE)
