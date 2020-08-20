@@ -1,4 +1,4 @@
-## Development Environment
+## Development and Production
 
 You may want to watch [Your First Slack Bot Service video](http://code.dblock.org/2016/03/11/your-first-slack-bot-service-video.html) first.
 
@@ -7,14 +7,14 @@ You may want to watch [Your First Slack Bot Service video](http://code.dblock.or
 Ensure that you can build the project and run tests. You will need these.
 
 - [MongoDB](https://docs.mongodb.com/manual/installation/)
-- [Firefox](https://www.mozilla.org/firefox/new/)
-- [Geckodriver](https://github.com/mozilla/geckodriver), download, `tar vfxz` and move to `/usr/local/bin`
-- Ruby 2.3.1
+- [Geckodriver](https://github.com/mozilla/geckodriver)
 
 ```
 bundle install
 bundle exec rake
 ```
+
+All tests should pass.
 
 ### Slack Team
 
@@ -22,26 +22,45 @@ Create a Slack team [here](https://slack.com/create).
 
 ### Slack App
 
-Create a test app [here](https://api.slack.com/apps). This gives you a client ID and a client secret.
+Create an app [here](https://api.slack.com/apps). This gives you a client ID and a client secret.
 
-Under _Features/OAuth & Permissions_, configure the redirect URL to `http://localhost:5000`.
+Under _Features/OAuth & Permissions_, configure the redirect URL to `http://localhost:5000`. For production this will be something like `https://arena.playplay.io/`.
 
-Add the following Permission Scope.
+Add the following OAuth Permission Scope.
 
-* Add a bot user with the username @bot.
+* **bot**: user with the username @arena, add the ability for people to direct message or mention @arena.
+* **commands**: add shortcuts and/or slash commands that people can use.
 
-### Slack Keys
+Under _Slash Commands_, add `/arena`, with a `Search, connect and follow.` description.
 
-Create a `.env` file.
+### Are.na App
+
+Create an app [here](https://dev.are.na/oauth/applications). This gives you an Are.na client ID and a client secret.
+
+### Slack and Are.na Keys
+
+Locally, create a `.env` file and copy Slack and Are.na keys into it. In production set those as ENV values.
 
 ```
-SLACK_CLIENT_ID=slack_client_id
-SLACK_CLIENT_SECRET=slack_client_secret
+SLACK_CLIENT_ID=
+SLACK_CLIENT_SECRET=
+SLACK_VERIFICATION_TOKEN=
+ARENA_CLIENT_ID=
+ARENA_CLIENT_SECRET=
+```
+
+### Mailchimp
+
+The bot can add those who install the bot to a Mailchimp list. Optionally, set the following keys.
+
+```
+MAILCHIMP_API_KEY=
+MAILCHIMP_LIST_ID=
 ```
 
 ### Stripe Keys
 
-If you want to test upgrading, premium and payment-related functions you need a [Stripe](https://www.stripe.com) account and test keys. Add to `.env` file.
+For upgrading, premium and payment-related functions you need a [Stripe](https://www.stripe.com) account and test keys.
 
 ```
 STRIPE_API_PUBLISHABLE_KEY=pk_test_key
@@ -58,3 +77,13 @@ $ foreman start
 ```
 
 Navigate to [localhost:5000](http://localhost:5000).
+
+## Production
+
+### MongoDB
+
+Set `MONGO_URL` to a MongoDB instance.
+
+Set keys as environment variables. Don't mix test and production Slack and Are.na apps or databases. Use different keys.
+
+Push the bot code to production.
