@@ -85,7 +85,7 @@ describe Team do
   end
   context '#inform_admin!' do
     let(:team) { Fabricate(:team, activated_user_id: 'U0H0TU3NG') }
-    it 'sends DM to admin', vcr: { cassette_name: 'slack/im_open' } do
+    it 'sends DM to admin', vcr: { cassette_name: 'slack/conversations_open' } do
       expect_any_instance_of(Slack::Web::Client).to receive(:chat_postMessage).with(
         message: 'message', channel: 'D19GB4893', as_user: true
       ).and_return('ts' => '1503435956.000247')

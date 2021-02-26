@@ -2,10 +2,10 @@
 http_interactions:
 - request:
     method: post
-    uri: https://slack.com/api/im.open
+    uri: https://slack.com/api/conversations.open
     body:
       encoding: UTF-8
-      string: token=token&user=U0H0TU3NG
+      string: token=token&users=U0H0TU3NG
     headers:
       Accept:
       - application/json; charset=utf-8
