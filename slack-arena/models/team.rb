@@ -38,9 +38,8 @@ class Team
   end
 
   def slack_channels
-    slack_client.channels_list(
-      exclude_archived: true,
-      exclude_members: true
+    slack_client.conversations_list(
+      exclude_archived: true
     )['channels'].select do |channel|
       channel['is_member']
     end
