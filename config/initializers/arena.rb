@@ -6,6 +6,10 @@ module Arena
       channel(name, options)
     rescue Arena::Error => e
       case e.message
+      when '401: Unauthorized - Invalid credentials.'
+        # private channel, skip for now
+        # https://github.com/dblock/slack-arena/issues/19
+        nil
       when '404: Not Found - The resource you are looking for does not exist.'
         nil
       else
