@@ -117,10 +117,27 @@ class ArenaFeed
       end
       next unless block
 
-      message_with_channel = { attachments: [block] }.merge(channel: channel_id, as_user: true)
-      logger.info "Posting '#{message_with_channel.to_json}' to #{team} on ##{channel_name}."
-      team.slack_client.chat_postMessage(message_with_channel)
+      begin
+        message_with_channel = { attachments: [block] }.merge(channel: channel_id, as_user: true)
+        logger.info "Posting '#{message_with_channel.to_json}' to #{team} on ##{channel_name}."
+        team.slack_client.chat_postMessage(message_with_channel)
+      rescue Slack::Web::Api::Errors::SlackError => e
+        logger.warn(to_s) { e.message }
+        case e.message
+        when 'account_inactive', 'invalid_auth'
+          deactivate_team_on_error(e.message)
+        end
+      rescue StandardError => e
+        logger.warn("#{self}##{__method__}") { e }
+      end
     end
+  end
+
+  def deactivate_team_on_error(message)
+    team.deactivate!
+    team.inform_everyone!(text: "There was a #{message} error posting to ##{channel_name}, please reconnect the are.na bot.")
+  rescue StandardError => e
+    logger.warn("#{self}##{__method__}") { e }
   end
 
   def stories_since_last_sync
