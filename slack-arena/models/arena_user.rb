@@ -18,7 +18,16 @@ class ArenaUser < ArenaFeed
   end
 
   def title
-    arena_user[:full_name]
+    display_name || 'Anonymous'
+  end
+
+  def display_name
+    arena_user[:full_name] || first_and_last_name || arena_user[:username]
+  end
+
+  def first_and_last_name
+    ary = [arena_user[:first_name], arena_user[:last_name]].compact
+    ary.any? ? ary.join(' ') : nil
   end
 
   def arena_user_avatar_image

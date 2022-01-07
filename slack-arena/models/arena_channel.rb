@@ -22,7 +22,7 @@ class ArenaChannel < ArenaFeed
   end
 
   def title
-    arena_channel[:title]
+    arena_channel[:title] || 'Untitled'
   end
 
   def arena_user_avatar_image

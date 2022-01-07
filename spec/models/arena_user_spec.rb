@@ -3,6 +3,33 @@ require 'spec_helper'
 describe ArenaChannel do
   let(:team) { Fabricate(:team) }
   let(:user) { Fabricate(:user, team: team) }
+  context 'title' do
+    let(:arena_user) { Fabricate(:arena_user, arena_parent: arena_parent, team: team, created_by: user) }
+    context 'with full name' do
+      let(:arena_parent) { { full_name: 'Full Name' } }
+      it 'uses full_name' do
+        expect(arena_user.title).to eq 'Full Name'
+      end
+    end
+    context 'with first and last' do
+      let(:arena_parent) { { first_name: 'First', last_name: 'Last' } }
+      it 'uses first and last' do
+        expect(arena_user.title).to eq 'First Last'
+      end
+    end
+    context 'with username' do
+      let(:arena_parent) { { username: 'Username' } }
+      it 'uses username' do
+        expect(arena_user.title).to eq 'Username'
+      end
+    end
+    context 'without any names' do
+      let(:arena_parent) { {} }
+      it 'defaults to anonymous' do
+        expect(arena_user.title).to eq 'Anonymous'
+      end
+    end
+  end
   context '#sync_new_arena_items!' do
     let(:arena_user) { Fabricate(:arena_user, arena_id: 15, arena_slug: 'charles-broskoski', team: team, created_by: user) }
     it 'updates arena_user', vcr: { cassette_name: 'arena/user_charles-broskoski' } do
