@@ -9,13 +9,13 @@ module Arena
     # item: story.item
 
     def item
-      story.item
+      story&.item
     end
 
     # target: story.target
 
     def target
-      story.target
+      story&.target
     end
 
     # misc
