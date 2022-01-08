@@ -78,6 +78,20 @@ $ foreman start
 
 Navigate to [localhost:5000](http://localhost:5000).
 
+### ngrok tunnel
+
+To use Slash commands and actions, start an [ngrok tunnel](https://dashboard.ngrok.com/get-started/setup). 
+
+```
+ngrok localhost 5000
+```
+
+This will give you a URL, e.g. `https://29bd-71-167-106-233.ngrok.io`. Navigate to this URL, it should serve the bot's website.
+
+Configure a slash command, `/arena` in the Slack app to point to `https://29bd-71-167-106-233.ngrok.io/api/slack/command`.
+
+Configure the Request URL in Interactivity & Shortcuts to `https://29bd-71-167-106-233.ngrok.io/api/slack/action/`.  
+
 ## Production
 
 ### MongoDB
