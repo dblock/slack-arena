@@ -89,4 +89,17 @@ describe Arena::Added do
       )
     end
   end
+  context 'added as a member of' do
+    let(:filename) { 'spec/fixtures/arena/test-channel/11-added-to-group.json' }
+    it '#to_slack' do
+      expect(subject.to_slack).to eq(
+        author_name: 'Daniel Doubrovkine',
+        author_link: 'https://www.are.na/daniel-doubrovkine',
+        image_url: nil,
+        text: 'Added to <https://www.are.na/daniel-doubrovkine/test-channel-1527426363|Test Channel>.',
+        title: '43884722386-752316157-ticket.pdf',
+        title_link: 'https://www.are.na/block/2228373'
+      )
+    end
+  end
 end
