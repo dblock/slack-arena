@@ -9,27 +9,27 @@ module Arena
     end
 
     def user_name
-      user.full_name
+      user&.full_name
     end
 
     def user_url
-      [Arena::URL, user.slug].compact.join('/')
+      [Arena::URL, user&.slug].compact.join('/')
     end
 
     def target_title
-      target.title
+      target&.title
     end
 
     def target_url
-      [user_url, target.slug].compact.join('/')
+      [user_url, target&.slug].compact.join('/')
     end
 
     def collaborator_name
-      item.full_name
+      item&.full_name
     end
 
     def collaborator_url
-      [Arena::URL, item.slug].compact.join('/')
+      [Arena::URL, item&.slug].compact.join('/')
     end
 
     def to_slack

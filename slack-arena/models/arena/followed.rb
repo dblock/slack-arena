@@ -1,6 +1,6 @@
 module Arena
   #
-  # Refers to a user following either a channel or another user.
+  # Refers to a user following either a channel or another user&.
   #
   # Item can either be a User or a Channel.
   #
@@ -10,36 +10,36 @@ module Arena
     end
 
     def user
-      story.user
+      story&.user
     end
 
     def user_name
-      user.full_name
+      user&.full_name
     end
 
     def user_url
-      [Arena::URL, user.slug].compact.join('/')
+      [Arena::URL, user&.slug].compact.join('/')
     end
 
     def followed
-      story.item
+      story&.item
     end
 
     def followed_name_or_title
       case item
       when Arena::Channel
-        item.title
+        item&.title
       when Arena::User
-        item.full_name
+        item&.full_name
       end
     end
 
     def followed_url
       case item
       when Arena::Channel
-        [Arena::URL, item.user.slug, item.slug].compact.join('/')
+        [Arena::URL, item&.user&.slug, item&.slug].compact.join('/')
       when Arena::User
-        [Arena::URL, item.slug].compact.join('/')
+        [Arena::URL, item&.slug].compact.join('/')
       end
     end
 

@@ -10,43 +10,43 @@ module Arena
   #
   class Added < Actionable
     def author
-      item.user
+      item&.user
     end
 
     def author_url
-      [Arena::URL, author.slug].compact.join('/')
+      [Arena::URL, author&.slug].compact.join('/')
     end
 
     def author_name
-      author.full_name || author.username
+      author&.full_name || author&.username
     end
 
     def author_avatar
-      author.image.original.url if author.has_image?
+      author.image&.original&.url if author&.has_image?
     end
 
     def item_title
-      item.title
+      item&.title
     end
 
     def item_image
-      item.image.original.url if item.has_image?
+      item.image&.original&.url if item&.has_image?
     end
 
     def target_url
-      [Arena::URL, target.user.slug, target.slug].compact.join('/')
+      [Arena::URL, target&.user&.slug, target&.slug].compact.join('/')
     end
 
     def target_title
-      target.title
+      target&.title
     end
 
     def item_url
       case item
       when Arena::Channel
-        [author_url, item.slug].compact.join('/')
+        [author_url, item&.slug].compact.join('/')
       when Arena::Block
-        [Arena::URL, 'block', item.id].compact.join('/')
+        [Arena::URL, 'block', item&.id].compact.join('/')
       end
     end
 
