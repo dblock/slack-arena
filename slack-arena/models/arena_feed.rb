@@ -114,6 +114,10 @@ class ArenaFeed
               rescue Arena::Story::ActionNotImplementedError => e
                 logger.warn "ActionNotImplementedError: #{e.message}"
                 nil
+              rescue StandardError => e
+                logger.warn "Error parsing or rendering: #{e.message}\n#{story.actionable.to_json}"
+                nil
+
       end
       next unless block
 
