@@ -1,7 +1,8 @@
 Are.na + Slack
 ==============
 
-[![Build Status](https://travis-ci.org/dblock/slack-arena.svg?branch=master)](https://travis-ci.org/dblock/slack-arena)
+[![rubocop](https://github.com/dblock/slack-arena/actions/workflows/rubocop.yml/badge.svg)](https://github.com/dblock/slack-arena/actions/workflows/rubocop.yml)
+[![test](https://github.com/dblock/slack-arena/actions/workflows/test.yml/badge.svg)](https://github.com/dblock/slack-arena/actions/workflows/test.yml)
 
 Integrate Are.na into Slack. Hosted at [arena.playplay.io](https://arena.playplay.io/).
 
@@ -11,6 +12,6 @@ Integrate Are.na into Slack. Hosted at [arena.playplay.io](https://arena.playpla
 
 ### Copyright & License
 
-Copyright [Daniel Doubrovkine, Vestris LLC](https://www.vestris.com), 2018-2020
+Copyright [Daniel Doubrovkine, Vestris LLC](https://www.vestris.com), 2018-2022
 
 [MIT License](LICENSE)
