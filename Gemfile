@@ -10,6 +10,7 @@ gem 'mongoid'
 gem 'mongoid-scroll'
 gem 'newrelic_rpm'
 gem 'nokogiri'
+gem 'rack', '~> 2.2.3'
 gem 'rack-robotz'
 gem 'rack-server-pages'
 gem 'slack-ruby-bot-server'
@@ -30,7 +31,7 @@ group :development do
 end
 
 group :test do
-  gem 'capybara', '~> 2.18.0'
+  gem 'capybara'
   gem 'database_cleaner'
   gem 'fabrication'
   gem 'faker'
@@ -42,4 +43,5 @@ group :test do
   gem 'timecop'
   gem 'vcr'
   gem 'webmock'
+  gem 'webrick'
 end
