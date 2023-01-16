@@ -3,7 +3,7 @@ module Api
     def self.logger
       @logger ||= begin
         $stdout.sync = true
-        Logger.new(STDOUT)
+        Logger.new($stdout)
       end
     end
 
@@ -18,7 +18,7 @@ module Api
 
         # rewrite HAL links to make them clickable in a browser
         use Rack::Rewrite do
-          r302 %r{(\/[\w\/]*\/)(%7B|\{)?(.*)(%7D|\})}, '$1'
+          r302 %r{(/[\w/]*/)(%7B|\{)?(.*)(%7D|\})}, '$1'
         end
 
         use Rack::Robotz, 'User-Agent' => '*', 'Disallow' => '/api'

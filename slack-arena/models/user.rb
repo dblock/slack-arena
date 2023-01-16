@@ -36,12 +36,12 @@ class User
     url = connect_to_arena_url(channel_id)
     {
       text: 'Please connect your Are.na account.', attachments: [
-        fallback: "Please connect your Are.na account at #{url}.",
-        actions: [
-          type: 'button',
-          text: 'Click Here',
-          url: url
-        ]
+        { fallback: "Please connect your Are.na account at #{url}.",
+          actions: [
+            { type: 'button',
+              text: 'Click Here',
+              url: url }
+          ] }
       ]
     }
   end
@@ -101,8 +101,7 @@ class User
 
   def self.find_create_or_update_by_team_and_slack_id!(team_id, user_id)
     team = Team.where(team_id: team_id).first || raise("Cannot find team ID #{team_id}")
-    user = User.where(team: team, user_id: user_id).first || User.create!(team: team, user_id: user_id)
-    user
+    User.where(team: team, user_id: user_id).first || User.create!(team: team, user_id: user_id)
   end
 
   # Find an existing record, update the username if necessary, otherwise create a user record.
