@@ -165,7 +165,7 @@ GEM
       ast (~> 2.4.1)
     public_suffix (5.0.1)
     racc (1.6.2)
-    rack (2.2.6.4)
+    rack (2.2.8.1)
     rack-accept (0.4.5)
       rack (>= 0.4)
     rack-cors (1.1.1)
@@ -302,7 +302,7 @@ DEPENDENCIES
   mongoid-shell
   newrelic_rpm
   nokogiri
-  rack (~> 2.2.6)
+  rack (~> 2.2.8)
   rack-robotz
   rack-server-pages
   rack-test
