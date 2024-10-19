@@ -5,9 +5,15 @@ describe Api::Endpoints::SlackEndpoint do
 
   context 'with a SLACK_VERIFICATION_TOKEN' do
     let(:token) { 'slack-verification-token' }
+
     before do
       ENV['SLACK_VERIFICATION_TOKEN'] = token
     end
+
+    after do
+      ENV.delete('SLACK_VERIFICATION_TOKEN')
+    end
+
     context 'slash commands' do
       it 'returns an error with a non-matching verification token' do
         post '/api/slack/command',
@@ -22,6 +28,7 @@ describe Api::Endpoints::SlackEndpoint do
         response = JSON.parse(last_response.body)
         expect(response['error']).to eq 'Message token is not coming from Slack.'
       end
+
       it 'invokes action with a verification token' do
         post '/api/slack/action', token: token
         expect(last_response.status).to eq 400
@@ -29,6 +36,7 @@ describe Api::Endpoints::SlackEndpoint do
         expect(response['message']).to eq 'Invalid parameters.'
       end
     end
+
     context 'interactive slack buttons' do
       it 'returns an error with a non-matching verification token' do
         post '/api/slack/action', payload: {
@@ -43,6 +51,7 @@ describe Api::Endpoints::SlackEndpoint do
         response = JSON.parse(last_response.body)
         expect(response['error']).to eq 'Message token is not coming from Slack.'
       end
+
       it 'invokes action with a verification token' do
         post '/api/slack/action', payload: {
           token: token
@@ -52,16 +61,16 @@ describe Api::Endpoints::SlackEndpoint do
         expect(response['message']).to eq 'Invalid parameters.'
       end
     end
-    after do
-      ENV.delete('SLACK_VERIFICATION_TOKEN')
-    end
   end
+
   context 'not in channel' do
     let(:team) { Fabricate(:team) }
     let(:user) { Fabricate(:user, team: team) }
+
     before do
       expect_any_instance_of(Team).to receive(:bot_in_channel?).and_return(false)
     end
+
     it 'fails slash commands' do
       post '/api/slack/command',
            command: '/arena',
@@ -78,6 +87,7 @@ describe Api::Endpoints::SlackEndpoint do
         'user' => user.user_id
       )
     end
+
     it 'fails in interactive slack buttons' do
       post '/api/slack/action', payload: {
         actions: [{ name: 'arena_id', value: nil }],
@@ -95,12 +105,15 @@ describe Api::Endpoints::SlackEndpoint do
       )
     end
   end
+
   context 'in channel' do
     let(:team) { Fabricate(:team) }
     let(:user) { Fabricate(:user, team: team) }
+
     before do
       allow_any_instance_of(Team).to receive(:bot_in_channel?).and_return(true)
     end
+
     context 'slash commands' do
       it 'fails an invalid command' do
         allow(Arena).to receive(:try_channel).and_return(nil)
@@ -119,6 +132,7 @@ describe Api::Endpoints::SlackEndpoint do
           'user' => user.user_id
         )
       end
+
       context 'feeds' do
         it 'returns no feeds' do
           post '/api/slack/command',
@@ -136,9 +150,11 @@ describe Api::Endpoints::SlackEndpoint do
             'user' => user.user_id
           )
         end
+
         context 'with previously connected channels and users' do
           let!(:arena_channel) { Fabricate(:arena_channel, team: team, arena_id: '5910', channel_id: 'C1', created_by: user) }
           let!(:arena_user) { Fabricate(:arena_user, team: team, arena_id: '1234', channel_id: 'C1', created_by: user) }
+
           it 'returns both channels and users' do
             post '/api/slack/command',
                  command: '/arena',
@@ -155,6 +171,7 @@ describe Api::Endpoints::SlackEndpoint do
           end
         end
       end
+
       context 'channels' do
         it 'returns no feeds' do
           post '/api/slack/command',
@@ -172,9 +189,11 @@ describe Api::Endpoints::SlackEndpoint do
             'user' => user.user_id
           )
         end
+
         context 'with previously connected channels and users' do
           let!(:arena_channel) { Fabricate(:arena_channel, team: team, arena_id: '5910', channel_id: 'C1', created_by: user) }
           let!(:arena_user) { Fabricate(:arena_user, team: team, arena_id: '1234', channel_id: 'C1', created_by: user) }
+
           it 'returns only channels' do
             post '/api/slack/command',
                  command: '/arena',
@@ -191,6 +210,7 @@ describe Api::Endpoints::SlackEndpoint do
           end
         end
       end
+
       context 'users' do
         it 'returns no feeds' do
           post '/api/slack/command',
@@ -208,9 +228,11 @@ describe Api::Endpoints::SlackEndpoint do
             'user' => user.user_id
           )
         end
+
         context 'with previously connected channels and users' do
           let!(:arena_channel) { Fabricate(:arena_channel, team: team, arena_id: '5910', channel_id: 'C1', created_by: user) }
           let!(:arena_user) { Fabricate(:arena_user, team: team, arena_id: '1234', channel_id: 'C1', created_by: user) }
+
           it 'returns only users' do
             post '/api/slack/command',
                  command: '/arena',
@@ -227,6 +249,7 @@ describe Api::Endpoints::SlackEndpoint do
           end
         end
       end
+
       context 'connect' do
         it 'connects to a channel', vcr: { cassette_name: 'arena/channel_delightfully-absurd' } do
           expect_any_instance_of(Slack::Web::Client).to receive(:chat_postMessage).with(
@@ -267,6 +290,7 @@ describe Api::Endpoints::SlackEndpoint do
             expect(channel.title).to eq 'Delightfully absurd'
           }.to change(ArenaChannel, :count).by(1)
         end
+
         it 'errors on an invalid channel', vcr: { cassette_name: 'arena/channel_invalid' } do
           expect {
             post '/api/slack/command',
@@ -283,9 +307,10 @@ describe Api::Endpoints::SlackEndpoint do
               'text' => "I can't find \"invalid-channel\", sorry.",
               'user' => user.user_id
             )
-          }.to_not change(ArenaChannel, :count)
+          }.not_to change(ArenaChannel, :count)
         end
       end
+
       context 'search' do
         it 'errors without a search term' do
           post '/api/slack/command',
@@ -303,6 +328,7 @@ describe Api::Endpoints::SlackEndpoint do
             'user' => user.user_id
           )
         end
+
         it 'returns a list of channels and users', vcr: { cassette_name: 'arena/search_david' } do
           post '/api/slack/command',
                command: '/arena',
@@ -351,9 +377,11 @@ describe Api::Endpoints::SlackEndpoint do
             ]
           )
         end
+
         context 'with a previously connected channel and user' do
           let!(:arena_user) { Fabricate(:arena_user, arena_parent: { full_name: 'David Hilmer Rex' }, team: team, arena_id: 289, channel_id: 'C1', created_by: user) }
           let!(:arena_channel) { Fabricate(:arena_channel, arena_parent: { title: 'David Shrigley' }, team: team, arena_id: 198_637, channel_id: 'C1', created_by: user) }
+
           it 'inverts button actions', vcr: { cassette_name: 'arena/search_david' } do
             post '/api/slack/command',
                  command: '/arena',
@@ -384,6 +412,7 @@ describe Api::Endpoints::SlackEndpoint do
           end
         end
       end
+
       context 'disconnect' do
         it 'errors when disconnecting a non-connected channel' do
           allow(Arena).to receive(:try_channel).and_return(nil)
@@ -402,10 +431,12 @@ describe Api::Endpoints::SlackEndpoint do
               'text' => "I don't know anything about \"delightfully-absurd\" in <#C1>, sorry.",
               'user' => user.user_id
             )
-          }.to_not change(ArenaChannel, :count)
+          }.not_to change(ArenaChannel, :count)
         end
+
         context 'with a connected channel' do
           let!(:channel) { Fabricate(:arena_channel, channel_id: 'C1', team: team, created_by: user) }
+
           it 'disconnects a channel' do
             allow(Arena).to receive(:try_channel).and_return(nil)
             expect_any_instance_of(Slack::Web::Client).to receive(:chat_postMessage).with(
@@ -444,6 +475,7 @@ describe Api::Endpoints::SlackEndpoint do
               )
             }.to change(ArenaChannel, :count).by(-1)
           end
+
           it 'does not double connect' do
             allow(Arena).to receive(:try_channel).and_return(nil)
             expect {
@@ -461,11 +493,12 @@ describe Api::Endpoints::SlackEndpoint do
                 'text' => "I'm already posting \"#{channel.title}\" updates to <#C1>.",
                 'user' => user.user_id
               )
-            }.to_not change(ArenaChannel, :count)
+            }.not_to change(ArenaChannel, :count)
           end
         end
       end
     end
+
     context 'interactive buttons' do
       it 'fails an invalid command' do
         allow(Arena).to receive(:try_channel).and_return(nil)
@@ -484,6 +517,7 @@ describe Api::Endpoints::SlackEndpoint do
           'user' => user.user_id
         )
       end
+
       it 'posts errors to response_url when available' do
         expect(HTTParty).to receive(:post).with(
           'https://example.com/response_url',
@@ -502,6 +536,7 @@ describe Api::Endpoints::SlackEndpoint do
         }.to_json
         expect(last_response.status).to eq 201
       end
+
       context 'channels' do
         it 'connects to a channel', vcr: { cassette_name: 'arena/channel_delightfully-absurd' } do
           expect_any_instance_of(Slack::Web::Client).to receive(:chat_postMessage).with(
@@ -542,6 +577,7 @@ describe Api::Endpoints::SlackEndpoint do
             expect(arena_channel.title).to eq 'Delightfully absurd'
           }.to change(ArenaChannel, :count).by(1)
         end
+
         it 'errors on an invalid channel', vcr: { cassette_name: 'arena/channel_invalid' } do
           expect {
             post '/api/slack/action', payload: {
@@ -558,10 +594,12 @@ describe Api::Endpoints::SlackEndpoint do
               'text' => "I can't find \"invalid-channel\", sorry.",
               'user' => user.user_id
             )
-          }.to_not change(ArenaChannel, :count)
+          }.not_to change(ArenaChannel, :count)
         end
+
         context 'with a connected channel' do
           let!(:arena_channel) { Fabricate(:arena_channel, channel_id: 'C1', team: team, created_by: user, arena_id: 136_855) }
+
           it 'disconnects to a channel', vcr: { cassette_name: 'arena/channel_delightfully-absurd' } do
             expect_any_instance_of(Slack::Web::Client).to receive(:chat_postMessage).with(
               attachments: [{
@@ -601,6 +639,7 @@ describe Api::Endpoints::SlackEndpoint do
           end
         end
       end
+
       context 'users' do
         it 'follows to a user', vcr: { cassette_name: 'arena/user_charles-broskoski' } do
           expect_any_instance_of(Slack::Web::Client).to receive(:chat_postMessage).with(
@@ -641,6 +680,7 @@ describe Api::Endpoints::SlackEndpoint do
             expect(arena_user.title).to eq 'Charles Broskoski'
           }.to change(ArenaUser, :count).by(1)
         end
+
         it 'errors on an invalid user', vcr: { cassette_name: 'arena/user_invalid' } do
           expect {
             post '/api/slack/action', payload: {
@@ -657,10 +697,12 @@ describe Api::Endpoints::SlackEndpoint do
               'text' => "I can't find \"invalid-user\", sorry.",
               'user' => user.user_id
             )
-          }.to_not change(ArenaUser, :count)
+          }.not_to change(ArenaUser, :count)
         end
+
         context 'with a followed user' do
           let!(:arena_user) { Fabricate(:arena_user, channel_id: 'C1', team: team, created_by: user, arena_id: 15) }
+
           it 'unfollows a user', vcr: { cassette_name: 'arena/user_charles-broskoski' } do
             expect_any_instance_of(Slack::Web::Client).to receive(:chat_postMessage).with(
               attachments: [{
@@ -699,11 +741,13 @@ describe Api::Endpoints::SlackEndpoint do
             }.to change(ArenaUser, :count).by(-1)
           end
         end
+
         context 'add' do
           context 'when user is connected to arena' do
             before do
               user.update_attributes!(arena_token: 'token')
             end
+
             it 'returns an error on invalid action' do
               post '/api/slack/action', payload: {
                 channel: { id: 'C1', name: 'arena' },
@@ -717,6 +761,7 @@ describe Api::Endpoints::SlackEndpoint do
               json_response = JSON.parse(last_response.body)
               expect(json_response['message']).to eq 'Unsupported action type: invalid.'
             end
+
             context 'message_action' do
               it 'opens a dialog with text and channel selection', vcr: { cassette_name: 'arena/account_channels' } do
                 expect_any_instance_of(Slack::Web::Client).to receive(:dialog_open).with(
@@ -759,6 +804,7 @@ describe Api::Endpoints::SlackEndpoint do
                 expect(last_response.status).to eq 204
               end
             end
+
             context 'dialog_submission' do
               context 'creates arena blocks in test channel' do
                 before do
@@ -768,6 +814,7 @@ describe Api::Endpoints::SlackEndpoint do
                     channel: 'C1'
                   )
                 end
+
                 it 'creates an arena block of text', vcr: { cassette_name: 'arena/channel_198_378' } do
                   expect_any_instance_of(Arena::Client).to receive(:channel_add_block).with(198_378, content: 'text')
                   post '/api/slack/action', payload: {
@@ -785,6 +832,7 @@ describe Api::Endpoints::SlackEndpoint do
                   }.to_json
                   expect(last_response.status).to eq 204
                 end
+
                 it 'creates an arena block with source', vcr: { cassette_name: 'arena/channel_198_378' } do
                   expect_any_instance_of(Arena::Client).to receive(:channel_add_block).with(198_378, source: 'https://example.com')
                   post '/api/slack/action', payload: {
@@ -805,6 +853,7 @@ describe Api::Endpoints::SlackEndpoint do
               end
             end
           end
+
           context 'when user is not connected to arena' do
             it 'asks the user to connect the arena account' do
               state = CGI.escape([user.id.to_s, 'C1'].join(','))

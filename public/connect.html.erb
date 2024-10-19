@@ -3,7 +3,7 @@
     <title>Are.na + Slack: Connect</title>
     <%= partial 'public/partials/_head.html' %>
     <%
-      user_id, channel_id = CGI.unescape(request['state']).split(',') if request['state']
+      user_id, channel_id = CGI.unescape(request.params['state']).split(',') if request.params['state']
       user = User.where(id: user_id).first if user_id
     %>
   </head>
@@ -24,7 +24,7 @@
       <script>
         $(document).ready(function() {
           var data = {
-            code: "<%= request['code'] %>",
+            code: "<%= request.params['code'] %>",
             channel_id: "<%= channel_id %>"
           };
 

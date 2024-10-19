@@ -1,14 +1,17 @@
 require 'spec_helper'
 
 describe Arena::Added do
-  let(:file) { File.read(filename) }
-  let(:json) { JSON.parse(file) }
-  let(:story) { Arena::Story.new(json) }
   subject do
     Arena::Added.new(story)
   end
+
+  let(:file) { File.read(filename) }
+  let(:json) { JSON.parse(file) }
+  let(:story) { Arena::Story.new(json) }
+
   context 'added channel' do
     let(:filename) { 'spec/fixtures/arena/test-channel/2-added-channel-daniel-thomkins-cuban-web.json' }
+
     it '#to_slack' do
       expect(subject.to_slack).to eq(
         author_name: 'Daniel Doubrovkine',
@@ -20,8 +23,10 @@ describe Arena::Added do
       )
     end
   end
+
   context 'added url' do
     let(:filename) { 'spec/fixtures/arena/test-channel/3-added-url-all-about-art.json' }
+
     it '#to_slack' do
       expect(subject.to_slack).to eq(
         author_name: 'Daniel Doubrovkine',
@@ -33,8 +38,10 @@ describe Arena::Added do
       )
     end
   end
+
   context 'added jpg' do
     let(:filename) { 'spec/fixtures/arena/test-channel/4-added-jpg.json' }
+
     it '#to_slack' do
       expect(subject.to_slack).to eq(
         author_name: 'Daniel Doubrovkine',
@@ -46,8 +53,10 @@ describe Arena::Added do
       )
     end
   end
+
   context 'added text' do
     let(:filename) { 'spec/fixtures/arena/test-channel/6-added-text.json' }
+
     it '#to_slack' do
       expect(subject.to_slack).to eq(
         author_name: 'Daniel Doubrovkine',
@@ -59,8 +68,10 @@ describe Arena::Added do
       )
     end
   end
+
   context 'added pdf' do
     let(:filename) { 'spec/fixtures/arena/test-channel/7-added-pdf.json' }
+
     it '#to_slack' do
       expect(subject.to_slack).to eq(
         author_name: 'Daniel Doubrovkine',
@@ -72,12 +83,15 @@ describe Arena::Added do
       )
     end
   end
+
   context 'delightfully-absurd', vcr: { cassette_name: 'arena/channel_delightfully-absurd_feed' } do
-    let(:feed) { Arena.channel_feed(136_855, page: 1) }
-    let(:story) { feed.stories.first }
     subject do
       Arena::Added.new(story)
     end
+
+    let(:feed) { Arena.channel_feed(136_855, page: 1) }
+    let(:story) { feed.stories.first }
+
     it '#to_slack' do
       expect(subject.to_slack).to eq(
         author_link: 'https://www.are.na/tess-french',

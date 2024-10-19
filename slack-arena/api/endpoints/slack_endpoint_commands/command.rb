@@ -208,7 +208,7 @@ module Api
         def add!
           if user.connected_to_arena?
             case type
-            when 'dialog_submission' then
+            when 'dialog_submission'
               arena_channel_id = submission['channel']
               Api::Middleware.logger.info "ADD: #{user}, arena_channel=#{arena_channel_id}}"
 
@@ -239,7 +239,7 @@ module Api
                   ]
                 }
               end
-            when 'message_action' then
+            when 'message_action'
               Api::Middleware.logger.info "ADD: #{user}"
               arena_channels = user.arena_client.account_channels(per: 10).channels
               user.team.slack_client.dialog_open(

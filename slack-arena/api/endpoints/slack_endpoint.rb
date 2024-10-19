@@ -81,11 +81,11 @@ module Api
           command.slack_verification_token!
 
           case command.action
-          when 'connect', 'follow' then
+          when 'connect', 'follow'
             command.dm_error!
             command.bot_in_channel_error!
             command.subscribe!
-          when 'disconnect', 'unfollow' then
+          when 'disconnect', 'unfollow'
             command.dm_error!
             command.bot_in_channel_error!
             command.unsubscribe!

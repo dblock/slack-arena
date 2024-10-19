@@ -23,7 +23,7 @@ module SlackArena
       logger.info message
     end
 
-    def once_and_every(tt, &_block)
+    def once_and_every(tt, &)
       ::Async::Reactor.run do |task|
         loop do
           yield
@@ -35,7 +35,7 @@ module SlackArena
       end
     end
 
-    def continuously(tt, &_block)
+    def continuously(tt, &)
       ::Async::Reactor.run do |task|
         loop do
           yield task, tt

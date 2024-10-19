@@ -1,14 +1,17 @@
 require 'spec_helper'
 
 describe Arena::Collaborating do
-  let(:file) { File.read(filename) }
-  let(:json) { JSON.parse(file) }
-  let(:story) { Arena::Story.new(json) }
   subject do
     Arena::Collaborating.new(story)
   end
+
+  let(:file) { File.read(filename) }
+  let(:json) { JSON.parse(file) }
+  let(:story) { Arena::Story.new(json) }
+
   context 'added collaborator' do
     let(:filename) { 'spec/fixtures/arena/test-channel/8-is-collaborating-with-added-collaborator.json' }
+
     it '#to_slack' do
       expect(subject.to_slack).to eq(
         author_name: 'Daniel Doubrovkine',

@@ -1,13 +1,15 @@
 require 'spec_helper'
 
 describe Arena::Created do
+  subject do
+    Arena::Created.new(story)
+  end
+
   let(:filename) { 'spec/fixtures/arena/test-channel/1-created.json' }
   let(:file) { File.read(filename) }
   let(:json) { JSON.parse(file) }
   let(:story) { Arena::Story.new(json) }
-  subject do
-    Arena::Created.new(story)
-  end
+
   it '#to_slack' do
     expect(subject.to_slack).to eq(
       author_name: 'Daniel Doubrovkine',

@@ -1,5 +1,5 @@
 module SlackArena
-  class Server < SlackRubyBotServer::Server
+  class Server < SlackRubyBotServer::RealTime::Server
     on :channel_joined do |client, data|
       message = 'Welcome to Are.na! Please `/arena connect [channel]` to publish a channel here.'
       logger.info "#{client.owner.name}: joined ##{data.channel['name']}."

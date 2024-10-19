@@ -1,14 +1,17 @@
 require 'spec_helper'
 
 describe Arena::Commented do
-  let(:file) { File.read(filename) }
-  let(:json) { JSON.parse(file) }
-  let(:story) { Arena::Story.new(json) }
   subject do
     Arena::Commented.new(story)
   end
+
+  let(:file) { File.read(filename) }
+  let(:json) { JSON.parse(file) }
+  let(:story) { Arena::Story.new(json) }
+
   context 'commented on a jpg' do
     let(:filename) { 'spec/fixtures/arena/test-channel/5-commented-on-jpg-block.json' }
+
     it '#to_slack' do
       expect(subject.to_slack).to eq(
         author_name: 'Daniel Doubrovkine',

@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-ruby '2.7.7'
+ruby '3.3.5'
 
 gem 'arena'
 gem 'grape'
@@ -10,11 +10,12 @@ gem 'mongoid'
 gem 'mongoid-scroll'
 gem 'newrelic_rpm'
 gem 'nokogiri'
-gem 'rack', '~> 2.2.8'
+gem 'ostruct'
+gem 'rack', '~> 3.0.9'
 gem 'rack-robotz'
 gem 'rack-server-pages'
-gem 'slack-ruby-bot-server'
 gem 'slack-ruby-bot-server-mailchimp'
+gem 'slack-ruby-bot-server-rtm'
 gem 'slack-ruby-client'
 gem 'stripe', '~> 1.58.0'
 gem 'unicorn'
@@ -22,8 +23,11 @@ gem 'wannabe_bool'
 
 group :development, :test do
   gem 'foreman'
-  gem 'rake', '~> 12.3'
+  gem 'rake'
   gem 'rubocop'
+  gem 'rubocop-capybara'
+  gem 'rubocop-rake'
+  gem 'rubocop-rspec'
 end
 
 group :development do
@@ -32,11 +36,13 @@ end
 
 group :test do
   gem 'capybara'
-  gem 'database_cleaner'
+  gem 'database_cleaner-mongoid'
   gem 'fabrication'
   gem 'faker'
+  gem 'faraday-rack'
   gem 'hyperclient'
   gem 'rack-test'
+  gem 'rackup'
   gem 'rspec'
   gem 'selenium-webdriver'
   gem 'stripe-ruby-mock', '~> 2.4.1', require: 'stripe_mock'

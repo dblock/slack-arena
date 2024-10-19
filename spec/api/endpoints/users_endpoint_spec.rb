@@ -5,6 +5,7 @@ describe Api::Endpoints::UsersEndpoint do
 
   context 'users' do
     let(:user) { Fabricate(:user) }
+
     it 'connects a user to their Arena account', vcr: { cassette_name: 'arena/oauth_token' } do
       expect_any_instance_of(Slack::Web::Client).to receive(:chat_postEphemeral).with(
         user: user.user_id,

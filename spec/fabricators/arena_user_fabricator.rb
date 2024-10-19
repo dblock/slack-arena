@@ -1,9 +1,9 @@
 Fabricator(:arena_user) do
   arena_id { Fabricate.sequence(:user_id) { |i| "4567#{i}" } }
-  arena_slug { Faker::Internet.slug(nil, '-') }
+  arena_slug { Faker::Internet.slug }
   arena_parent do
     {
-      slug: Faker::Internet.slug(nil, '-'),
+      slug: Faker::Internet.slug,
       full_name: Faker::Name.name,
       metadata: {
         description: Faker::Lorem.sentence

@@ -111,12 +111,12 @@ class ArenaFeed
     stories.each do |story|
       block = begin
         story.actionable.to_slack
-              rescue Arena::Story::ActionNotImplementedError => e
-                logger.warn "ActionNotImplementedError: #{e.message}"
-                nil
-              rescue StandardError => e
-                logger.warn "Error parsing or rendering: #{e.message}\n#{story.actionable.to_json}"
-                nil
+      rescue Arena::Story::ActionNotImplementedError => e
+        logger.warn "ActionNotImplementedError: #{e.message}"
+        nil
+      rescue StandardError => e
+        logger.warn "Error parsing or rendering: #{e.message}\n#{story.actionable.to_json}"
+        nil
       end
       next unless block
 
@@ -149,9 +149,9 @@ class ArenaFeed
     loop do
       page_of_stories = begin
         feed(page: page).stories
-                        rescue StandardError => e
-                          logger.warn "Error getting feed for #{self}/#{page}: #{e.message}"
-                          raise e
+      rescue StandardError => e
+        logger.warn "Error getting feed for #{self}/#{page}: #{e.message}"
+        raise e
       end
       break unless page_of_stories.any?
 

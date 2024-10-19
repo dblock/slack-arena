@@ -29,7 +29,7 @@ class User
 
   def connect_to_arena_url(channel_id)
     state = CGI.escape([id.to_s, channel_id].join(','))
-    "https://dev.are.na/oauth/authorize?client_id=#{ENV['ARENA_CLIENT_ID']}&redirect_uri=#{connect_redirect_url}&response_type=code&state=#{state}"
+    "https://dev.are.na/oauth/authorize?client_id=#{ENV.fetch('ARENA_CLIENT_ID', nil)}&redirect_uri=#{connect_redirect_url}&response_type=code&state=#{state}"
   end
 
   def connect_to_arena_to_slack(channel_id)
@@ -49,8 +49,8 @@ class User
   def connect!(code, channel_id)
     rc = HTTParty.post('https://dev.are.na/oauth/token',
                        body: {
-                         client_id: ENV['ARENA_CLIENT_ID'],
-                         client_secret: ENV['ARENA_CLIENT_SECRET'],
+                         client_id: ENV.fetch('ARENA_CLIENT_ID', nil),
+                         client_secret: ENV.fetch('ARENA_CLIENT_SECRET', nil),
                          code: code,
                          grant_type: 'authorization_code',
                          redirect_uri: connect_redirect_url
