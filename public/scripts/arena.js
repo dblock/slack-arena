@@ -8,6 +8,11 @@ $(document).ready(function() {
     });
   };
 
+  SlackArena.errorMessage = function(message) {
+    SlackArena.message(message)
+    $('#messages').addClass('has-error');
+  };
+
   SlackArena.error = function(xhr) {
     try {
       var message;
