@@ -3,14 +3,17 @@ var SlackArena = {};
 $(document).ready(function() {
 
   SlackArena.message = function(text) {
+    $('#messages').removeClass('has-error');
     $('#messages').fadeOut('slow', function() {
       $('#messages').fadeIn('slow').html(text)
     });
   };
 
-  SlackArena.errorMessage = function(message) {
-    SlackArena.message(message)
+  SlackArena.errorMessage = function(text) {
     $('#messages').addClass('has-error');
+    $('#messages').fadeOut('slow', function() {
+      $('#messages').fadeIn('slow').html(text)
+    });
   };
 
   SlackArena.error = function(xhr) {
@@ -32,10 +35,10 @@ $(document).ready(function() {
         }
       }
 
-      SlackArena.message(message || xhr.statusText || xhr.responseText || 'Unexpected Error');
+      SlackArena.errorMessage(message || xhr.statusText || xhr.responseText || 'Unexpected Error');
 
     } catch(err) {
-      SlackArena.message(err.message);
+      SlackArena.errorMessage(err.message);
     }
   };
 
