@@ -143,7 +143,7 @@ class Team
 
     if connected_feeds.any?
       {
-        text: "#{connected_feeds.count} #{type || 'feed'}#{connected_feeds.count == 1 ? '' : 's'}.",
+        text: "#{connected_feeds.count} #{type || 'feed'}#{'s' unless connected_feeds.count == 1}.",
         attachments: connected_feeds.map(&:connect_to_slack_attachment),
         channel: channel_id
       }
@@ -169,7 +169,7 @@ class Team
 
   def trial_message
     [
-      remaining_trial_days.zero? ? 'Your trial subscription has expired.' : "Your trial subscription expires in #{remaining_trial_days} day#{remaining_trial_days == 1 ? '' : 's'}.",
+      remaining_trial_days.zero? ? 'Your trial subscription has expired.' : "Your trial subscription expires in #{remaining_trial_days} day#{'s' unless remaining_trial_days == 1}.",
       subscribe_text
     ].join(' ')
   end

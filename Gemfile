@@ -3,6 +3,7 @@ source 'http://rubygems.org'
 ruby '3.3.5'
 
 gem 'arena'
+gem 'async', '~> 2.23.1'
 gem 'grape'
 gem 'hashie'
 gem 'irb'
