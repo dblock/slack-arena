@@ -1,9 +1,9 @@
 GEM
   remote: http://rubygems.org/
   specs:
-    activemodel (8.0.2.1)
-      activesupport (= 8.0.2.1)
-    activesupport (8.0.2.1)
+    activemodel (8.0.3)
+      activesupport (= 8.0.3)
+    activesupport (8.0.3)
       base64
       benchmark (>= 0.3)
       bigdecimal
@@ -22,7 +22,7 @@ GEM
       httparty
       json
     ast (2.4.3)
-    async (2.23.1)
+    async (2.23.0)
       console (~> 1.29)
       fiber-annotation
       io-event (~> 1.9)
@@ -87,11 +87,11 @@ GEM
     fabrication (3.0.0)
     faker (3.5.2)
       i18n (>= 1.8.11, < 2)
-    faraday (2.13.4)
+    faraday (2.14.0)
       faraday-net_http (>= 2.0, < 3.5)
       json
       logger
-    faraday-follow_redirects (0.3.0)
+    faraday-follow_redirects (0.4.0)
       faraday (>= 1, < 3)
     faraday-mashify (1.0.0)
       faraday (~> 2.0)
@@ -118,7 +118,7 @@ GEM
       mustermann-grape (~> 1.1.0)
       rack (>= 2)
       zeitwerk
-    grape-roar (0.4.1)
+    grape-roar (0.5.0)
       grape
       multi_json
       roar (~> 1.1.0)
@@ -128,7 +128,7 @@ GEM
     hashdiff (1.2.1)
     hashie (5.0.0)
     http-accept (1.7.0)
-    http-cookie (1.0.8)
+    http-cookie (1.1.0)
       domain_name (~> 0.5)
     httparty (0.23.1)
       csv
@@ -147,12 +147,11 @@ GEM
       pp (>= 0.6.0)
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
-    json (2.14.1)
+    json (2.15.0)
     kaminari-core (1.2.2)
     kaminari-grape (1.0.1)
       grape
       kaminari-core (~> 1.0)
-    kgio (2.11.4)
     language_server-protocol (3.17.0.5)
     lint_roller (1.1.0)
     logger (1.7.0)
@@ -163,9 +162,8 @@ GEM
     mime-types (3.7.0)
       logger
       mime-types-data (~> 3.2025, >= 3.2025.0507)
-    mime-types-data (3.2025.0916)
+    mime-types-data (3.2025.0924)
     mini_mime (1.1.5)
-    mini_portile2 (2.8.9)
     minitest (5.25.5)
     mongo (2.21.3)
       base64
@@ -196,8 +194,22 @@ GEM
       uri
     netrc (0.11.0)
     newrelic_rpm (9.21.0)
-    nokogiri (1.18.10)
-      mini_portile2 (~> 2.8.2)
+    nio4r (2.7.4)
+    nokogiri (1.18.10-aarch64-linux-gnu)
+      racc (~> 1.4)
+    nokogiri (1.18.10-aarch64-linux-musl)
+      racc (~> 1.4)
+    nokogiri (1.18.10-arm-linux-gnu)
+      racc (~> 1.4)
+    nokogiri (1.18.10-arm-linux-musl)
+      racc (~> 1.4)
+    nokogiri (1.18.10-arm64-darwin)
+      racc (~> 1.4)
+    nokogiri (1.18.10-x86_64-darwin)
+      racc (~> 1.4)
+    nokogiri (1.18.10-x86_64-linux-gnu)
+      racc (~> 1.4)
+    nokogiri (1.18.10-x86_64-linux-musl)
       racc (~> 1.4)
     ostruct (0.6.3)
     parallel (1.27.0)
@@ -212,6 +224,8 @@ GEM
       date
       stringio
     public_suffix (6.0.2)
+    puma (7.0.4)
+      nio4r (~> 2.0)
     racc (1.8.1)
     rack (3.0.18)
     rack-cors (3.0.0)
@@ -227,7 +241,6 @@ GEM
     rackup (2.2.1)
       rack (>= 3)
     rainbow (3.1.1)
-    raindrops (0.20.1)
     rake (13.3.0)
     rdoc (6.14.2)
       erb
@@ -260,7 +273,7 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.13.0)
     rspec-support (3.13.6)
-    rubocop (1.80.2)
+    rubocop (1.81.1)
       json (~> 2.3)
       language_server-protocol (~> 3.17.0.2)
       lint_roller (~> 1.1.0)
@@ -268,10 +281,10 @@ GEM
       parser (>= 3.3.0.2)
       rainbow (>= 2.2.2, < 4.0)
       regexp_parser (>= 2.9.3, < 3.0)
-      rubocop-ast (>= 1.46.0, < 2.0)
+      rubocop-ast (>= 1.47.1, < 2.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 2.4.0, < 4.0)
-    rubocop-ast (1.46.0)
+    rubocop-ast (1.47.1)
       parser (>= 3.3.7.2)
       prism (~> 1.4)
     rubocop-capybara (2.22.1)
@@ -285,7 +298,7 @@ GEM
       rubocop (~> 1.72, >= 1.72.1)
     ruby-progressbar (1.13.0)
     ruby2_keywords (0.0.5)
-    rubyzip (3.1.0)
+    rubyzip (3.1.1)
     securerandom (0.4.1)
     selenium-webdriver (4.35.0)
       base64 (~> 0.2)
@@ -297,13 +310,14 @@ GEM
       activesupport
       hashie
       slack-ruby-client (>= 0.14.0)
-    slack-ruby-bot-server (2.1.1)
+    slack-ruby-bot-server (2.2.0)
       async
       foreman
       grape
       grape-roar (>= 0.4.0)
       grape-swagger
       kaminari-grape
+      logger
       rack-cors
       rack-rewrite
       rack-server-pages
@@ -311,16 +325,19 @@ GEM
     slack-ruby-bot-server-mailchimp (0.3.0)
       mailchimp_api_v3
       slack-ruby-bot-server (>= 2.0.1)
-    slack-ruby-bot-server-rtm (0.2.0)
+    slack-ruby-bot-server-rtm (0.3.0)
+      async (<= 2.23.0)
       async-websocket (~> 0.8.0)
       slack-ruby-bot (>= 0.12.0)
       slack-ruby-bot-server (>= 1.0.0)
-    slack-ruby-client (2.4.0)
-      faraday (>= 2.0)
+      slack-ruby-client (< 3.0)
+    slack-ruby-client (2.7.0)
+      faraday (>= 2.0.1)
       faraday-mashify
       faraday-multipart
       gli
       hashie
+      logger
     stringio (3.1.7)
     stripe (1.58.0)
       rest-client (>= 1.4, < 4.0)
@@ -338,9 +355,6 @@ GEM
     unicode-display_width (3.2.0)
       unicode-emoji (~> 4.1)
     unicode-emoji (4.1.0)
-    unicorn (6.1.0)
-      kgio (~> 2.6)
-      raindrops (~> 0.7)
     uri (1.0.3)
     vcr (6.3.1)
       base64
@@ -349,7 +363,6 @@ GEM
       addressable (>= 2.8.0)
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
-    webrick (1.9.1)
     websocket (1.2.11)
     websocket-driver (0.7.7)
       base64
@@ -360,11 +373,18 @@ GEM
     zeitwerk (2.7.3)
 
 PLATFORMS
-  ruby
+  aarch64-linux-gnu
+  aarch64-linux-musl
+  arm-linux-gnu
+  arm-linux-musl
+  arm64-darwin
+  x86_64-darwin
+  x86_64-linux-gnu
+  x86_64-linux-musl
 
 DEPENDENCIES
   arena
-  async (~> 2.23.1)
+  async
   capybara
   database_cleaner-mongoid
   fabrication
@@ -381,6 +401,7 @@ DEPENDENCIES
   newrelic_rpm
   nokogiri
   ostruct
+  puma
   rack (~> 3.0.16)
   rack-robotz
   rack-server-pages
@@ -394,19 +415,17 @@ DEPENDENCIES
   rubocop-rspec
   selenium-webdriver
   slack-ruby-bot-server-mailchimp
-  slack-ruby-bot-server-rtm
+  slack-ruby-bot-server-rtm (~> 0.3.0)
   slack-ruby-client
   stripe (~> 1.58.0)
   stripe-ruby-mock (~> 2.4.1)
   timecop
-  unicorn
   vcr
   wannabe_bool
   webmock
-  webrick
 
 RUBY VERSION
-   ruby 3.3.5p100
+   ruby 3.4.6p54
 
 BUNDLED WITH
-   2.5.16
+   2.7.2
