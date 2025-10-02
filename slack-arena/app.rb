@@ -76,7 +76,12 @@ module SlackArena
       Team.active.each do |team|
         next if team.subscription_expired?
 
-        team.arena_feeds.each(&:sync_new_arena_items!)
+        team.arena_feeds.each do |feed|
+          feed.sync_new_arena_items!
+        rescue StandardError => e
+          backtrace = e.backtrace.join("\n")
+          logger.warn "Error in cron for #{feed}, #{e.message}, #{backtrace}."
+        end
       rescue StandardError => e
         backtrace = e.backtrace.join("\n")
         logger.warn "Error in cron for team #{team}, #{e.message}, #{backtrace}."
