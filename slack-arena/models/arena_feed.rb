@@ -116,6 +116,7 @@ class ArenaFeed
         nil
       rescue StandardError => e
         logger.warn "Error parsing or rendering: #{e.message}\n#{story.actionable.to_json}"
+        NewRelic::Agent.notice_error(e, custom_params: { feed: to_s })
         nil
       end
       next unless block
@@ -132,6 +133,7 @@ class ArenaFeed
         end
       rescue StandardError => e
         logger.warn("#{self}##{__method__}") { e }
+        NewRelic::Agent.notice_error(e, custom_params: { feed: to_s })
       end
     end
   end
@@ -141,6 +143,7 @@ class ArenaFeed
     team.inform_everyone!(text: "There was a #{message} error posting to ##{channel_name}, please reconnect the are.na bot.")
   rescue StandardError => e
     logger.warn("#{self}##{__method__}") { e }
+    NewRelic::Agent.notice_error(e, custom_params: { feed: to_s })
   end
 
   def stories_since_last_sync

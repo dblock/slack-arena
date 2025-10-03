@@ -29,6 +29,7 @@ module SlackArena
           yield
         rescue StandardError => e
           logger.error e
+          NewRelic::Agent.notice_error(e)
         ensure
           task.sleep tt
         end
@@ -41,6 +42,7 @@ module SlackArena
           yield task, tt
         rescue StandardError => e
           logger.error e
+          NewRelic::Agent.notice_error(e)
         ensure
           task.sleep tt
         end
@@ -56,6 +58,7 @@ module SlackArena
         team.inform_trial!
       rescue StandardError => e
         logger.warn "Error checking team #{team} trial, #{e.message}."
+        NewRelic::Agent.notice_error(e, custom_params: { team: team.to_s })
       end
     end
 
@@ -68,6 +71,7 @@ module SlackArena
       rescue StandardError => e
         backtrace = e.backtrace.join("\n")
         logger.warn "Error in expire subscriptions cron for team #{team}, #{e.message}, #{backtrace}."
+        NewRelic::Agent.notice_error(e, custom_params: { team: team.to_s })
       end
     end
 
@@ -81,10 +85,12 @@ module SlackArena
         rescue StandardError => e
           backtrace = e.backtrace.join("\n")
           logger.warn "Error in cron for #{feed}, #{e.message}, #{backtrace}."
+          NewRelic::Agent.notice_error(e, custom_params: { feed: feed.to_s })
         end
       rescue StandardError => e
         backtrace = e.backtrace.join("\n")
         logger.warn "Error in cron for team #{team}, #{e.message}, #{backtrace}."
+        NewRelic::Agent.notice_error(e, custom_params: { team: team.to_s })
       end
     end
 
@@ -98,6 +104,7 @@ module SlackArena
           team.inform_everyone!(text: "Your subscription expired more than 2 weeks ago, deactivating. Reactivate at #{SlackRubyBotServer::Service.url}. Your data will be purged in another 2 weeks.")
         rescue StandardError => e
           logger.warn "Error informing team #{team}, #{e.message}."
+          NewRelic::Agent.notice_error(e, custom_params: { team: team.to_s })
         end
       end
     end
@@ -127,6 +134,7 @@ module SlackArena
         end
       rescue StandardError => e
         logger.warn "Error checking team #{team} subscription, #{e.message}."
+        NewRelic::Agent.notice_error(e, custom_params: { team: team.to_s })
       end
     end
   end
