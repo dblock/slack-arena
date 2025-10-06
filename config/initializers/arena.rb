@@ -2,7 +2,7 @@ module Arena
   URL = 'https://www.are.na'.freeze
 
   class Client
-    logger(::Logger.new($stdout))
+    # logger(::Logger.new($stdout))
 
     def try_channel(name, options = {})
       channel(name, options)
