@@ -1,6 +1,6 @@
 class ArenaUser < ArenaFeed
   def parent
-    Arena.try_user(arena_id)
+    @parent ||= Arena.try_user(arena_id)
   rescue StandardError => e
     logger.warn "Error getting user #{arena_id}: #{e.message}"
     raise e

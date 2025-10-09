@@ -1,6 +1,6 @@
 class ArenaChannel < ArenaFeed
   def parent
-    Arena.try_channel(arena_id)
+    @parent ||= Arena.try_channel(arena_id)
   rescue StandardError => e
     logger.warn "Error getting channel #{arena_id}: #{e.message}"
     raise e
