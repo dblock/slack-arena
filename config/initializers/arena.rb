@@ -30,11 +30,4 @@ module Arena
       end
     end
   end
-
-  class Base
-    def initialize(attrs = {})
-      Api::Middleware.logger.debug attrs
-      @attrs = attrs
-    end
-  end
 end
