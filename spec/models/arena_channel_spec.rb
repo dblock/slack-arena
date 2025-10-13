@@ -9,8 +9,8 @@ describe ArenaChannel do
 
     it 'updates arena_channel', vcr: { cassette_name: 'arena/channel_delightfully-absurd' } do
       expect(channel.title).to eq channel.title
-      expect(channel).to receive(:stories_since_last_sync)
-      expect(channel).to receive(:sync!)
+      expect(channel).to receive(:stories_since_last_sync).and_call_original
+      expect(channel).to receive(:sync!).and_call_original
       channel.sync_new_arena_items!
       expect(channel.title).to eq 'Delightfully absurd'
     end
@@ -50,6 +50,13 @@ describe ArenaChannel do
       expect_any_instance_of(Slack::Web::Client).to receive(:chat_postMessage).exactly(6).times
       channel.sync_new_arena_items!
       expect(channel.sync_at).not_to be_nil
+    end
+
+    it 'handles 403', vcr: { cassette_name: 'arena/channel_delightfully-absurd-403' } do
+      expect(channel.title).to eq channel.title
+      expect { channel.sync_new_arena_items! }.to raise_error Arena::Error do |e|
+        expect(e.message).to eq '403: Unexpected Error'
+      end
     end
   end
 end

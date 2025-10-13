@@ -113,7 +113,6 @@ http_interactions:
         French","first_name":"Tess","last_name":"French","full_name":"Tess French","avatar":"https://gravatar.com/avatar/ff2006ef5406851c59bf46fcd2950055.png?s=40&d=mm&r=R&d=blank","avatar_image":{"thumb":"https://gravatar.com/avatar/ff2006ef5406851c59bf46fcd2950055.png?s=40&d=mm&r=R&d=blank","display":"https://gravatar.com/avatar/ff2006ef5406851c59bf46fcd2950055.png?s=150&d=mm&r=R&d=blank"},"channel_count":40,"following_count":0,"profile_id":132224,"follower_count":1,"initials":"TF","can_index":true,"metadata":null,"is_premium":false,"is_exceeding_private_connections_limit":false,"is_confirmed":true,"is_pending_reconfirmation":false,"is_pending_confirmation":false,"badge":null,"base_class":"User","class":"User"},"position":21,"selected":false,"connection_id":2466022,"connected_at":"2018-03-28T23:48:08.557Z","connected_by_user_id":29642,"connected_by_username":"Tess
         French","connected_by_user_slug":"tess-french"}],"base_class":"Channel","page":1,"per":25,"collaborators":[],"follower_count":0,"share_link":null,"metadata":null,"class_name":"Channel","can_index":true,"user":{"id":29642,"created_at":"2018-01-24T01:39:11.568Z","slug":"tess-french","username":"Tess
         French","first_name":"Tess","last_name":"French","full_name":"Tess French","avatar":"https://gravatar.com/avatar/ff2006ef5406851c59bf46fcd2950055.png?s=40&d=mm&r=R&d=blank","avatar_image":{"thumb":"https://gravatar.com/avatar/ff2006ef5406851c59bf46fcd2950055.png?s=40&d=mm&r=R&d=blank","display":"https://gravatar.com/avatar/ff2006ef5406851c59bf46fcd2950055.png?s=150&d=mm&r=R&d=blank"},"channel_count":40,"following_count":0,"profile_id":132224,"follower_count":1,"initials":"TF","can_index":true,"metadata":null,"is_premium":false,"is_exceeding_private_connections_limit":false,"is_confirmed":true,"is_pending_reconfirmation":false,"is_pending_confirmation":false,"badge":null,"base_class":"User","class":"User"}}'
-    http_version:
   recorded_at: Mon, 21 May 2018 22:06:37 GMT
 - request:
     method: get
@@ -228,6 +227,71 @@ http_interactions:
         French","first_name":"Tess","last_name":"French","full_name":"Tess French","avatar":"https://gravatar.com/avatar/ff2006ef5406851c59bf46fcd2950055.png?s=40&d=mm&r=R&d=blank","avatar_image":{"thumb":"https://gravatar.com/avatar/ff2006ef5406851c59bf46fcd2950055.png?s=40&d=mm&r=R&d=blank","display":"https://gravatar.com/avatar/ff2006ef5406851c59bf46fcd2950055.png?s=150&d=mm&r=R&d=blank"},"channel_count":40,"following_count":0,"profile_id":132224,"follower_count":1,"initials":"TF","can_index":true,"metadata":null,"is_premium":false,"is_exceeding_private_connections_limit":false,"is_confirmed":true,"is_pending_reconfirmation":false,"is_pending_confirmation":false,"badge":null,"base_class":"User","class":"User"},"position":21,"selected":false,"connection_id":2466022,"connected_at":"2018-03-28T23:48:08.557Z","connected_by_user_id":29642,"connected_by_username":"Tess
         French","connected_by_user_slug":"tess-french"}],"base_class":"Channel","page":1,"per":25,"collaborators":[],"follower_count":0,"share_link":null,"metadata":null,"class_name":"Channel","can_index":true,"user":{"id":29642,"created_at":"2018-01-24T01:39:11.568Z","slug":"tess-french","username":"Tess
         French","first_name":"Tess","last_name":"French","full_name":"Tess French","avatar":"https://gravatar.com/avatar/ff2006ef5406851c59bf46fcd2950055.png?s=40&d=mm&r=R&d=blank","avatar_image":{"thumb":"https://gravatar.com/avatar/ff2006ef5406851c59bf46fcd2950055.png?s=40&d=mm&r=R&d=blank","display":"https://gravatar.com/avatar/ff2006ef5406851c59bf46fcd2950055.png?s=150&d=mm&r=R&d=blank"},"channel_count":40,"following_count":0,"profile_id":132224,"follower_count":1,"initials":"TF","can_index":true,"metadata":null,"is_premium":false,"is_exceeding_private_connections_limit":false,"is_confirmed":true,"is_pending_reconfirmation":false,"is_pending_confirmation":false,"badge":null,"base_class":"User","class":"User"}}'
-    http_version:
   recorded_at: Tue, 22 May 2018 12:33:12 GMT
-recorded_with: VCR 4.0.0
+- request:
+    method: get
+    uri: https://api.are.na/v2/channel/136855/feed?page=1
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sat, 11 Oct 2025 12:04:12 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      Etag:
+      - W/"7327bfe23c122e637deee5f6fc96c409"
+      Nel:
+      - '{"report_to":"heroku-nel","response_headers":["Via"],"max_age":3600,"success_fraction":0.01,"failure_fraction":0.1}'
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Report-To:
+      - '{"group":"heroku-nel","endpoints":[{"url":"https://nel.heroku.com/reports?s=RZrOuu8IKtB9Wchf%2FS4eveAz48l6COrJL8dGPH43pjk%3D\u0026sid=af571f24-03ee-46d1-9f90-ab9030c2c74c\u0026ts=1760184252"}],"max_age":3600}'
+      Reporting-Endpoints:
+      - heroku-nel="https://nel.heroku.com/reports?s=RZrOuu8IKtB9Wchf%2FS4eveAz48l6COrJL8dGPH43pjk%3D&sid=af571f24-03ee-46d1-9f90-ab9030c2c74c&ts=1760184252"
+      Server:
+      - cloudflare
+      Vary:
+      - Origin
+      Via:
+      - 2.0 heroku-router
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Request-Id:
+      - d52190a6-fc1a-4acf-6fe4-cfb75f7e1f81
+      X-Runtime:
+      - '0.104386'
+      X-Xss-Protection:
+      - '0'
+      Cf-Cache-Status:
+      - DYNAMIC
+      Strict-Transport-Security:
+      - max-age=15552000
+      Cf-Ray:
+      - 98ce37fb3983f4d7-EWR
+    body:
+      encoding: UTF-8
+      string: '{"type":null,"limit":50,"total":0,"offset":0,"range_start":"+inf","range_end":"-inf","items":[],"id":null,"base_class":"User","class":"User"}'
+  recorded_at: Sat, 11 Oct 2025 12:04:12 GMT
+recorded_with: VCR 6.3.1
