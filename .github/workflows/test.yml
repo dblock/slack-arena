@@ -12,7 +12,7 @@ jobs:
       - uses: supercharge/mongodb-github-action@v1
         with:
           mongodb-version: "8.0"
-      - uses: browser-actions/setup-geckodriver@v1
+      - uses: browser-actions/setup-geckodriver@latest
         with:
           geckodriver-version: "0.36.0"
       - uses: browser-actions/setup-firefox@v1
