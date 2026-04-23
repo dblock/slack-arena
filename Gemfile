@@ -2,10 +2,10 @@ source 'http://rubygems.org'
 
 ruby '4.0.2'
 
-gem 'arena'
 gem 'async'
 gem 'grape'
 gem 'hashie'
+gem 'httparty'
 gem 'irb'
 gem 'mongoid'
 gem 'mongoid-scroll'
