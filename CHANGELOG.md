@@ -1,5 +1,6 @@
 ### Changelog
 
+* 2026/03/20: Replaced the `arena` gem with direct Are.na API calls, moved user/channel lookups and account channel listing to v3, kept legacy feeds and search for compatibility - [@dblock](https://github.com/dblock).
 * 2024/10/30: Fix handling teams with special characters in the name - [@dblock](https://github.com/dblock).
 * 2024/10/19: Upgraded to Ruby 3.3.5 - [@dblock](https://github.com/dblock).
 * 2023/01/16: Upgraded to Ruby 2.7.7 - [@dblock](https://github.com/dblock).

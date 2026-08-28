@@ -159,7 +159,12 @@ class ArenaFeed
       break unless page_of_stories.any?
 
       page_of_stories.each do |story|
-        story_ts = DateTime.rfc3339(story.created_at)
+        story_ts = case story.created_at
+                   when String
+                     DateTime.rfc3339(story.created_at)
+                   else
+                     story.created_at.to_datetime
+                   end
         return stories if sync_at && story_ts < sync_at
 
         stories << story
