@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-ruby '4.0.2'
+ruby '4.0.9'
 
 gem 'arena'
 gem 'async'
@@ -17,8 +17,8 @@ gem 'rack'
 gem 'rack-robotz'
 gem 'rack-server-pages'
 gem 'slack-ruby-bot-server-mailchimp'
-gem 'slack-ruby-bot-server-rtm'
-gem 'slack-ruby-client'
+gem 'slack-ruby-bot-server-rtm', '>= 0.3.0'
+gem 'slack-ruby-client', '< 3'
 gem 'stripe', '~> 1.58.0'
 gem 'wannabe_bool'
 
