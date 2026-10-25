@@ -1,7 +1,7 @@
 <html>
   <head>
     <title>Are.na + Slack: Connect</title>
-    <%= partial 'public/partials/_head.html' %>
+    <%= partial 'public/partials/_head.html.erb' %>
     <%
       user_id, channel_id = CGI.unescape(request.params['state']).split(',') if request.params['state']
       user = User.where(id: user_id).first if user_id
@@ -9,7 +9,7 @@
   </head>
   <body style='text-align: center'>
     <p style='margin: 50px;'>
-      <a href='/'><img src='img/icon.png' width='120px'></a>
+      <a href='/'><img src='<%= h asset_path('/img/icon.png') %>' width='120px'></a>
     </p>
     <p>
       <h1>Are.na + Slack: Connect</h1>
