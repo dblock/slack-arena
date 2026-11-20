@@ -51,6 +51,10 @@ Run `bundle exec rubocop` and fix any style issues highlighted.
 
 Make sure that `bundle exec rake` completes without errors.
 
+## Website Assets
+
+Local website assets use `h asset_path('/img/example.png')` in ERB HTML and `asset_path('/img/example.png').to_json` in JavaScript to include a content hash. HTML revalidates with `private, no-cache`, configured centrally through `SlackRubyBotServer.config.server_pages`. Static files retain content ETags and timestamp validation; do not add immutable or long-lived cache policies.
+
 ## Write Documentation
 
 Document any external behavior in the [README](README.md).
@@ -114,7 +118,7 @@ git push origin my-feature-branch -f
 
 ## Check on Your Pull Request
 
-Go back to your pull request after a few minutes and see whether it passed muster with Travis-CI. Everything should look green, otherwise fix issues and amend your commit as described above.
+Go back to your pull request after a few minutes and see whether it passed muster with GitHub Actions. Everything should look green, otherwise fix issues and amend your commit as described above.
 
 ## Be Patient
 
