@@ -2,7 +2,7 @@ source 'http://rubygems.org'
 
 ruby '4.0.10'
 
-gem 'arena', github: 'dblock/arena-rb', branch: 'dblock/readme'
+gem 'arena', '~> 0.3'
 gem 'async'
 gem 'grape'
 gem 'hashie'
