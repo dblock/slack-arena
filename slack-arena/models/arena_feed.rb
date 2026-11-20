@@ -5,6 +5,7 @@ class ArenaFeed
   field :arena_id, type: Integer
   field :arena_slug, type: String
   field :arena_parent, type: Hash
+  field :arena_parent_at, type: DateTime
 
   belongs_to :team
   belongs_to :created_by, class_name: 'User'
@@ -47,12 +48,45 @@ class ArenaFeed
     raise NotImplementedError
   end
 
+  # how often to refresh the channel or user (parent) being followed
+  PARENT_TTL = 24 * 60 * 60
+
+  # stop paging back through contents after this many pages
+  MAX_PAGES = 10
+
   def sync_new_arena_items!
+    started_at = Time.now.utc
+    refresh_parent! if refresh_parent?
+    sync!(items_since_last_sync)
+    self.sync_at = started_at
+    save!
+  end
+
+  def refresh_parent?
+    arena_parent_at.nil? || arena_parent_at < Time.now.utc - PARENT_TTL || !v3_parent?
+  end
+
+  def refresh_parent!
     updated_parent = parent
     self.arena_parent = updated_parent.attrs.deep_symbolize_keys if updated_parent
-    sync!(stories_since_last_sync)
-    self.sync_at = Time.now.utc
-    save!
+    self.arena_parent_at = Time.now.utc
+  end
+
+  # parents stored before the v3 API migration have no type
+  def v3_parent?
+    arena_parent&.key?(:type)
+  end
+
+  # v3 text fields are {markdown:, html:, plain:}, v2 descriptions were in metadata
+  def arena_text(value, fallback = nil)
+    value.is_a?(Hash) ? value[:plain] : fallback
+  end
+
+  # v3 avatars are a URL, v2 avatars were in avatar_image
+  def arena_avatar(user)
+    return unless user
+
+    user.dig(:avatar_image, :display) || (user[:avatar] if user[:avatar].is_a?(String))
   end
 
   def to_slack_attachment
@@ -107,15 +141,12 @@ class ArenaFeed
 
   private
 
-  def sync!(stories)
-    stories.each do |story|
+  def sync!(items)
+    items.each do |item|
       block = begin
-        story.actionable.to_slack
-      rescue Arena::Story::ActionNotImplementedError => e
-        logger.warn "ActionNotImplementedError: #{e.message}"
-        nil
+        item.to_slack
       rescue StandardError => e
-        logger.warn "Error parsing or rendering: #{e.message}\n#{story.actionable.to_json}"
+        logger.warn "Error parsing or rendering: #{e.message}\n#{item.item.to_h.to_json}"
         NewRelic::Agent.notice_error(e, custom_params: { feed: to_s })
         nil
       end
@@ -146,29 +177,26 @@ class ArenaFeed
     NewRelic::Agent.notice_error(e, custom_params: { feed: to_s })
   end
 
-  def stories_since_last_sync
-    stories = []
-    page = 1
-    loop do
-      page_of_stories = begin
-        feed(page: page).stories
+  # Returns items newer than sync_at, newest first, or only the newest item on the first sync.
+  #
+  # Pages are returned newest first, but items within a page aren't always ordered, so sort them.
+  def items_since_last_sync
+    items = []
+    (1..MAX_PAGES).each do |page|
+      page_of_items = begin
+        feed(page: page)
       rescue StandardError => e
         logger.warn "Error getting feed for #{self}/#{page}: #{e.message}"
         raise e
       end
-      break unless page_of_stories.any?
 
-      page_of_stories.each do |story|
-        story_ts = DateTime.rfc3339(story.created_at)
-        return stories if sync_at && story_ts < sync_at
+      sorted = page_of_items.map { |data| ArenaItem.new(data, self) }.sort_by(&:timestamp).reverse
+      return sorted.first(1) unless sync_at
 
-        stories << story
-        break unless sync_at
-      end
-      break unless sync_at
-
-      page += 1
+      newer = sorted.reject { |item| item.timestamp < sync_at }
+      items.concat(newer)
+      break if newer.size < sorted.size || !page_of_items.more?
     end
-    stories
+    items
   end
 end

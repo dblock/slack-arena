@@ -1,0 +1,171 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.are.na/v3/channels/136855
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - slack-arena (+https://arena.playplay.io)
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Fri, 20 Nov 2026 20:15:55 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Cache-Control:
+      - max-age=300, public
+      Etag:
+      - W/"e0311e5dbbfa45dcf7083b94defb7309"
+      Nel:
+      - '{"report_to":"heroku-nel","response_headers":["Via"],"max_age":3600,"success_fraction":0.01,"failure_fraction":0.1}'
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Report-To:
+      - '{"group":"heroku-nel","endpoints":[{"url":"https://nel.heroku.com/reports?s=oDmxtXlsyYuWc41DlM0BvUfWXYUyGL4ZGO6dIGxrOCc%3D\u0026sid=af571f24-03ee-46d1-9f90-ab9030c2c74c\u0026ts=1795205755"}],"max_age":3600}'
+      Reporting-Endpoints:
+      - heroku-nel="https://nel.heroku.com/reports?s=oDmxtXlsyYuWc41DlM0BvUfWXYUyGL4ZGO6dIGxrOCc%3D&sid=af571f24-03ee-46d1-9f90-ab9030c2c74c&ts=1795205755"
+      Server:
+      - cloudflare
+      Vary:
+      - Authorization, Origin
+      Via:
+      - 2.0 heroku-router
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Ratelimit-Bucket:
+      - read-minute
+      X-Ratelimit-Cost:
+      - '1'
+      X-Ratelimit-Limit:
+      - '30'
+      X-Ratelimit-Policy:
+      - 30;w=60
+      X-Ratelimit-Remaining:
+      - '29'
+      X-Ratelimit-Reset:
+      - '1795205760'
+      X-Ratelimit-Tier:
+      - guest
+      X-Ratelimit-Window:
+      - '60'
+      X-Request-Id:
+      - 139d9ab4-8217-94a0-9e8b-59689e845d91
+      X-Runtime:
+      - '0.013718'
+      X-Xss-Protection:
+      - '0'
+      Cf-Cache-Status:
+      - DYNAMIC
+      Strict-Transport-Security:
+      - max-age=15552000
+      Cf-Ray:
+      - a5da2120fd7642ee-EWR
+    body:
+      encoding: UTF-8
+      string: '{"id":136855,"type":"Channel","created_at":"2018-01-29T06:14:46Z","updated_at":"2023-07-31T08:27:52Z","slug":"delightfully-absurd","title":"Delightfully
+        absurd","description":null,"state":"available","visibility":"closed","metadata":null,"owner":{"id":29642,"type":"User","name":"Tess
+        French","slug":"tess-french","username":"tess-french","avatar":null,"initials":"TF"},"counts":{"blocks":27,"channels":0,"contents":27,"collaborators":0},"can":{"add_to":false,"update":false,"destroy":false,"manage_collaborators":false},"collaborators":[],"_links":{"self":{"href":"https://api.are.na/v3/channels/delightfully-absurd"},"owner":{"href":"https://api.are.na/v3/users/tess-french"},"contents":{"href":"https://api.are.na/v3/channels/delightfully-absurd/contents"},"connections":{"href":"https://api.are.na/v3/channels/delightfully-absurd/connections"},"followers":{"href":"https://api.are.na/v3/channels/delightfully-absurd/followers"}}}'
+  recorded_at: Fri, 20 Nov 2026 20:15:55 GMT
+- request:
+    method: get
+    uri: https://api.are.na/v3/channels/delightfully-absurd
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - slack-arena (+https://arena.playplay.io)
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Fri, 20 Nov 2026 20:17:30 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Cache-Control:
+      - max-age=300, public
+      Etag:
+      - W/"e0311e5dbbfa45dcf7083b94defb7309"
+      Nel:
+      - '{"report_to":"heroku-nel","response_headers":["Via"],"max_age":3600,"success_fraction":0.01,"failure_fraction":0.1}'
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Report-To:
+      - '{"group":"heroku-nel","endpoints":[{"url":"https://nel.heroku.com/reports?s=tq5WIz6uKjf%2BLrS6%2FkmUS%2FUTkwNaIxwS%2FyEiLb5L95Q%3D\u0026sid=af571f24-03ee-46d1-9f90-ab9030c2c74c\u0026ts=1795205850"}],"max_age":3600}'
+      Reporting-Endpoints:
+      - heroku-nel="https://nel.heroku.com/reports?s=tq5WIz6uKjf%2BLrS6%2FkmUS%2FUTkwNaIxwS%2FyEiLb5L95Q%3D&sid=af571f24-03ee-46d1-9f90-ab9030c2c74c&ts=1795205850"
+      Server:
+      - cloudflare
+      Vary:
+      - Authorization, Origin
+      Via:
+      - 2.0 heroku-router
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Ratelimit-Bucket:
+      - read-minute
+      X-Ratelimit-Cost:
+      - '1'
+      X-Ratelimit-Limit:
+      - '30'
+      X-Ratelimit-Policy:
+      - 30;w=60
+      X-Ratelimit-Remaining:
+      - '29'
+      X-Ratelimit-Reset:
+      - '1795205880'
+      X-Ratelimit-Tier:
+      - guest
+      X-Ratelimit-Window:
+      - '60'
+      X-Request-Id:
+      - '08e2f844-1ec0-70cb-6dbb-90627dc9d29a'
+      X-Runtime:
+      - '0.017393'
+      X-Xss-Protection:
+      - '0'
+      Cf-Cache-Status:
+      - DYNAMIC
+      Strict-Transport-Security:
+      - max-age=15552000
+      Cf-Ray:
+      - a5da23731ef0c42c-EWR
+    body:
+      encoding: UTF-8
+      string: '{"id":136855,"type":"Channel","created_at":"2018-01-29T06:14:46Z","updated_at":"2023-07-31T08:27:52Z","slug":"delightfully-absurd","title":"Delightfully
+        absurd","description":null,"state":"available","visibility":"closed","metadata":null,"owner":{"id":29642,"type":"User","name":"Tess
+        French","slug":"tess-french","username":"tess-french","avatar":null,"initials":"TF"},"counts":{"blocks":27,"channels":0,"contents":27,"collaborators":0},"can":{"add_to":false,"update":false,"destroy":false,"manage_collaborators":false},"collaborators":[],"_links":{"self":{"href":"https://api.are.na/v3/channels/delightfully-absurd"},"owner":{"href":"https://api.are.na/v3/users/tess-french"},"contents":{"href":"https://api.are.na/v3/channels/delightfully-absurd/contents"},"connections":{"href":"https://api.are.na/v3/channels/delightfully-absurd/connections"},"followers":{"href":"https://api.are.na/v3/channels/delightfully-absurd/followers"}}}'
+  recorded_at: Fri, 20 Nov 2026 20:17:30 GMT
+recorded_with: VCR 6.4.1

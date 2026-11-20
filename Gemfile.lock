@@ -1,3 +1,12 @@
+GIT
+  remote: https://github.com/dblock/arena-rb.git
+  revision: ef90e866b52f252e067fd4b185ab1f8647e4f20e
+  branch: dblock/readme
+  specs:
+    arena (0.3.0)
+      httparty
+      json
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -18,9 +27,6 @@ GEM
       uri (>= 0.13.1)
     addressable (2.9.2)
       public_suffix (>= 2.0.2, < 8.0)
-    arena (0.2.1)
-      httparty
-      json
     ast (2.4.3)
     async (2.23.0)
       console (~> 1.29)
@@ -394,7 +400,7 @@ PLATFORMS
   x86_64-linux-musl
 
 DEPENDENCIES
-  arena
+  arena!
   async
   capybara
   database_cleaner-mongoid

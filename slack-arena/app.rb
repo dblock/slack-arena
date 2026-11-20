@@ -82,16 +82,22 @@ module SlackArena
 
         team.arena_feeds.each do |feed|
           feed.sync_new_arena_items!
+        rescue Arena::V3::RateLimitError => e
+          raise e
         rescue StandardError => e
           backtrace = e.backtrace.join("\n")
           logger.warn "Error in cron for #{feed}, #{e.message}, #{backtrace}."
           NewRelic::Agent.notice_error(e, custom_params: { feed: feed.to_s })
         end
+      rescue Arena::V3::RateLimitError => e
+        raise e
       rescue StandardError => e
         backtrace = e.backtrace.join("\n")
         logger.warn "Error in cron for team #{team}, #{e.message}, #{backtrace}."
         NewRelic::Agent.notice_error(e, custom_params: { team: team.to_s })
       end
+    rescue Arena::V3::RateLimitError => e
+      logger.warn "Are.na rate limit exceeded, skipping until the next sync: #{e.message}"
     end
 
     def deactivate_asleep_teams!

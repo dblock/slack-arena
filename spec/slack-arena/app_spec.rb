@@ -74,6 +74,32 @@ describe SlackArena::App do
     end
   end
 
+  describe '#sync!' do
+    let!(:team) { Fabricate(:team, subscribed: true) }
+    let!(:first) { Fabricate(:arena_channel, team: team, created_by: Fabricate(:user, team: team), arena_id: 1) }
+    let!(:second) { Fabricate(:arena_channel, team: team, created_by: Fabricate(:user, team: team), arena_id: 2) }
+
+    it 'syncs all feeds and continues after errors' do
+      synced = []
+      allow_any_instance_of(ArenaChannel).to receive(:sync_new_arena_items!) do |feed|
+        synced << feed.arena_id
+        raise Arena::V3::NotFoundError, '404' if feed.arena_id == 1
+      end
+      subject.send(:sync!)
+      expect(synced).to eq [1, 2]
+    end
+
+    it 'stops syncing when rate limited' do
+      synced = []
+      allow_any_instance_of(ArenaChannel).to receive(:sync_new_arena_items!) do |feed|
+        synced << feed.arena_id
+        raise Arena::V3::RateLimitError, '429: Too Many Requests'
+      end
+      expect { subject.send(:sync!) }.not_to raise_error
+      expect(synced).to eq [1]
+    end
+  end
+
   describe '#check_trials!' do
     let!(:active_team) { Fabricate(:team, created_at: Time.now.utc) }
     let!(:active_team_one_week_ago) { Fabricate(:team, created_at: 1.week.ago) }
