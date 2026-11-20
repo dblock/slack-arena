@@ -3,11 +3,13 @@ Fabricator(:arena_channel) do
   arena_slug { Faker::Internet.slug }
   arena_parent do
     {
+      type: 'Channel',
       title: Faker::Company.catch_phrase,
-      metadata: {
-        description: Faker::Lorem.sentence
+      description: {
+        plain: Faker::Lorem.sentence
       },
-      user: {
+      owner: {
+        type: 'User',
         slug: Faker::Internet.slug
       }
     }

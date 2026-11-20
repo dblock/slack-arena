@@ -3,10 +3,11 @@ Fabricator(:arena_user) do
   arena_slug { Faker::Internet.slug }
   arena_parent do
     {
+      type: 'User',
       slug: Faker::Internet.slug,
-      full_name: Faker::Name.name,
-      metadata: {
-        description: Faker::Lorem.sentence
+      name: Faker::Name.name,
+      bio: {
+        plain: Faker::Lorem.sentence
       }
     }
   end

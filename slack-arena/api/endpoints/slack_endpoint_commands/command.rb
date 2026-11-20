@@ -59,9 +59,9 @@ module Api
 
           @arena_feed ||= case action
                           when 'connect', 'disconnect'
-                            Arena.try_channel(arg)
+                            Arena.server.try_channel(arg)
                           when 'follow', 'unfollow'
-                            Arena.try_user(arg)
+                            Arena.server.try_user(arg)
                           else
                             invalid_command_error!
                           end

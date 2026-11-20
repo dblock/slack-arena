@@ -116,7 +116,7 @@ describe Api::Endpoints::SlackEndpoint do
 
     context 'slash commands' do
       it 'fails an invalid command' do
-        allow(Arena).to receive(:try_channel).and_return(nil)
+        allow_any_instance_of(Arena::V3::Client).to receive(:try_channel).and_return(nil)
         post '/api/slack/command',
              command: '/arena',
              text: 'whatever',
@@ -251,13 +251,13 @@ describe Api::Endpoints::SlackEndpoint do
       end
 
       context 'connect' do
-        it 'connects to a channel', vcr: { cassette_name: 'arena/channel_delightfully-absurd' } do
+        it 'connects to a channel', vcr: { cassette_name: 'arena/v3/channel_delightfully-absurd' } do
           expect_any_instance_of(Slack::Web::Client).to receive(:chat_postMessage).with(
             attachments: [{
               title: 'Delightfully absurd',
               title_link: 'https://www.are.na/tess-french/delightfully-absurd',
               text: nil,
-              thumb_url: 'https://gravatar.com/avatar/ff2006ef5406851c59bf46fcd2950055.png?s=150&d=mm&r=R&d=blank',
+              thumb_url: nil,
               color: '#000000',
               callback_id: 'disconnect',
               actions: [{
@@ -291,7 +291,7 @@ describe Api::Endpoints::SlackEndpoint do
           }.to change(ArenaChannel, :count).by(1)
         end
 
-        it 'errors on an invalid channel', vcr: { cassette_name: 'arena/channel_invalid' } do
+        it 'errors on an invalid channel', vcr: { cassette_name: 'arena/v3/channel_invalid' } do
           expect {
             post '/api/slack/command',
                  command: '/arena',
@@ -415,7 +415,7 @@ describe Api::Endpoints::SlackEndpoint do
 
       context 'disconnect' do
         it 'errors when disconnecting a non-connected channel' do
-          allow(Arena).to receive(:try_channel).and_return(nil)
+          allow_any_instance_of(Arena::V3::Client).to receive(:try_channel).and_return(nil)
           expect {
             post '/api/slack/command',
                  command: '/arena',
@@ -438,7 +438,7 @@ describe Api::Endpoints::SlackEndpoint do
           let!(:channel) { Fabricate(:arena_channel, channel_id: 'C1', team: team, created_by: user) }
 
           it 'disconnects a channel' do
-            allow(Arena).to receive(:try_channel).and_return(nil)
+            allow_any_instance_of(Arena::V3::Client).to receive(:try_channel).and_return(nil)
             expect_any_instance_of(Slack::Web::Client).to receive(:chat_postMessage).with(
               attachments: [{
                 title: channel.title,
@@ -451,7 +451,7 @@ describe Api::Endpoints::SlackEndpoint do
                   name: 'arena_id',
                   text: 'Connect',
                   type: 'button',
-                  value: 12_340
+                  value: channel.arena_id
                 }]
               }],
               as_user: true,
@@ -477,7 +477,7 @@ describe Api::Endpoints::SlackEndpoint do
           end
 
           it 'does not double connect' do
-            allow(Arena).to receive(:try_channel).and_return(nil)
+            allow_any_instance_of(Arena::V3::Client).to receive(:try_channel).and_return(nil)
             expect {
               post '/api/slack/command',
                    command: '/arena',
@@ -501,7 +501,7 @@ describe Api::Endpoints::SlackEndpoint do
 
     context 'interactive buttons' do
       it 'fails an invalid command' do
-        allow(Arena).to receive(:try_channel).and_return(nil)
+        allow_any_instance_of(Arena::V3::Client).to receive(:try_channel).and_return(nil)
         post '/api/slack/action', payload: {
           actions: [{ name: 'arena_id', value: '1' }],
           channel: { id: 'C1', name: 'arena' },
@@ -524,7 +524,7 @@ describe Api::Endpoints::SlackEndpoint do
           body: { text: "I don't understand \"whatever-callback 1\", try \"<@arena> help\".", type: 'ephemeral' }.to_json,
           headers: { 'Content-Type' => 'application/json' }
         )
-        allow(Arena).to receive(:try_channel).and_return(nil)
+        allow_any_instance_of(Arena::V3::Client).to receive(:try_channel).and_return(nil)
         post '/api/slack/action', payload: {
           actions: [{ name: 'arena_id', value: '1' }],
           channel: { id: 'C1', name: 'arena' },
@@ -538,13 +538,13 @@ describe Api::Endpoints::SlackEndpoint do
       end
 
       context 'channels' do
-        it 'connects to a channel', vcr: { cassette_name: 'arena/channel_delightfully-absurd' } do
+        it 'connects to a channel', vcr: { cassette_name: 'arena/v3/channel_delightfully-absurd' } do
           expect_any_instance_of(Slack::Web::Client).to receive(:chat_postMessage).with(
             attachments: [{
               title: 'Delightfully absurd',
               title_link: 'https://www.are.na/tess-french/delightfully-absurd',
               text: nil,
-              thumb_url: 'https://gravatar.com/avatar/ff2006ef5406851c59bf46fcd2950055.png?s=150&d=mm&r=R&d=blank',
+              thumb_url: nil,
               color: '#000000',
               callback_id: 'disconnect',
               actions: [{
@@ -578,7 +578,7 @@ describe Api::Endpoints::SlackEndpoint do
           }.to change(ArenaChannel, :count).by(1)
         end
 
-        it 'errors on an invalid channel', vcr: { cassette_name: 'arena/channel_invalid' } do
+        it 'errors on an invalid channel', vcr: { cassette_name: 'arena/v3/channel_invalid' } do
           expect {
             post '/api/slack/action', payload: {
               actions: [{ name: 'arena_id', value: 'invalid-channel' }],
@@ -600,7 +600,7 @@ describe Api::Endpoints::SlackEndpoint do
         context 'with a connected channel' do
           let!(:arena_channel) { Fabricate(:arena_channel, channel_id: 'C1', team: team, created_by: user, arena_id: 136_855) }
 
-          it 'disconnects to a channel', vcr: { cassette_name: 'arena/channel_delightfully-absurd' } do
+          it 'disconnects to a channel', vcr: { cassette_name: 'arena/v3/channel_delightfully-absurd' } do
             expect_any_instance_of(Slack::Web::Client).to receive(:chat_postMessage).with(
               attachments: [{
                 title: arena_channel.title,
@@ -641,13 +641,13 @@ describe Api::Endpoints::SlackEndpoint do
       end
 
       context 'users' do
-        it 'follows to a user', vcr: { cassette_name: 'arena/user_charles-broskoski' } do
+        it 'follows to a user', vcr: { cassette_name: 'arena/v3/user_cab' } do
           expect_any_instance_of(Slack::Web::Client).to receive(:chat_postMessage).with(
             attachments: [{
               title: 'Charles Broskoski',
-              title_link: 'https://www.are.na/charles-broskoski',
-              text: "[Are.na](http://are.na) co-founder ✍︎\n\nhttp://charlesbroskoski.com\n",
-              thumb_url: 'https://s3.amazonaws.com/arena-avatars/15/medium_0169d93a7be2c5149947ae9c4dec8447.png?1493654235',
+              title_link: 'https://www.are.na/cab',
+              text: a_string_starting_with("One of the many Are.na co-founders 🎩\nhttp://charlesbroskoski.com\n"),
+              thumb_url: 'https://static.avatars.are.na/15/large_f91bdac52d14ef988c9818884d6865db.jpg?1616377630',
               color: '#000000',
               callback_id: 'unfollow',
               actions: [{
@@ -663,7 +663,7 @@ describe Api::Endpoints::SlackEndpoint do
           )
           expect {
             post '/api/slack/action', payload: {
-              actions: [{ name: 'arena_id', value: 'charles-broskoski' }],
+              actions: [{ name: 'arena_id', value: 'cab' }],
               channel: { id: 'C1', name: 'arena' },
               user: { id: user.user_id },
               team: { id: team.team_id },
@@ -681,7 +681,7 @@ describe Api::Endpoints::SlackEndpoint do
           }.to change(ArenaUser, :count).by(1)
         end
 
-        it 'errors on an invalid user', vcr: { cassette_name: 'arena/user_invalid' } do
+        it 'errors on an invalid user', vcr: { cassette_name: 'arena/v3/user_invalid' } do
           expect {
             post '/api/slack/action', payload: {
               actions: [{ name: 'arena_id', value: 'invalid-user' }],
@@ -703,7 +703,7 @@ describe Api::Endpoints::SlackEndpoint do
         context 'with a followed user' do
           let!(:arena_user) { Fabricate(:arena_user, channel_id: 'C1', team: team, created_by: user, arena_id: 15) }
 
-          it 'unfollows a user', vcr: { cassette_name: 'arena/user_charles-broskoski' } do
+          it 'unfollows a user', vcr: { cassette_name: 'arena/v3/user_cab' } do
             expect_any_instance_of(Slack::Web::Client).to receive(:chat_postMessage).with(
               attachments: [{
                 title: arena_user.title,

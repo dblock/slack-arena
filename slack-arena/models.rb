@@ -1,4 +1,4 @@
-require 'slack-arena/models/arena'
+require 'slack-arena/models/arena_item'
 require 'slack-arena/models/error'
 require 'slack-arena/models/team'
 require 'slack-arena/models/user'

@@ -1,13 +1,13 @@
 class ArenaUser < ArenaFeed
   def parent
-    @parent ||= Arena.try_user(arena_id)
+    @parent ||= Arena.server.try_user(arena_id)
   rescue StandardError => e
     logger.warn "Error getting user #{arena_id}: #{e.message}"
     raise e
   end
 
   def feed(options = {})
-    Arena.user_feed(arena_id, { per: 50 }.merge(options))
+    Arena.server.user_contents(arena_id, { sort: 'created_at_desc' }.merge(options))
   rescue StandardError => e
     logger.warn "Error getting user feed #{arena_id} with #{options}: #{e.message}"
     raise e
@@ -22,7 +22,7 @@ class ArenaUser < ArenaFeed
   end
 
   def display_name
-    arena_user[:full_name] || first_and_last_name || arena_user[:username]
+    arena_user[:name] || arena_user[:full_name] || first_and_last_name || arena_user[:username]
   end
 
   def first_and_last_name
@@ -30,24 +30,16 @@ class ArenaUser < ArenaFeed
     ary.any? ? ary.join(' ') : nil
   end
 
-  def arena_user_avatar_image
-    arena_user[:avatar_image] || {}
-  end
-
   def thumb_url
-    arena_user_avatar_image[:display]
+    arena_avatar(arena_user)
   end
 
   def arena_url
-    "https://www.are.na/#{arena_user[:slug]}"
-  end
-
-  def arena_user_metadata
-    arena_user[:metadata] || {}
+    [Arena::URL, arena_user[:slug]].compact.join('/')
   end
 
   def description
-    arena_user_metadata[:description]
+    arena_text(arena_user[:bio], arena_user.dig(:metadata, :description))
   end
 
   def callback_id

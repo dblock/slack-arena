@@ -49,6 +49,12 @@ ARENA_CLIENT_ID=
 ARENA_CLIENT_SECRET=
 ```
 
+The bot polls the Are.na v3 API every 2 minutes for each connected channel and followed user. Unauthenticated requests are limited to 30 per minute per IP, so set a personal access token from [are.na/settings](https://www.are.na/settings) to raise the limit. The token is used for reading public channels and users only; the bot stops a sync cycle and resumes on the next one when rate limited.
+
+```
+ARENA_ACCESS_TOKEN=
+```
+
 ### Mailchimp
 
 The bot can add those who install the bot to a Mailchimp list. Optionally, set the following keys.
