@@ -1,5 +1,6 @@
 ### Changelog
 
+* 2026/11/20: Update rack to 3.2.9 and httparty to 0.25.0 - [@dblock](https://github.com/dblock).
 * 2026/11/20: Use the released arena 0.3.0 gem - [@dblock](https://github.com/dblock).
 * 2026/11/20: Migrate channel and user feeds to the Are.na v3 API after the v2 feed endpoints were disabled, posting blocks and channels added to connected channels and created by followed users - [@dblock](https://github.com/dblock).
 * 2026/11/20: Upgrade Ruby to 4.0.10 and update dependencies to their latest minor versions - [@dblock](https://github.com/dblock).
